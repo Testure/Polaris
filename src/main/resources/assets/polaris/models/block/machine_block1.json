@@ -1,0 +1,11 @@
+{
+  "parent": "polaris:block/machine",
+  "textures": {
+    "top": "polaris:block/machines/machine1",
+    "front": "polaris:block/machines/machine1",
+    "side": "polaris:block/machines/machine1",
+    "top_overlay": "#top_overlay",
+    "front_overlay": "#front_overlay",
+    "side_overlay": "#side_overlay"
+  }
+}

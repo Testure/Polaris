@@ -1,0 +1,18 @@
+{
+  "itemGroup.polaris.materials": "Polaris Materials",
+  "itemGroup.polaris.tools": "Polaris Tools",
+  "itemGroup.polaris.ores": "Polaris Ores",
+  "itemGroup.polaris.misc": "Polaris Misc",
+
+  "fluid.polaris.steam": "Steam",
+
+  "tooltip.polaris.wood_substrate": "§8A Primitive Substrate",
+  "tooltip.polaris.wood_board": "§8A Primitive Circuit Board",
+
+  "subItem.polaris.bucket": "Bucket of %s",
+
+  "item.polaris.vacuum_tube": "Vacuum Tube",
+  "item.polaris.nand": "NAND Chip",
+  "item.polaris.wood_substrate": "Wooden Substrate",
+  "item.polaris.wood_board": "Wooden Circuit Board"
+}

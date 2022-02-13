@@ -1,0 +1,6 @@
+{
+  "parent": "polaris:block/block",
+  "textures": {
+    "all": "polaris:block/material_sets/ruby/block"
+  }
+}

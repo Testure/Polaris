@@ -1,0 +1,8 @@
+{
+  "parent": "polaris:block/ore",
+  "textures": {
+    "main": "minecraft:block/emerald_ore",
+    "overlay": "polaris:block/material_sets/ruby/ore",
+    "overlay2": "#overlay"
+  }
+}
