@@ -22,8 +22,33 @@ public class ModItemModelProvider extends ItemModelProvider {
         super(dataGenerator, Polaris.MODID, fileHelper);
     }
 
+    protected static class SingletonModels {
+        public final ItemModelBuilder crowbar;
+        public final ItemModelBuilder wrench;
+        public final ItemModelBuilder hammer;
+        public final ItemModelBuilder softHammer;
+        public final ItemModelBuilder sword;
+        public final ItemModelBuilder axe;
+        public final ItemModelBuilder shovel;
+        public final ItemModelBuilder pickaxe;
+        public final ItemModelBuilder hoe;
+
+        public SingletonModels(ModItemModelProvider provider) {
+            crowbar = provider.toolBuilder("crow_bar", "item/material_sets/tools/crowbar", "item/material_sets/tools/crowbar_overlay");
+            wrench = provider.toolBuilder("wrench", "item/material_sets/tools/wrench", null);
+            hammer = provider.stickToolBuilder("hammer", "item/material_sets/tools/hammer");
+            softHammer = provider.stickToolBuilder("soft_hammer", "item/material_sets/tools/soft_hammer");
+            sword = provider.stickToolBuilder("sword", "item/material_sets/tools/sword");
+            shovel = provider.stickToolBuilder("shovel", "item/material_sets/tools/shovel");
+            axe = provider.stickToolBuilder("axe", "item/material_sets/tools/axe");
+            pickaxe = provider.stickToolBuilder("pickaxe", "item/material_sets/tools/pickaxe");
+            hoe = provider.stickToolBuilder("hoe", "item/material_sets/tools/hoe");
+        }
+    }
+
     @Override
     protected void registerModels() {
+        SingletonModels models = new SingletonModels(this);
         ModelFile itemGenerated = getExistingFile(mcLoc("item/generated"));
         ModelFile itemHandheld = getExistingFile(mcLoc("item/handheld"));
 
@@ -66,6 +91,15 @@ public class ModItemModelProvider extends ItemModelProvider {
 
     public ItemModelBuilder basicBuilder(ModelFile modelFile, String name, String layer0, @Nullable String layer1) {
         ItemModelBuilder builder = getBuilder(name).parent(modelFile).texture("layer0", layer0);
+        return layer1 != null ? builder.texture("layer1", layer1) : builder;
+    }
+
+    public ItemModelBuilder stickToolBuilder(String name, String layer1) {
+        return getBuilder(name).parent(getExistingFile(mcLoc("item/handheld"))).texture("layer0", "item/material_sets/tools/handle").texture("layer1", layer1);
+    }
+
+    public ItemModelBuilder toolBuilder(String name, String layer0, @Nullable String layer1) {
+        ItemModelBuilder builder = getBuilder(name).parent(getExistingFile(mcLoc("item/handheld"))).texture("layer0", layer0);
         return layer1 != null ? builder.texture("layer1", layer1) : builder;
     }
 }
