@@ -36,8 +36,10 @@ public class Registration {
         RECIPES.register(bus);
 
 
+        MaterialRegistry.register(bus);
         ItemRegistry.register();
         FluidRegistry.register(bus);
+        BlockRegistry.register();
 
         TileRegistry.register();
     }

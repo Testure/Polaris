@@ -10,6 +10,7 @@ import net.minecraftforge.client.model.generators.ConfiguredModel;
 import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import turing.mods.polaris.Polaris;
+import turing.mods.polaris.registry.BlockRegistry;
 import turing.mods.polaris.registry.FluidRegistry;
 import turing.mods.polaris.registry.FluidRegistryObject;
 
@@ -22,6 +23,11 @@ public class ModBlockStateProvider extends BlockStateProvider {
 
     @Override
     protected void registerStatesAndModels() {
+        createFluidBlockStates();
+        simpleBlock(BlockRegistry.CREATIVE_POWER_PROVIDER.get(), models().getExistingFile(modLoc("block/creative_power_provider")));
+    }
+
+    private void createFluidBlockStates() {
         for (FluidRegistryObject<?, ?, ?, ?> fluidRegistryObject : FluidRegistry.getFluids().values()) {
             simpleBlock(fluidRegistryObject.getBlock(), models().getExistingFile(modLoc("block/fluid")));
         }

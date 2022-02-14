@@ -6,6 +6,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Rarity;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.World;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import turing.mods.polaris.Polaris;
 import turing.mods.polaris.util.Formatting;
 
@@ -52,6 +54,7 @@ public class CraftingItem extends Item implements IBasicModeledItem, ITintedItem
     }
 
     @Override
+    @OnlyIn(Dist.CLIENT)
     public void appendHoverText(ItemStack stack, @Nullable World world, List<ITextComponent> tooltips, ITooltipFlag flag) {
         tooltips.addAll(this.tooltips);
         super.appendHoverText(stack, world, tooltips, flag);

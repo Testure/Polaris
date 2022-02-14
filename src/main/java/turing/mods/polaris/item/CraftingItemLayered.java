@@ -4,6 +4,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Rarity;
 import net.minecraft.util.Tuple;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import turing.mods.polaris.util.Formatting;
 
 import javax.annotation.Nonnull;
@@ -57,6 +59,7 @@ public class CraftingItemLayered extends CraftingItem implements ILayeredItem {
     }
 
     @Override
+    @OnlyIn(Dist.CLIENT)
     public int getColor(@Nonnull ItemStack itemStack, int layer) {
         if (layer0Color != null && layer1Color != null) {
             return layer == 0 ? layer0Color : layer1Color;

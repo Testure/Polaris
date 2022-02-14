@@ -4,15 +4,29 @@
   "itemGroup.polaris.ores": "Polaris Ores",
   "itemGroup.polaris.misc": "Polaris Misc",
 
+  "block.polaris.creative_power_provider": "Creative Power Source",
+
   "fluid.polaris.steam": "Steam",
 
   "tooltip.polaris.wood_substrate": "§8A Primitive Substrate",
   "tooltip.polaris.wood_board": "§8A Primitive Circuit Board",
 
   "subItem.polaris.bucket": "Bucket of %s",
+  "item.polaris.ingot": "%s Ingot",
+  "item.polaris.plate": "%s Plate",
+  "item.polaris.rod": "%s Rod",
+  "item.polaris.bolt": "%s Bolt",
+  "item.polaris.screw": "%s Screw",
+  "item.polaris.gear": "%s Gear",
+  "item.polaris.small_gear": "Small %s Gear",
+  "item.polaris.dust": "%s Dust",
+  "item.polaris.small_dust": "Small Pile of %s Dust",
+  "item.polaris.tiny_dust": "Tiny Pile of %s Dust",
 
   "item.polaris.vacuum_tube": "Vacuum Tube",
   "item.polaris.nand": "NAND Chip",
   "item.polaris.wood_substrate": "Wooden Substrate",
-  "item.polaris.wood_board": "Wooden Circuit Board"
+  "item.polaris.wood_board": "Wooden Circuit Board",
+
+  "material.polaris.iron": "Iron"
 }

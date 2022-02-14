@@ -10,6 +10,7 @@ import turing.mods.polaris.util.Lists;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.function.Supplier;
 
 public class ItemRegistry {
     public static final List<RegistryObject<Item>> ITEMS = new ArrayList<>();
@@ -26,6 +27,10 @@ public class ItemRegistry {
 
     public static void register() {
 
+    }
+
+    public static RegistryObject<Item> register(String name, Supplier<Item> supplier) {
+        return Registration.ITEMS.register(name, supplier);
     }
 
     private static RegistryObject<Item> addItem(RegistryObject<Item> item) {

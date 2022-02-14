@@ -18,6 +18,16 @@ public class BucketItemGenerated extends BucketItem {
 
     @Override
     public ITextComponent getName(ItemStack stack) {
-        return new TranslationTextComponent("subItem.polaris.bucket", I18n.get(getFluid().getAttributes().getTranslationKey()));
+        return new TranslationTextComponent(getDescriptionId(stack), I18n.get(getFluid().getAttributes().getTranslationKey()));
+    }
+
+    @Override
+    public String getDescriptionId() {
+        return "subItem.polaris.bucket";
+    }
+
+    @Override
+    public String getDescriptionId(ItemStack stack) {
+        return getDescriptionId();
     }
 }

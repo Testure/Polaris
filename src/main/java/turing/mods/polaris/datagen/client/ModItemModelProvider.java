@@ -1,7 +1,9 @@
 package turing.mods.polaris.datagen.client;
 
+import net.minecraft.block.Block;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.item.Item;
+import net.minecraft.util.Tuple;
 import net.minecraftforge.client.model.generators.ItemModelBuilder;
 import net.minecraftforge.client.model.generators.ItemModelProvider;
 import net.minecraftforge.client.model.generators.ModelFile;
@@ -11,11 +13,13 @@ import turing.mods.polaris.Polaris;
 import turing.mods.polaris.item.IBasicModeledItem;
 import turing.mods.polaris.item.IHandheldItem;
 import turing.mods.polaris.item.ILayeredItem;
-import turing.mods.polaris.registry.FluidRegistry;
-import turing.mods.polaris.registry.FluidRegistryObject;
-import turing.mods.polaris.registry.ItemRegistry;
+import turing.mods.polaris.material.SubItem;
+import turing.mods.polaris.registry.*;
+import turing.mods.polaris.util.Lists;
 
 import javax.annotation.Nullable;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ModItemModelProvider extends ItemModelProvider {
     public ModItemModelProvider(DataGenerator dataGenerator, ExistingFileHelper fileHelper) {
@@ -32,6 +36,7 @@ public class ModItemModelProvider extends ItemModelProvider {
         public final ItemModelBuilder shovel;
         public final ItemModelBuilder pickaxe;
         public final ItemModelBuilder hoe;
+        public final Map<SubItem, ItemModelBuilder> toolModels;
 
         public SingletonModels(ModItemModelProvider provider) {
             crowbar = provider.toolBuilder("crow_bar", "item/material_sets/tools/crowbar", "item/material_sets/tools/crowbar_overlay");
@@ -43,6 +48,18 @@ public class ModItemModelProvider extends ItemModelProvider {
             axe = provider.stickToolBuilder("axe", "item/material_sets/tools/axe");
             pickaxe = provider.stickToolBuilder("pickaxe", "item/material_sets/tools/pickaxe");
             hoe = provider.stickToolBuilder("hoe", "item/material_sets/tools/hoe");
+
+            toolModels = Lists.mapOf(
+                    new Tuple<>(SubItem.CROWBAR, crowbar),
+                    new Tuple<>(SubItem.WRENCH, wrench),
+                    new Tuple<>(SubItem.HAMMER, hammer),
+                    new Tuple<>(SubItem.SOFT_HAMMER, softHammer),
+                    new Tuple<>(SubItem.SWORD, sword),
+                    new Tuple<>(SubItem.AXE, axe),
+                    new Tuple<>(SubItem.SHOVEL, shovel),
+                    new Tuple<>(SubItem.PICKAXE, pickaxe),
+                    new Tuple<>(SubItem.HOE, hoe)
+            );
         }
     }
 
@@ -51,6 +68,8 @@ public class ModItemModelProvider extends ItemModelProvider {
         SingletonModels models = new SingletonModels(this);
         ModelFile itemGenerated = getExistingFile(mcLoc("item/generated"));
         ModelFile itemHandheld = getExistingFile(mcLoc("item/handheld"));
+
+        withExistingParent("creative_power_provider", modLoc("block/creative_power_provider"));
 
         for (RegistryObject<Item> itemRegistryObject : ItemRegistry.ITEMS) {
             String itemName = itemRegistryObject.get().getRegistryName().getPath();
@@ -74,16 +93,41 @@ public class ModItemModelProvider extends ItemModelProvider {
             }
         }
 
+        for (MaterialRegistryObject materialRegistryObject : MaterialRegistry.getMaterials().values()) {
+            if (materialRegistryObject.hasBlocks()) {
+                for (RegistryObject<Block> block : materialRegistryObject.getBlocks()) {
+                    if (!materialRegistryObject.get().existingItems.contains(block.get().asItem())) {
+
+                    }
+                }
+            }
+            Polaris.LOGGER.debug(materialRegistryObject.getItems());
+            for (RegistryObject<Item> item : materialRegistryObject.getItems()) {
+                Polaris.LOGGER.debug(item);
+                Polaris.LOGGER.debug(item.get());
+                Polaris.LOGGER.debug(materialRegistryObject.get());
+                if (materialRegistryObject.get().existingItems == null || !materialRegistryObject.get().existingItems.contains(item.get())) {
+                    Polaris.LOGGER.debug(item.get());
+                    Polaris.LOGGER.debug(item.get().getRegistryName());
+                    String itemName = item.get().getRegistryName().getPath();
+                    SubItem subItem = SubItem.valueOf(itemName.replaceFirst(materialRegistryObject.getName() + "_", "").toUpperCase());
+                    if (!subItem.isTool())
+                        builder(itemGenerated, itemName, subItem.name().toLowerCase(), materialRegistryObject.get().textureSet.name(), true);
+                    else getBuilder(itemName).parent(models.toolModels.get(subItem));
+                }
+            }
+        }
+
         for (FluidRegistryObject<?, ?, ?, ?> fluidRegistryObject : FluidRegistry.getFluids().values()) {
             withExistingParent(fluidRegistryObject.getName() + "_bucket", modLoc("item/bucket"));
         }
     }
 
-    public ItemModelBuilder builder(ModelFile modelFile, String name, String subName, String materialName, @Nullable Boolean overlay) {
-        ItemModelBuilder builder = getBuilder(name).parent(modelFile).texture("layer0", "item/material_sets/" + materialName.toLowerCase() + "/" + subName);
+    public ItemModelBuilder builder(ModelFile modelFile, String name, String subName, String textureSetName, @Nullable Boolean overlay) {
+        ItemModelBuilder builder = getBuilder(name).parent(modelFile).texture("layer0", "item/material_sets/" + textureSetName.toLowerCase() + "/" + subName);
 
         if (Boolean.TRUE.equals(overlay)) {
-            builder.texture("layer1", "item/material_sets/" + materialName.toLowerCase() + "/" + subName + "_overlay");
+            builder.texture("layer1", "item/material_sets/" + textureSetName.toLowerCase() + "/" + subName + "_overlay");
         }
 
         return builder;
