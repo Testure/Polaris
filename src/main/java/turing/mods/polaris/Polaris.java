@@ -28,6 +28,13 @@ public class Polaris {
     public static final ItemGroup TOOLS = new ItemGroupTools();
     public static final ItemGroup MISC = new ItemGroupMisc();
 
+    public static class VOLTAGES {
+        public static final int LV = 32;
+        public static final int MV = 128;
+        public static final int HV = 512;
+        public static final int EV = 1024;
+    }
+
     public Polaris() {
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::enqueueIMC);
