@@ -4,6 +4,8 @@
   "itemGroup.polaris.ores": "Polaris Ores",
   "itemGroup.polaris.misc": "Polaris Misc",
 
+  "block.polaris.block": "%s Block",
+  "block.polaris.ore": "%s Ore",
   "block.polaris.creative_power_provider": "Creative Power Source",
 
   "fluid.polaris.steam": "Steam",
@@ -28,5 +30,6 @@
   "item.polaris.wood_substrate": "Wooden Substrate",
   "item.polaris.wood_board": "Wooden Circuit Board",
 
-  "material.polaris.iron": "Iron"
+  "material.polaris.iron": "Iron",
+  "material.polaris.copper": "Copper"
 }

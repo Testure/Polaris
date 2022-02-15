@@ -12,15 +12,25 @@ public class MaterialRegistry {
     private static final MaterialDeferredRegister MATERIAL_DEFERRED_REGISTER = new MaterialDeferredRegister();
 
     public static final MaterialRegistryObject IRON = MATERIAL_DEFERRED_REGISTER.register("iron", MaterialBuilder.builder("iron")
-            .color(0xFFE5E5E5)
+            .color(0xFFC1C1C1)
             .ingot()
             .fluid(false, 1200)
-            .addFlags(GenerationFlags.GENERATE_GEAR, GenerationFlags.GENERATE_ROD, GenerationFlags.GENERATE_SMALL_GEAR, GenerationFlags.GENERATE_SCREW)
-            .mass(40)
+            .addFlags(GenerationFlags.GENERATE_GEAR, GenerationFlags.GENERATE_SMALL_GEAR, GenerationFlags.GENERATE_SCREW)
+            .mass(120)
             .toolStats(100, 1.0F, 2.0F, 2.0F)
-            .ore("block/material_sets/metal/ore", null, 1)
+            .ore(1)
             .textureSet(TextureSet.METAL)
             .withExistingItems(Items.IRON_INGOT, Items.IRON_BLOCK, Items.IRON_AXE, Items.IRON_NUGGET, Items.IRON_HOE, Items.IRON_PICKAXE, Items.IRON_SHOVEL, Items.IRON_SWORD)
+    );
+
+    public static final MaterialRegistryObject COPPER = MATERIAL_DEFERRED_REGISTER.register("copper", MaterialBuilder.builder("copper")
+            .color(0xFFFF8A23)
+            .ingot()
+            .fluid(false, 1200)
+            .mass(80)
+            .ore(1)
+            .textureSet(TextureSet.SHINY_METAL)
+            .toolStats(100, 2.0F, 2.0F, 2.0F)
     );
 
     public static void register(IEventBus bus) {

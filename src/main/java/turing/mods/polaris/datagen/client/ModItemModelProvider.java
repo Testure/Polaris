@@ -2,6 +2,7 @@ package turing.mods.polaris.datagen.client;
 
 import net.minecraft.block.Block;
 import net.minecraft.data.DataGenerator;
+import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.util.Tuple;
 import net.minecraftforge.client.model.generators.ItemModelBuilder;
@@ -10,6 +11,7 @@ import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.fml.RegistryObject;
 import turing.mods.polaris.Polaris;
+import turing.mods.polaris.block.SubBlockGenerated;
 import turing.mods.polaris.item.IBasicModeledItem;
 import turing.mods.polaris.item.IHandheldItem;
 import turing.mods.polaris.item.ILayeredItem;
@@ -96,19 +98,14 @@ public class ModItemModelProvider extends ItemModelProvider {
         for (MaterialRegistryObject materialRegistryObject : MaterialRegistry.getMaterials().values()) {
             if (materialRegistryObject.hasBlocks()) {
                 for (RegistryObject<Block> block : materialRegistryObject.getBlocks()) {
-                    if (!materialRegistryObject.get().existingItems.contains(block.get().asItem())) {
-
+                    if (materialRegistryObject.get().existingItems == null || !materialRegistryObject.get().existingItems.contains(block.get().asItem())) {
+                        SubBlockGenerated subBlockGenerated = (SubBlockGenerated) block.get();
+                        withExistingParent(block.get().getRegistryName().getPath(), modLoc("block/" + materialRegistryObject.get().textureSet.name().toLowerCase() + "_" + subBlockGenerated.getSubItem().name().toLowerCase()));
                     }
                 }
             }
-            Polaris.LOGGER.debug(materialRegistryObject.getItems());
             for (RegistryObject<Item> item : materialRegistryObject.getItems()) {
-                Polaris.LOGGER.debug(item);
-                Polaris.LOGGER.debug(item.get());
-                Polaris.LOGGER.debug(materialRegistryObject.get());
                 if (materialRegistryObject.get().existingItems == null || !materialRegistryObject.get().existingItems.contains(item.get())) {
-                    Polaris.LOGGER.debug(item.get());
-                    Polaris.LOGGER.debug(item.get().getRegistryName());
                     String itemName = item.get().getRegistryName().getPath();
                     SubItem subItem = SubItem.valueOf(itemName.replaceFirst(materialRegistryObject.getName() + "_", "").toUpperCase());
                     if (!subItem.isTool())

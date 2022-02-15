@@ -110,10 +110,9 @@ public class MaterialBuilder {
         return this;
     }
 
-    public MaterialBuilder ore(String texture, @Nullable String textureModID, @Nullable Integer smeltAmount) {
+    public MaterialBuilder ore(@Nullable Integer smeltAmount) {
         this.subItems.add(SubItem.ORE);
         this.oreStats = OreStats.Builder.builder()
-                .texture(texture, textureModID)
                 .setSmeltAmount(smeltAmount != null ? smeltAmount : getDefaultSmeltAmount(this.type))
                 .build();
         return this;
@@ -151,7 +150,7 @@ public class MaterialBuilder {
     }
 
     public MaterialBuilder addFlags(GenerationFlags... flags) {
-        this.flags.addAll(Arrays.asList(flags));
+        Arrays.stream(flags).forEach(flag -> {if (!this.flags.contains(flag)) this.flags.add(flag);});
         return this;
     }
 

@@ -2,13 +2,18 @@ package turing.mods.polaris.registry;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
+import net.minecraft.item.Items;
 import net.minecraftforge.fml.RegistryObject;
+import turing.mods.polaris.block.SubBlockGenerated;
+import turing.mods.polaris.item.SubItemGenerated;
 import turing.mods.polaris.material.Material;
+import turing.mods.polaris.material.SubItem;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Supplier;
 
 public class MaterialRegistryObject {
@@ -43,6 +48,27 @@ public class MaterialRegistryObject {
     public List<RegistryObject<Block>> getBlocks() {
         if (!hasBlocks()) throw new NullPointerException("Attempt to get blocks list that doesn't exist!");
         return Collections.unmodifiableList(blocks);
+    }
+
+    public Item getItemFromSubItem(SubItem subItem) {
+        if (hasBlocks() && blocks.stream().anyMatch(r -> ((SubBlockGenerated) r.get()).getSubItem() == subItem)) {
+            Optional<RegistryObject<Block>> object = blocks.stream().map(r -> {
+                if (((SubBlockGenerated) r.get()).getSubItem() == subItem) return r;
+                return null;
+            }).findFirst();
+            assert object.isPresent();
+            return object.get().get().asItem();
+        }
+        Optional<RegistryObject<Item>> object = items.stream().map(r -> {
+            if (((SubItemGenerated) r.get()).getSubItem() == subItem) return r;
+            return null;
+        }).findFirst();
+        assert object.isPresent();
+        return object.get().get();
+    }
+
+    public boolean hasSubItem(SubItem subItem) {
+        return get().getSubItems().stream().anyMatch(s -> s == subItem);
     }
 
     public List<RegistryObject<Item>> getItems() {
