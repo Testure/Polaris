@@ -2,6 +2,8 @@ package turing.mods.polaris.material;
 
 import net.minecraft.item.Item;
 import net.minecraft.util.Tuple;
+import turing.mods.polaris.registry.MaterialRegistry;
+import turing.mods.polaris.registry.MaterialRegistryObject;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -164,10 +166,13 @@ public class MaterialBuilder {
         return this;
     }
 
+    public MaterialRegistryObject buildAndRegister() {
+        for (GenerationFlags flag : this.flags) processFlag(flag);
+        return MaterialRegistry.register(this.name, this);
+    }
+
     public Material build() {
-        for (GenerationFlags flag : this.flags) {
-            processFlag(flag);
-        }
+        for (GenerationFlags flag : this.flags) processFlag(flag);
         return new Material(this.name, this.type, this.mass, this.color, this.subItems, this.flags, this.components, this.toolStats, this.fluidStats, this.oreStats, this.textureSet);
     }
 }
