@@ -167,7 +167,6 @@ public class MaterialBuilder {
     }
 
     public MaterialRegistryObject buildAndRegister() {
-        for (GenerationFlags flag : this.flags) processFlag(flag);
         return MaterialRegistry.register(this.name, this);
     }
 
