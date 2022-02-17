@@ -2,6 +2,7 @@ package turing.mods.polaris.client;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.client.renderer.color.BlockColors;
 import net.minecraft.client.renderer.color.ItemColors;
@@ -30,6 +31,12 @@ public class ClientSetup {
     public static void registerClient() {
         ItemColors itemColors = Minecraft.getInstance().getItemColors();
         BlockColors blockColors = Minecraft.getInstance().getBlockColors();
+
+        for (MachineRegistryObject<?, ?, ?> machine : MachineRegistry.getMachines().values()) {
+            for (RegistryObject<? extends Block> block : machine.getBlocks()) {
+                RenderTypeLookup.setRenderLayer(block.get(), RenderType.cutoutMipped());
+            }
+        }
 
         for (RegistryObject<Block> block : BlockRegistry.BLOCKS) {
             if (block.get() instanceof ITintedBlock) {

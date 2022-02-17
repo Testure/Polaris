@@ -54,3 +54,9 @@ description='''
     versionRange="[1.16.5,1.17)"
     ordering="NONE"
     side="BOTH"
+[[dependencies.Polaris]]
+    modId="tesseract"
+    mandatory=true
+    version="1.16.5-0.1"
+    ordering="BEFORE"
+    side="BOTH"

@@ -20,7 +20,6 @@ public class Registration {
     public static final DeferredRegister<TileEntityType<?>> TILES = DeferredRegister.create(ForgeRegistries.TILE_ENTITIES, Polaris.MODID);
     public static final DeferredRegister<ContainerType<?>> CONTAINERS = DeferredRegister.create(ForgeRegistries.CONTAINERS, Polaris.MODID);
     // Entities go here
-    public static final DeferredRegister<IRecipeSerializer<?>> RECIPES = DeferredRegister.create(ForgeRegistries.RECIPE_SERIALIZERS, Polaris.MODID);
     public static final DeferredRegister<SoundEvent> SOUNDS = DeferredRegister.create(ForgeRegistries.SOUND_EVENTS, Polaris.MODID);
 
     public static void register() {
@@ -33,14 +32,14 @@ public class Registration {
         TILES.register(bus);
         CONTAINERS.register(bus);
         // Entities go here
-        RECIPES.register(bus);
-
 
         MaterialRegistry.register(bus);
+        MachineRegistry.register(bus);
         ItemRegistry.register();
         FluidRegistry.register(bus);
         BlockRegistry.register();
 
         TileRegistry.register();
+        ContainerRegistry.register();
     }
 }

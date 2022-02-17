@@ -4,9 +4,30 @@
   "itemGroup.polaris.ores": "Polaris Ores",
   "itemGroup.polaris.misc": "Polaris Misc",
 
+  "voltage.polaris.ulv": "§8ULV",
+  "voltage.polaris.lv": "§aLV",
+  "voltage.polaris.mv": "§6MV",
+  "voltage.polaris.hv": "§eHV",
+  "voltage.polaris.ev": "§dEV",
+  "voltage.polaris.iv": "§9IV",
+  "voltage.polaris.luv": "§5LuV",
+
   "block.polaris.block": "%s Block",
   "block.polaris.ore": "%s Ore",
   "block.polaris.creative_power_provider": "Creative Power Source",
+
+  "tooltip.polaris.voltage_in": "Voltage IN: %s (%s)",
+  "tooltip.polaris.voltage_out": "Voltage OUT: %s (%s)",
+  "tooltip.polaris.energy_storage": "Max Energy Capacity: %s",
+
+  "block.polaris.compressor_lv": "Basic Compressor",
+  "block.polaris.compressor_mv": "Advanced Compressor",
+  "block.polaris.compressor_hv": "Advanced Compressor II",
+  "block.polaris.compressor_ev": "Advanced Compressor III",
+  "block.polaris.compressor_iv": "Advanced Compressor IV",
+  "block.polaris.compressor_luv": "Advanced Compressor V",
+
+  "flavor.polaris.compressor": "§8Compact!!",
 
   "fluid.polaris.steam": "Steam",
 
@@ -24,6 +45,13 @@
   "item.polaris.dust": "%s Dust",
   "item.polaris.small_dust": "Small Pile of %s Dust",
   "item.polaris.tiny_dust": "Tiny Pile of %s Dust",
+  "item.polaris.nugget": "%s Nugget",
+  "item.polaris.spring": "%s Spring",
+  "item.polaris.small_spring": "Small %s Spring",
+  "item.polaris.ring": "%s Ring",
+  "item.polaris.rotor": "%s Rotor",
+  "item.polaris.fine_wire": "Fine %s Wire",
+  "item.polaris.lens": "%s Lens",
 
   "item.polaris.vacuum_tube": "Vacuum Tube",
   "item.polaris.nand": "NAND Chip",
@@ -31,5 +59,6 @@
   "item.polaris.wood_board": "Wooden Circuit Board",
 
   "material.polaris.iron": "Iron",
+  "material.polaris.magnetic_iron": "Magnetic Iron",
   "material.polaris.copper": "Copper"
 }

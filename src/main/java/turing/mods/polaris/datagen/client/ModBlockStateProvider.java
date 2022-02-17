@@ -26,6 +26,7 @@ public class ModBlockStateProvider extends BlockStateProvider {
         createMaterialBlockStates();
         createFluidBlockStates();
         simpleBlock(BlockRegistry.CREATIVE_POWER_PROVIDER.get(), models().getExistingFile(modLoc("block/creative_power_provider")));
+        MachineBlockStates.createCompressorModel(this, MachineRegistry.COMPRESSOR);
     }
 
     private void createFluidBlockStates() {
@@ -47,7 +48,7 @@ public class ModBlockStateProvider extends BlockStateProvider {
         }
     }
 
-    private void directionalBlockFixed(Block block, Function<BlockState, ModelFile> func) {
+    public void directionalBlockFixed(Block block, Function<BlockState, ModelFile> func) {
         getVariantBuilder(block)
                 .forAllStates(blockState -> {
                     Direction direction = blockState.getValue(BlockStateProperties.FACING);
@@ -59,7 +60,19 @@ public class ModBlockStateProvider extends BlockStateProvider {
                 });
     }
 
+    public void horizontalDirectionalBlockFixed(Block block, Function<BlockState, ModelFile> func) {
+        getVariantBuilder(block)
+                .forAllStates(blockState -> {
+                    Direction direction = blockState.getValue(BlockStateProperties.HORIZONTAL_FACING);
+                    return ConfiguredModel.builder()
+                            .modelFile(func.apply(blockState))
+                            .rotationX(0)
+                            .rotationY(direction.getAxis().isVertical() ? 0 : getX(direction))
+                            .build();
+                });
+    }
+
     private int getX(Direction direction) {
-        return (180 + direction.getStepX() * 90) % 360;
+        return (180 + direction.get2DDataValue() * 90) % 360;
     }
 }

@@ -9,4 +9,5 @@ public enum TextureSet {
     QUARTZ,
     RUBY,
     SHINY_METAL,
+    MAGNETIC,
 }

@@ -36,6 +36,7 @@ public class MaterialDeferredRegister {
     }
 
     public MaterialRegistryObject register(String name, MaterialBuilder builder) {
+        if (materials.containsKey(name)) throw new IllegalStateException("Material already exists.");
         BasicFluidRegistryObject fluid = null;
         List<RegistryObject<Block>> blocks = new ArrayList<>();
         List<RegistryObject<Item>> items = new ArrayList<>();

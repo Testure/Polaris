@@ -6,4 +6,6 @@ public enum GenerationFlags {
     GENERATE_SMALL_GEAR,
     GENERATE_SCREW,
     GENERATE_LENS,
+    GENERATE_SPRING,
+    NO_COMPRESSION,
 }

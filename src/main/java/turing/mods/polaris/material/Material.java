@@ -24,8 +24,9 @@ public class Material implements ITintedItem {
     protected Object cableStats;
     protected Object fluidPipeStats;
     protected Object itemPipeStats;
+    protected boolean magnetic;
 
-    public Material(String name, String type, int mass, int color, List<SubItem> subItems, List<GenerationFlags> flags, List<Tuple<Material, Integer>> components, ToolStats toolStats, FluidStats fluidStats, OreStats oreStats, TextureSet textureSet) {
+    public Material(String name, String type, int mass, int color, List<SubItem> subItems, List<GenerationFlags> flags, List<Tuple<Material, Integer>> components, ToolStats toolStats, FluidStats fluidStats, OreStats oreStats, TextureSet textureSet, boolean magnetic) {
         this.name = name;
         this.type = type;
         this.mass = mass;
@@ -37,6 +38,7 @@ public class Material implements ITintedItem {
         this.fluidStats = fluidStats;
         this.oreStats = oreStats;
         this.textureSet = textureSet;
+        this.magnetic = magnetic;
     }
 
     public Material withExistingItems(List<Item> items) {
@@ -74,6 +76,10 @@ public class Material implements ITintedItem {
 
     public OreStats getOreStats() {
         return oreStats;
+    }
+
+    public boolean isMagnetic() {
+        return magnetic;
     }
 
     @Override

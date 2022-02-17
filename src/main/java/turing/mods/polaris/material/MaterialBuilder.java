@@ -26,6 +26,7 @@ public class MaterialBuilder {
     public Object cableStats;
     public Object fluidPipeStats;
     public Object itemPipeStats;
+    protected boolean magnetic = false;
 
     private static int getDefaultSmeltAmount(@Nullable String type) {
         switch (type != null ? type : "") {
@@ -53,6 +54,16 @@ public class MaterialBuilder {
                 break;
             case GENERATE_SMALL_GEAR:
                 this.subItems.add(SubItem.SMALL_GEAR);
+                break;
+            case GENERATE_SPRING:
+                this.subItems.add(SubItem.SPRING);
+                this.subItems.add(SubItem.SMALL_SPRING);
+                break;
+            case NO_COMPRESSION:
+                this.subItems.remove(SubItem.BLOCK);
+                this.subItems.remove(SubItem.SMALL_DUST);
+                this.subItems.remove(SubItem.TINY_DUST);
+                this.subItems.remove(SubItem.NUGGET);
                 break;
             default:
                 break;
@@ -84,6 +95,11 @@ public class MaterialBuilder {
 
     public MaterialBuilder withExistingItems(Item... items) {
         this.existingItems = Arrays.asList(items);
+        return this;
+    }
+
+    public MaterialBuilder magnetic() {
+        this.magnetic = true;
         return this;
     }
 
@@ -172,6 +188,6 @@ public class MaterialBuilder {
 
     public Material build() {
         for (GenerationFlags flag : this.flags) processFlag(flag);
-        return new Material(this.name, this.type, this.mass, this.color, this.subItems, this.flags, this.components, this.toolStats, this.fluidStats, this.oreStats, this.textureSet);
+        return new Material(this.name, this.type, this.mass, this.color, this.subItems, this.flags, this.components, this.toolStats, this.fluidStats, this.oreStats, this.textureSet, this.magnetic);
     }
 }

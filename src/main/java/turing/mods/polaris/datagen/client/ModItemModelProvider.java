@@ -73,6 +73,12 @@ public class ModItemModelProvider extends ItemModelProvider {
 
         withExistingParent("creative_power_provider", modLoc("block/creative_power_provider"));
 
+        for (MachineRegistryObject<?, ?, ?> machine : MachineRegistry.getMachines().values()) {
+            for (RegistryObject<? extends Block> block : machine.getBlocks()) {
+                withExistingParent(block.get().getRegistryName().getPath(), modLoc("block/" + block.get().getRegistryName().getPath()));
+            }
+        }
+
         for (RegistryObject<Item> itemRegistryObject : ItemRegistry.ITEMS) {
             String itemName = itemRegistryObject.get().getRegistryName().getPath();
             int modelCode = 0;
