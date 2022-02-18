@@ -56,14 +56,14 @@ public class MaterialRegistryObject {
                 if (((SubBlockGenerated) r.get()).getSubItem() == subItem) return r;
                 return null;
             }).findFirst();
-            assert object.isPresent();
+            if (!object.isPresent()) throw new NullPointerException();
             return object.get().get().asItem();
         }
         Optional<RegistryObject<Item>> object = items.stream().map(r -> {
             if (((SubItemGenerated) r.get()).getSubItem() == subItem) return r;
             return null;
         }).findFirst();
-        assert object.isPresent();
+        if (!object.isPresent()) throw new NullPointerException();
         return object.get().get();
     }
 

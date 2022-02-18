@@ -99,7 +99,7 @@ public class MachineRecipe implements IMachineRecipe {
         @Override
         public boolean test(@Nullable ItemStack stack) {
             if (stack == null) return false;
-            assert this.isResolved();
+            if (!this.isResolved()) throw new IllegalStateException("Attempt to test on unresolved MachineIngredient");
 
             if (this.items.contains(stack)) return true;
             if (this.tags.size() > 0) {
@@ -113,7 +113,7 @@ public class MachineRecipe implements IMachineRecipe {
 
         @Override
         public ItemStack[] getItems() {
-            assert this.isResolved();
+            if (!this.isResolved()) throw new IllegalStateException("Attempt to test on unresolved MachineIngredient");
             List<ItemStack> itemStacks = new ArrayList<>(this.items);
 
             for (IPromisedTag tag : this.tags) {
