@@ -12,6 +12,8 @@
   "voltage.polaris.iv": "§9IV",
   "voltage.polaris.luv": "§5LuV",
 
+  "screen.polaris.compressor": "Compressor",
+
   "block.polaris.block": "%s Block",
   "block.polaris.ore": "%s Ore",
   "block.polaris.creative_power_provider": "Creative Power Source",

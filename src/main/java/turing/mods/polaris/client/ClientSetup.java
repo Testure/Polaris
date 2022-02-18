@@ -2,10 +2,12 @@ package turing.mods.polaris.client;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.ScreenManager;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.client.renderer.color.BlockColors;
 import net.minecraft.client.renderer.color.ItemColors;
+import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.item.Item;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -17,8 +19,10 @@ import turing.mods.polaris.Polaris;
 import turing.mods.polaris.block.IRenderTypedBlock;
 import turing.mods.polaris.block.ITintedBlock;
 import turing.mods.polaris.block.SubBlockGenerated;
+import turing.mods.polaris.container.MachineContainer;
 import turing.mods.polaris.item.ITintedItem;
 import turing.mods.polaris.registry.*;
+import turing.mods.polaris.screen.MachineScreen;
 
 @OnlyIn(Dist.CLIENT)
 @Mod.EventBusSubscriber(modid = Polaris.MODID, value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
@@ -33,9 +37,9 @@ public class ClientSetup {
         BlockColors blockColors = Minecraft.getInstance().getBlockColors();
 
         for (MachineRegistryObject<?, ?, ?> machine : MachineRegistry.getMachines().values()) {
-            for (RegistryObject<? extends Block> block : machine.getBlocks()) {
-                RenderTypeLookup.setRenderLayer(block.get(), RenderType.cutoutMipped());
-            }
+            for (RegistryObject<? extends Block> block : machine.getBlocks()) RenderTypeLookup.setRenderLayer(block.get(), RenderType.cutoutMipped());
+            for (RegistryObject<ContainerType<?>> container : machine.getContainers())
+                ScreenManager.register((ContainerType<? extends MachineContainer>) container.get(), (ScreenManager.IScreenFactory<MachineContainer, MachineScreen<?>>) machine.screenProvider::apply);
         }
 
         for (RegistryObject<Block> block : BlockRegistry.BLOCKS) {

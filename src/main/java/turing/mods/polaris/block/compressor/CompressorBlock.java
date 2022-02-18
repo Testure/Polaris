@@ -3,7 +3,10 @@ package turing.mods.polaris.block.compressor;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.inventory.container.Container;
+import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.DirectionProperty;
@@ -13,11 +16,14 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.network.NetworkHooks;
 import turing.mods.polaris.block.MachineBlock;
+import turing.mods.polaris.container.compressor.CompressorContainer;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -70,7 +76,20 @@ public class CompressorBlock extends MachineBlock {
 
         if (te instanceof CompressorTile && player instanceof ServerPlayerEntity) {
             CompressorTile tile = (CompressorTile) te;
-            NetworkHooks.openGui((ServerPlayerEntity) player, tile, tile::encodeExtraData);
+            INamedContainerProvider provider = new INamedContainerProvider() {
+                @Override
+                public ITextComponent getDisplayName() {
+                    return new TranslationTextComponent("screen.polaris.compressor");
+                }
+
+                @Nullable
+                @Override
+                public Container createMenu(int i, PlayerInventory inventory, PlayerEntity player) {
+                    return new CompressorContainer(tier, i, world, pos, inventory, player);
+                }
+            };
+
+            NetworkHooks.openGui((ServerPlayerEntity) player, provider, tile::encodeExtraData);
         }
     }
 

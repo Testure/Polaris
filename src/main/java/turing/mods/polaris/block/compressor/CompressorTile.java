@@ -27,7 +27,7 @@ public class CompressorTile extends LockableTileEntity implements ITickableTileE
     }
 
     public void encodeExtraData(PacketBuffer buffer) {
-
+        buffer.writeBlockPos(getBlockPos());
     }
 
     @Override
