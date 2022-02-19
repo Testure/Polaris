@@ -2,7 +2,10 @@ package turing.mods.polaris.registry;
 
 import com.mojang.datafixers.util.Function3;
 import net.minecraft.block.Block;
+import net.minecraft.client.gui.ScreenManager;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.ContainerType;
@@ -10,7 +13,10 @@ import net.minecraft.item.BlockItem;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.RegistryObject;
+import turing.mods.polaris.container.MachineContainer;
 import turing.mods.polaris.screen.MachineScreen;
 
 import java.util.Collections;
@@ -47,5 +53,12 @@ public class MachineRegistryObject<T extends TileEntity, B extends Block, I exte
 
     public List<RegistryObject<ContainerType<?>>> getContainers() {
         return Collections.unmodifiableList(containers);
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    public void doClientSetup() {
+        getBlocks().forEach(block -> RenderTypeLookup.setRenderLayer(block.get(), RenderType.cutoutMipped()));
+        for (RegistryObject<ContainerType<?>> container : getContainers())
+            ScreenManager.register((ContainerType<? extends MachineContainer>) container.get(), (ScreenManager.IScreenFactory<MachineContainer, MachineScreen<?>>) screenProvider::apply);
     }
 }

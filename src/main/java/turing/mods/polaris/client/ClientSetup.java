@@ -1,28 +1,19 @@
 package turing.mods.polaris.client;
 
-import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.ScreenManager;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.client.renderer.color.BlockColors;
 import net.minecraft.client.renderer.color.ItemColors;
-import net.minecraft.inventory.container.ContainerType;
-import net.minecraft.item.Item;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import turing.mods.polaris.Polaris;
 import turing.mods.polaris.block.IRenderTypedBlock;
 import turing.mods.polaris.block.ITintedBlock;
-import turing.mods.polaris.block.SubBlockGenerated;
-import turing.mods.polaris.container.MachineContainer;
 import turing.mods.polaris.item.ITintedItem;
 import turing.mods.polaris.registry.*;
-import turing.mods.polaris.screen.MachineScreen;
 
 @OnlyIn(Dist.CLIENT)
 @Mod.EventBusSubscriber(modid = Polaris.MODID, value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
@@ -36,46 +27,37 @@ public class ClientSetup {
         ItemColors itemColors = Minecraft.getInstance().getItemColors();
         BlockColors blockColors = Minecraft.getInstance().getBlockColors();
 
-        for (MachineRegistryObject<?, ?, ?> machine : MachineRegistry.getMachines().values()) {
-            for (RegistryObject<? extends Block> block : machine.getBlocks()) RenderTypeLookup.setRenderLayer(block.get(), RenderType.cutoutMipped());
-            for (RegistryObject<ContainerType<?>> container : machine.getContainers())
-                ScreenManager.register((ContainerType<? extends MachineContainer>) container.get(), (ScreenManager.IScreenFactory<MachineContainer, MachineScreen<?>>) machine.screenProvider::apply);
-        }
+        machineClientSetup();
+        blockClientSetup(blockColors);
+        setupItemColors(itemColors);
+        materialClientSetup(itemColors, blockColors);
+        setupBucketColors(itemColors);
+    }
 
-        for (RegistryObject<Block> block : BlockRegistry.BLOCKS) {
+    private static void machineClientSetup() {
+        MachineRegistry.getMachines().forEach((name, machine) -> machine.doClientSetup());
+    }
+
+    private static void materialClientSetup(ItemColors itemColors, BlockColors blockColors) {
+        MaterialRegistry.getMaterials().forEach((name, material) -> material.doClientSetup(itemColors, blockColors));
+    }
+
+    private static void setupBucketColors(ItemColors itemColors) {
+        FluidRegistry.getFluids().forEach((name, fluid) -> itemColors.register((stack, layer) -> layer == 1 ? fluid.getFluid().getAttributes().getColor() : 0xFFFFFFFF, fluid.getBucket()));
+    }
+
+    private static void setupItemColors(ItemColors itemColors) {
+        ItemRegistry.ITEMS.forEach(item -> {
+            if (item.get() instanceof ITintedItem) itemColors.register(((ITintedItem) item.get())::getColor, item.get());
+        });
+    }
+
+    private static void blockClientSetup(BlockColors blockColors) {
+        BlockRegistry.BLOCKS.forEach(block -> {
             if (block.get() instanceof ITintedBlock) {
                 blockColors.register(((ITintedBlock) block.get())::getColor, block.get());
             }
-            if (block.get() instanceof IRenderTypedBlock) {
-                RenderTypeLookup.setRenderLayer(block.get(), ((IRenderTypedBlock) block.get()).getRenderType());
-            }
-        }
-
-        for (RegistryObject<Item> item : ItemRegistry.ITEMS) {
-            if (item.get() instanceof ITintedItem) {
-                itemColors.register(((ITintedItem) item.get())::getColor, item.get());
-            }
-        }
-
-        for (MaterialRegistryObject materialRegistryObject : MaterialRegistry.getMaterials().values()) {
-            for (RegistryObject<Item> item : materialRegistryObject.getItems()) {
-                if (materialRegistryObject.get().existingItems == null || !materialRegistryObject.get().existingItems.contains(item.get())) {
-                    itemColors.register(materialRegistryObject.get()::getColor, item.get());
-                }
-            }
-            if (materialRegistryObject.hasBlocks()) {
-                for (RegistryObject<Block> block : materialRegistryObject.getBlocks()) {
-                    if (materialRegistryObject.get().existingItems == null || !materialRegistryObject.get().existingItems.contains(block.get().asItem())) {
-                        blockColors.register(((SubBlockGenerated) block.get())::getColor, block.get());
-                        itemColors.register((a, b) -> materialRegistryObject.get().color, block.get().asItem());
-                        RenderTypeLookup.setRenderLayer(block.get(), ((SubBlockGenerated) block.get()).getRenderType());
-                    }
-                }
-            }
-        }
-
-        for (FluidRegistryObject<?, ?, ?, ?> fluidRegistryObject : FluidRegistry.getFluids().values()) {
-            itemColors.register((a, b) -> b == 1 ? fluidRegistryObject.getFluid().getAttributes().getColor() : 0xFFFFFFFF, fluidRegistryObject.getBucket());
-        }
+            if (block.get() instanceof IRenderTypedBlock) RenderTypeLookup.setRenderLayer(block.get(), ((IRenderTypedBlock) block.get()).getRenderType());
+        });
     }
 }
