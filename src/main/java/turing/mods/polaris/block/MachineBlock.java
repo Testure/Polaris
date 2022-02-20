@@ -19,16 +19,15 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ToolType;
-import turing.mods.polaris.Polaris;
+import turing.mods.polaris.Voltages;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public class MachineBlock extends Block {
-    public static final IntegerProperty TIER = IntegerProperty.create("tier", 0, Polaris.VOLTAGES.VOLTAGE_LIST.size());
+    public static final IntegerProperty TIER = IntegerProperty.create("tier", 0, Voltages.VOLTAGE_LIST.size());
 
     protected final int tier;
 

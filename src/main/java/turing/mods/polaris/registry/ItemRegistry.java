@@ -1,14 +1,11 @@
 package turing.mods.polaris.registry;
 
 import net.minecraft.item.Item;
-import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.RegistryObject;
-import turing.mods.polaris.Polaris;
 import turing.mods.polaris.item.CraftingItem;
 import turing.mods.polaris.util.Lists;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.function.Supplier;
 

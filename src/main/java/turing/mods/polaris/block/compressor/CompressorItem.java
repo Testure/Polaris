@@ -11,6 +11,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import turing.mods.polaris.Config;
 import turing.mods.polaris.Polaris;
+import turing.mods.polaris.Voltages;
 import turing.mods.polaris.registry.MachineRegistry;
 import turing.mods.polaris.util.Formatting;
 
@@ -30,7 +31,7 @@ public class CompressorItem extends BlockItem {
     public void appendHoverText(ItemStack stack, @Nullable World world, List<ITextComponent> tooltips, ITooltipFlag flag) {
         if (Config.SHOW_MACHINE_FLAVOR_TEXT.get()) tooltips.add(new TranslationTextComponent("flavor.polaris.compressor"));
         tooltips.add(Formatting.createVoltageTooltip("tooltip.polaris.voltage_in", tier + 1, TextFormatting.GREEN));
-        tooltips.add(new TranslationTextComponent("tooltip.polaris.energy_storage", TextFormatting.RED + Formatting.formattedNumber(Polaris.VOLTAGES.getEnergyCapacity(Polaris.VOLTAGES.VOLTAGE_LIST.get(tier + 1).getA()))));
+        tooltips.add(new TranslationTextComponent("tooltip.polaris.energy_storage", TextFormatting.RED + Formatting.formattedNumber(Voltages.getEnergyCapacity(Voltages.VOLTAGE_LIST.get(tier + 1).getA()))));
         super.appendHoverText(stack, world, tooltips, flag);
     }
 }

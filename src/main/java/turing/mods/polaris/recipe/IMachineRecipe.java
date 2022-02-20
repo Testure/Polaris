@@ -4,6 +4,7 @@ import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Tuple;
 import net.minecraftforge.fluids.FluidStack;
+import turing.mods.polaris.Voltages;
 
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -35,7 +36,7 @@ public interface IMachineRecipe {
     }
 
     default int getEUt() {
-        return 8;
+        return Voltages.ULV;
     }
 
     default int getInputCount() {

@@ -22,6 +22,7 @@ import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import turing.mods.polaris.Polaris;
+import turing.mods.polaris.Voltages;
 import turing.mods.polaris.screen.MachineScreen;
 
 import java.util.ArrayList;
@@ -56,9 +57,9 @@ public class MachineDeferredRegister {
         List<RegistryObject<TileEntityType<T>>> tiles = new ArrayList<>();
         List<RegistryObject<ContainerType<?>>> containers = new ArrayList<>();
 
-        for (int i = 1; i < Polaris.VOLTAGES.VOLTAGE_LIST.size(); i++) {
+        for (int i = 1; i < Voltages.VOLTAGE_LIST.size(); i++) {
             int finalI = i - 1;
-            String tieredName = name + "_" + Polaris.VOLTAGES.VOLTAGE_LIST.get(i).getB();
+            String tieredName = name + "_" + Voltages.VOLTAGE_LIST.get(i).getB();
             Supplier<T> TSupplier = () -> tileSupplier.apply(finalI);
             Supplier<B> BSupplier = () -> blockSupplier.apply(finalI);
             Supplier<I> ISupplier = () -> itemSupplier.apply(finalI);

@@ -7,6 +7,7 @@ import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import turing.mods.polaris.Polaris;
+import turing.mods.polaris.Voltages;
 
 import javax.annotation.Nullable;
 
@@ -21,9 +22,7 @@ public class Formatting {
     public static List<ITextComponent> stringsToTextComponents(List<String> strings) {
         List<ITextComponent> list = new ArrayList<>();
 
-        strings.forEach(string -> {
-            list.add(new StringTextComponent(string));
-        });
+        strings.forEach(string -> list.add(new StringTextComponent(string)));
         strings.removeIf(s -> true);
 
         return list;
@@ -32,9 +31,7 @@ public class Formatting {
     public static List<ITextComponent> stringsToTranslatedComponents(List<String> strings) {
         List<ITextComponent> list = new ArrayList<>();
 
-        strings.forEach(string -> {
-            list.add(new TranslationTextComponent(string));
-        });
+        strings.forEach(string -> list.add(new TranslationTextComponent(string)));
         strings.removeIf(s -> true);
 
         return list;
@@ -67,7 +64,7 @@ public class Formatting {
      * @return TranslationTextComponent of the given key with the first value as the voltage amount formatted with the given color, and the second value as the voltage name
      */
     public static TranslationTextComponent createVoltageTooltip(String key, int voltageTier, @Nullable TextFormatting color) {
-        Tuple<Integer, String> voltage = Polaris.VOLTAGES.VOLTAGE_LIST.get(voltageTier);
-        return new TranslationTextComponent(key, (color != null ? color : GREEN) + formattedNumber(voltage.getA()), I18n.get(Polaris.VOLTAGES.getVoltageTierTranslationKey(voltageTier)));
+        Tuple<Integer, String> voltage = Voltages.VOLTAGE_LIST.get(voltageTier);
+        return new TranslationTextComponent(key, (color != null ? color : GREEN) + formattedNumber(voltage.getA()), I18n.get(Voltages.getVoltageTierTranslationKey(voltageTier)));
     }
 }

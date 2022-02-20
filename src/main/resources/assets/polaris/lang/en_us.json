@@ -18,9 +18,9 @@
   "block.polaris.ore": "%s Ore",
   "block.polaris.creative_power_provider": "Creative Power Source",
 
-  "tooltip.polaris.voltage_in": "Voltage IN: %s (%s)",
-  "tooltip.polaris.voltage_out": "Voltage OUT: %s (%s)",
-  "tooltip.polaris.energy_storage": "Max Energy Capacity: %s",
+  "tooltip.polaris.voltage_in": "§7Voltage IN:§r %s (%s)",
+  "tooltip.polaris.voltage_out": "§7Voltage OUT:§r %s (%s)",
+  "tooltip.polaris.energy_storage": "§7Max Energy Capacity:§r %s",
 
   "block.polaris.compressor_lv": "Basic Compressor",
   "block.polaris.compressor_mv": "Advanced Compressor",
