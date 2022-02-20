@@ -31,7 +31,7 @@ public class CompressorItem extends BlockItem {
     public void appendHoverText(ItemStack stack, @Nullable World world, List<ITextComponent> tooltips, ITooltipFlag flag) {
         if (Config.SHOW_MACHINE_FLAVOR_TEXT.get()) tooltips.add(new TranslationTextComponent("flavor.polaris.compressor"));
         tooltips.add(Formatting.createVoltageTooltip("tooltip.polaris.voltage_in", tier + 1, TextFormatting.GREEN));
-        tooltips.add(new TranslationTextComponent("tooltip.polaris.energy_storage", TextFormatting.RED + Formatting.formattedNumber(Voltages.getEnergyCapacity(Voltages.VOLTAGE_LIST.get(tier + 1).getA()))));
+        tooltips.add(new TranslationTextComponent("tooltip.polaris.energy_storage", TextFormatting.RED + Formatting.formattedNumber(Voltages.getEnergyCapacity(Voltages.VOLTAGES[tier + 1].energy))));
         super.appendHoverText(stack, world, tooltips, flag);
     }
 }

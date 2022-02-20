@@ -1,12 +1,10 @@
 package turing.mods.polaris.util;
 
 import net.minecraft.client.resources.I18n;
-import net.minecraft.util.Tuple;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
-import turing.mods.polaris.Polaris;
 import turing.mods.polaris.Voltages;
 
 import javax.annotation.Nullable;
@@ -40,9 +38,7 @@ public class Formatting {
     public static List<ITextComponent> stringsToTranslatedComponents(Map<String, List<String>> map) {
         List<ITextComponent> list = new ArrayList<>();
 
-        map.forEach((key, values) -> {
-            list.add(new TranslationTextComponent(key, values));
-        });
+        map.forEach((key, values) -> list.add(new TranslationTextComponent(key, values)));
         map.clear();
 
         return list;
@@ -64,7 +60,7 @@ public class Formatting {
      * @return TranslationTextComponent of the given key with the first value as the voltage amount formatted with the given color, and the second value as the voltage name
      */
     public static TranslationTextComponent createVoltageTooltip(String key, int voltageTier, @Nullable TextFormatting color) {
-        Tuple<Integer, String> voltage = Voltages.VOLTAGE_LIST.get(voltageTier);
-        return new TranslationTextComponent(key, (color != null ? color : GREEN) + formattedNumber(voltage.getA()), I18n.get(Voltages.getVoltageTierTranslationKey(voltageTier)));
+        Voltages.Voltage voltage = Voltages.VOLTAGES[voltageTier];
+        return new TranslationTextComponent(key, (color != null ? color : GREEN) + formattedNumber(voltage.energy), I18n.get(Voltages.getVoltageTierTranslationKey(voltageTier)));
     }
 }

@@ -10,6 +10,8 @@ import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.List;
 
+import static turing.mods.polaris.Voltages.ULV;
+
 /**
  *
  */
@@ -36,7 +38,7 @@ public interface IMachineRecipe {
     }
 
     default int getEUt() {
-        return Voltages.ULV;
+        return Voltages.VOLTAGES[ULV].energy;
     }
 
     default int getInputCount() {

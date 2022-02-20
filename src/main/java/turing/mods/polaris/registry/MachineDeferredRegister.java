@@ -1,10 +1,8 @@
 package turing.mods.polaris.registry;
 
 import com.mojang.datafixers.util.Function3;
-import com.mojang.datafixers.util.Function5;
 import com.mojang.datafixers.util.Function6;
 import net.minecraft.block.Block;
-import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
@@ -57,9 +55,9 @@ public class MachineDeferredRegister {
         List<RegistryObject<TileEntityType<T>>> tiles = new ArrayList<>();
         List<RegistryObject<ContainerType<?>>> containers = new ArrayList<>();
 
-        for (int i = 1; i < Voltages.VOLTAGE_LIST.size(); i++) {
+        for (int i = 1; i < Voltages.VOLTAGES.length; i++) {
             int finalI = i - 1;
-            String tieredName = name + "_" + Voltages.VOLTAGE_LIST.get(i).getB();
+            String tieredName = name + "_" + Voltages.VOLTAGES[i].name;
             Supplier<T> TSupplier = () -> tileSupplier.apply(finalI);
             Supplier<B> BSupplier = () -> blockSupplier.apply(finalI);
             Supplier<I> ISupplier = () -> itemSupplier.apply(finalI);
