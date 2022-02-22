@@ -14,7 +14,22 @@ public class ModLootTableProvider extends BaseLootTableProvider {
     protected void addTables() {
         addMachineLootTables();
         addMaterialBlockLootTables();
+        addCasingLootTables();
+        addHullLootTables();
+
         lootTables.put(BlockRegistry.CREATIVE_POWER_PROVIDER.get(), createBasicTable("creative_power_provider", BlockRegistry.CREATIVE_POWER_PROVIDER.get()));
+    }
+
+    private void addHullLootTables() {
+        for (RegistryObject<Block> hull : BlockRegistry.HULLS) {
+            lootTables.put(hull.get(), createBasicTable(hull.get().getRegistryName().getPath(), hull.get()));
+        }
+    }
+
+    private void addCasingLootTables() {
+        for (RegistryObject<Block> casing : BlockRegistry.CASINGS) {
+            lootTables.put(casing.get(), createBasicTable(casing.get().getRegistryName().getPath(), casing.get()));
+        }
     }
 
     private void addMachineLootTables() {

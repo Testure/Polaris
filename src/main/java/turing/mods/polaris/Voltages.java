@@ -48,13 +48,22 @@ public class Voltages {
         return voltageTier == 0 ? 7 : 30 * ((int) Math.pow(4, voltageTier - 1));
     }
 
+    public static int roundVoltage(int voltage) {
+        for (int i = 0; i < VOLTAGES.length; i++) {
+            if (voltage <= VOLTAGES[i].energy && ((i + 1) >= VOLTAGES.length || voltage < VOLTAGES[i + 1].energy)) return VOLTAGES[i].energy;
+        }
+        return VOLTAGES[VOLTAGES.length - 1].energy;
+    }
+
     public static class Voltage {
         public final int energy;
         public final String name;
+        public final int capacity;
 
         public Voltage(int energy, String name) {
             this.energy = energy;
             this.name = name;
+            this.capacity = getEnergyCapacity(energy);
         }
     }
 }

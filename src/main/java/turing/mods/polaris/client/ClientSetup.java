@@ -35,6 +35,7 @@ public class ClientSetup {
     }
 
     private static void machineClientSetup() {
+        MachineRegistry.initScreens();
         MachineRegistry.getMachines().forEach((name, machine) -> machine.doClientSetup());
     }
 

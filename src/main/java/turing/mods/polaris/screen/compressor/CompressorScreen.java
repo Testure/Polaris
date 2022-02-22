@@ -23,7 +23,11 @@ public class CompressorScreen extends MachineScreen<CompressorContainer> {
     @Override
     protected void renderBg(MatrixStack matrixStack, float pt, int x, int y) {
         super.renderBg(matrixStack, pt, x, y);
+
         int rel1X = (this.width - this.getXSize()) / 2;
         int rel1Y = (this.height - this.getYSize()) / 2;
+        int progress = ((CompressorContainer) this.menu).getProgress();
+
+        this.blit(matrixStack, rel1X + 76, rel1Y + 34, 189, 0, progress, 3);
     }
 }

@@ -5,7 +5,9 @@ import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraftforge.fml.RegistryObject;
 import turing.mods.polaris.Polaris;
-import turing.mods.polaris.block.CreativePowerProvider;
+import turing.mods.polaris.block.CasingBlock;
+import turing.mods.polaris.block.HullBlock;
+import turing.mods.polaris.block.creative_power.CreativePowerProvider;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +17,23 @@ public class BlockRegistry {
     public static final List<RegistryObject<Block>> BLOCKS = new ArrayList<>();
 
     public static final RegistryObject<Block> CREATIVE_POWER_PROVIDER = register("creative_power_provider", CreativePowerProvider::new);
+
+    public static final RegistryObject<Block>[] CASINGS = new RegistryObject[]{
+            register("casing_ulv", () -> new CasingBlock(0)),
+            register("casing_lv", () -> new CasingBlock(1)),
+            register("casing_mv", () -> new CasingBlock(2)),
+            register("casing_hv", () -> new CasingBlock(3)),
+            register("casing_ev", () -> new CasingBlock(4)),
+            register("casing_iv", () -> new CasingBlock(5)),
+    };
+    public static final RegistryObject<Block>[] HULLS = new RegistryObject[]{
+            register("hull_ulv", () -> new HullBlock(0)),
+            register("hull_lv", () -> new HullBlock(1)),
+            register("hull_mv", () -> new HullBlock(2)),
+            register("hull_hv", () -> new HullBlock(3)),
+            register("hull_ev", () -> new HullBlock(4)),
+            register("hull_iv", () -> new HullBlock(5)),
+    };
 
     public static <T extends Block> RegistryObject<T> registerNoItem(String name, Supplier<T> supplier) {
         return Registration.BLOCKS.register(name, supplier);

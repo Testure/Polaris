@@ -2,12 +2,12 @@ package turing.mods.polaris.recipe;
 
 import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.Tuple;
 import net.minecraftforge.fluids.FluidStack;
 import turing.mods.polaris.Voltages;
 
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
+
 import java.util.List;
 
 import static turing.mods.polaris.Voltages.ULV;
@@ -26,11 +26,10 @@ public interface IMachineRecipe {
 
     List<FluidStack> getFluidOutputs();
 
-    List<Tuple<ItemStack, Integer>> getChancedOutputs();
+    List<ChancedItemStack> getChancedOutputs();
 
-    @Nullable
-    default Integer getCircuitConfig() {
-        return null;
+    default int getCircuitConfig() {
+        return -1;
     }
 
     default int getDuration() {

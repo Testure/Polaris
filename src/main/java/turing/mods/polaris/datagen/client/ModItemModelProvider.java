@@ -73,6 +73,9 @@ public class ModItemModelProvider extends ItemModelProvider {
 
         withExistingParent("creative_power_provider", modLoc("block/creative_power_provider"));
 
+        casingModels();
+        hullModels();
+
         for (MachineRegistryObject<?, ?, ?> machine : MachineRegistry.getMachines().values()) {
             for (RegistryObject<? extends Block> block : machine.getBlocks()) {
                 withExistingParent(block.get().getRegistryName().getPath(), modLoc("block/" + block.get().getRegistryName().getPath()));
@@ -123,6 +126,18 @@ public class ModItemModelProvider extends ItemModelProvider {
 
         for (FluidRegistryObject<?, ?, ?, ?> fluidRegistryObject : FluidRegistry.getFluids().values()) {
             withExistingParent(fluidRegistryObject.getName() + "_bucket", modLoc("item/bucket"));
+        }
+    }
+
+    private void hullModels() {
+        for (RegistryObject<Block> hull : BlockRegistry.HULLS) {
+            withExistingParent(hull.get().getRegistryName().getPath(), modLoc("block/" + hull.get().getRegistryName().getPath()));
+        }
+    }
+
+    private void casingModels() {
+        for (RegistryObject<Block> casing : BlockRegistry.CASINGS) {
+            withExistingParent(casing.get().getRegistryName().getPath(), modLoc("block/" + casing.get().getRegistryName().getPath()));
         }
     }
 

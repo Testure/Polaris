@@ -1,4 +1,4 @@
-package turing.mods.polaris.block;
+package turing.mods.polaris.block.creative_power;
 
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
@@ -38,12 +38,12 @@ public class CreativePowerProvider extends Block {
 
     @Override
     public boolean hasTileEntity(BlockState state) {
-        return super.hasTileEntity(state);
+        return true;
     }
 
     @Nullable
     @Override
     public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-        return super.createTileEntity(state, world);
+        return new CreativePowerProviderTile();
     }
 }

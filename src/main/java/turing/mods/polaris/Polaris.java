@@ -21,6 +21,7 @@ import turing.mods.polaris.itemgroups.ItemGroupMaterials;
 import turing.mods.polaris.itemgroups.ItemGroupMisc;
 import turing.mods.polaris.itemgroups.ItemGroupOres;
 import turing.mods.polaris.itemgroups.ItemGroupTools;
+import turing.mods.polaris.recipe.DefaultRecipes;
 import turing.mods.polaris.recipe.IPromisedTag;
 import turing.mods.polaris.registry.FluidRegistry;
 import turing.mods.polaris.registry.Registration;
@@ -31,7 +32,7 @@ import java.util.List;
 @Mod("polaris")
 public class Polaris {
     public static final String MODID = "polaris";
-    public static final Logger LOGGER = LogManager.getLogger();
+    public static final Logger LOGGER = LogManager.getLogger("Polaris");
     public static final ItemGroup MATERIALS = new ItemGroupMaterials();
     public static final ItemGroup ORES = new ItemGroupOres();
     public static final ItemGroup TOOLS = new ItemGroupTools();
@@ -40,6 +41,7 @@ public class Polaris {
     public static final List<IPromisedTag> TAGS = new ArrayList<>();
 
     private static boolean hasResolvedBefore = false;
+    public static boolean tagsResolved = false;
 
     public Polaris() {
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
@@ -52,11 +54,11 @@ public class Polaris {
     }
 
     private void resolveTags() {
-        LOGGER.info("Resolving tags");
+        LOGGER.fatal("Resolving tags");
         hasResolvedBefore = true;
-        for (IPromisedTag tag : TAGS) {
+        tagsResolved = true;
+        for (IPromisedTag tag : TAGS)
             if (!tag.isResolved()) tag.resolve();
-        }
     }
 
     private void setup(final FMLCommonSetupEvent event) {
@@ -83,8 +85,9 @@ public class Polaris {
 
             @Override
             protected void apply(Void object, IResourceManager resourceManager, IProfiler profiler) {
-                LOGGER.info("Reloading tags");
-
+                LOGGER.fatal("Reloading recipes");
+                DefaultRecipes.clearRecipes();
+                DefaultRecipes.addRecipes();
                 if (hasResolvedBefore) {
                     resolveTags();
                 }
@@ -100,6 +103,7 @@ public class Polaris {
     @SubscribeEvent
     public void onServerClosing(FMLServerStoppedEvent event) {
         hasResolvedBefore = false;
+        tagsResolved = false;
         for (IPromisedTag tag : TAGS) {
             if (tag.isResolved()) tag.unResolve();
         }

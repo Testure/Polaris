@@ -85,7 +85,7 @@ public class CompressorBlock extends MachineBlock {
                 @Nullable
                 @Override
                 public Container createMenu(int i, PlayerInventory inventory, PlayerEntity player) {
-                    return new CompressorContainer(tier, i, world, pos, inventory, player);
+                    return new CompressorContainer(tier, i, world, pos, inventory, player, null);
                 }
             };
 

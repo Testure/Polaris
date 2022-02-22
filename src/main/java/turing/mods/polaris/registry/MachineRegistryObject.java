@@ -3,7 +3,6 @@ package turing.mods.polaris.registry;
 import com.mojang.datafixers.util.Function3;
 import net.minecraft.block.Block;
 import net.minecraft.client.gui.ScreenManager;
-import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.entity.player.PlayerInventory;
@@ -28,15 +27,15 @@ public class MachineRegistryObject<T extends TileEntity, B extends Block, I exte
     private final List<RegistryObject<I>> items;
     private final List<RegistryObject<TileEntityType<T>>> tiles;
     private final List<RegistryObject<ContainerType<?>>> containers;
-    public final Function3<Container, PlayerInventory, ITextComponent, MachineScreen<?>> screenProvider;
+    @OnlyIn(Dist.CLIENT)
+    public Function3<Container, PlayerInventory, ITextComponent, MachineScreen<?>> screenSupplier;
 
-    public MachineRegistryObject(String name, List<RegistryObject<B>> blocks, List<RegistryObject<I>> items, List<RegistryObject<TileEntityType<T>>> tileType, List<RegistryObject<ContainerType<?>>> containers, Function3<Container, PlayerInventory, ITextComponent, MachineScreen<?>> screenProvider) {
+    public MachineRegistryObject(String name, List<RegistryObject<B>> blocks, List<RegistryObject<I>> items, List<RegistryObject<TileEntityType<T>>> tileType, List<RegistryObject<ContainerType<?>>> containers) {
         this.name = name;
         this.blocks = blocks;
         this.items = items;
         this.tiles = tileType;
         this.containers = containers;
-        this.screenProvider = screenProvider;
     }
 
     public List<RegistryObject<B>> getBlocks() {
@@ -58,7 +57,7 @@ public class MachineRegistryObject<T extends TileEntity, B extends Block, I exte
     @OnlyIn(Dist.CLIENT)
     public void doClientSetup() {
         getBlocks().forEach(block -> RenderTypeLookup.setRenderLayer(block.get(), RenderType.cutoutMipped()));
-        for (RegistryObject<ContainerType<?>> container : getContainers())
-            ScreenManager.register((ContainerType<? extends MachineContainer>) container.get(), (ScreenManager.IScreenFactory<MachineContainer, MachineScreen<?>>) screenProvider::apply);
+        for (RegistryObject<ContainerType<?>> container : containers)
+            ScreenManager.register((ContainerType<? extends MachineContainer>) container.get(), screenSupplier::apply);
     }
 }
