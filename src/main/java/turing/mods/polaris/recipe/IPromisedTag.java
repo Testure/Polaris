@@ -14,12 +14,6 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
 public interface IPromisedTag {
-    IPromisedTag of(ResourceLocation tagLoc);
-
-    IPromisedTag of(String tagName);
-
-    IPromisedTag of(String tagName, String modId);
-
     ITag.INamedTag<Item> toTag();
 
     Ingredient toIngredient();

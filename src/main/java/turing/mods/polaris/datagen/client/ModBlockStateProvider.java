@@ -25,8 +25,26 @@ public class ModBlockStateProvider extends BlockStateProvider {
     protected void registerStatesAndModels() {
         createMaterialBlockStates();
         createFluidBlockStates();
+        casingBlockStates();
+        hullBlockStates();
+
         simpleBlock(BlockRegistry.CREATIVE_POWER_PROVIDER.get(), models().getExistingFile(modLoc("block/creative_power_provider")));
+
         MachineBlockStates.createCompressorModel(this, MachineRegistry.COMPRESSOR);
+    }
+
+    private void hullBlockStates() {
+        for (int i = 0; i < BlockRegistry.HULLS.length; i++) {
+            Block hull = BlockRegistry.HULLS[i].get();
+            MachineBlockStates.createCasingModel(this, hull, i, true);
+        }
+    }
+
+    private void casingBlockStates() {
+        for (int i = 0; i < BlockRegistry.CASINGS.length; i++) {
+            Block casing = BlockRegistry.CASINGS[i].get();
+            MachineBlockStates.createCasingModel(this, casing, i);
+        }
     }
 
     private void createFluidBlockStates() {

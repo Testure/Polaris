@@ -1,10 +1,10 @@
 package turing.mods.polaris.recipe;
 
+import com.google.common.collect.ImmutableList;
 import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.IItemProvider;
-import net.minecraft.util.Tuple;
 import net.minecraftforge.fluids.FluidStack;
 
 import javax.annotation.Nullable;
@@ -16,19 +16,16 @@ import java.util.List;
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
 public class MachineRecipe implements IMachineRecipe {
-    public IMachineRecipeIdentifier identity;
-    private final List<IMachineIngredient> inputs;
-    private final List<FluidStack> fluidInputs;
-    private final List<ItemStack> outputs;
-    private final List<FluidStack> fluidOutputs;
-    private final List<Tuple<ItemStack, Integer>> chancedOutputs;
+    private final IMachineIngredient[] inputs;
+    private final FluidStack[] fluidInputs;
+    private final ItemStack[] outputs;
+    private final FluidStack[] fluidOutputs;
+    private final ChancedItemStack[] chancedOutputs;
     private final int duration;
     private final int eut;
-    @Nullable
-    private final Integer circuitConfig;
+    private final int circuitConfig;
 
-    public MachineRecipe(IMachineRecipeIdentifier identifier, List<IMachineIngredient> inputs, List<FluidStack> fluidInputs, List<ItemStack> outputs, List<Tuple<ItemStack, Integer>> chancedOutputs, List<FluidStack> fluidOutputs, @Nullable Integer circuit, int duration, int eut) {
-        this.identity = identifier;
+    public MachineRecipe(IMachineIngredient[] inputs, FluidStack[] fluidInputs, ItemStack[] outputs, ChancedItemStack[] chancedOutputs, FluidStack[] fluidOutputs, int circuit, int duration, int eut) {
         this.inputs = inputs;
         this.outputs = outputs;
         this.fluidInputs = fluidInputs;
@@ -41,27 +38,27 @@ public class MachineRecipe implements IMachineRecipe {
 
     @Override
     public List<IMachineIngredient> getInputs() {
-        return inputs;
+        return ImmutableList.copyOf(inputs);
     }
 
     @Override
     public List<ItemStack> getOutputs() {
-        return outputs;
+        return ImmutableList.copyOf(outputs);
     }
 
     @Override
     public List<FluidStack> getFluidInputs() {
-        return fluidInputs;
+        return ImmutableList.copyOf(fluidInputs);
     }
 
     @Override
     public List<FluidStack> getFluidOutputs() {
-        return fluidOutputs;
+        return ImmutableList.copyOf(fluidOutputs);
     }
 
     @Override
-    public List<Tuple<ItemStack, Integer>> getChancedOutputs() {
-        return chancedOutputs;
+    public List<ChancedItemStack> getChancedOutputs() {
+        return ImmutableList.copyOf(chancedOutputs);
     }
 
     @Override
@@ -70,8 +67,7 @@ public class MachineRecipe implements IMachineRecipe {
     }
 
     @Override
-    @Nullable
-    public Integer getCircuitConfig() {
+    public int getCircuitConfig() {
         return circuitConfig;
     }
 
@@ -81,15 +77,16 @@ public class MachineRecipe implements IMachineRecipe {
     }
 
     public static class MachineIngredient implements IMachineIngredient {
-        private final List<ItemStack> items;
-        private final List<IPromisedTag> tags;
+        private final ItemStack[] items;
+        private final IPromisedTag[] tags;
 
-        private MachineIngredient(List<ItemStack> items, List<IPromisedTag> tags) {
+        private MachineIngredient(ItemStack[] items, IPromisedTag[] tags) {
             this.items = items;
             this.tags = tags;
         }
 
-        private boolean isResolved() {
+        @Override
+        public boolean isResolved() {
             for (IPromisedTag tag : tags) {
                 if (!tag.isResolved()) return false;
             }
@@ -97,52 +94,47 @@ public class MachineRecipe implements IMachineRecipe {
         }
 
         @Override
+        public boolean isEmpty() {
+            for (ItemStack item : this.items)
+                if (item != null) return false;
+            for (IPromisedTag tag : this.tags)
+                if (tag != null) return false;
+            return true;
+        }
+
+        @Override
         public boolean test(@Nullable ItemStack stack) {
             if (stack == null) return false;
             if (!this.isResolved()) throw new IllegalStateException("Attempt to test on unresolved MachineIngredient");
+            if (isEmpty()) return false;
 
-            if (this.items.contains(stack)) return true;
-            if (this.tags.size() > 0) {
-                for (IPromisedTag tag : this.tags) {
-                    if (tag.toIngredient().test(stack)) return true;
-                }
+            for (ItemStack itemStack : this.items)
+                if (itemStack.sameItem(stack)) return true;
+            for (IPromisedTag tag : this.tags) {
+                if (tag.toIngredient().test(stack)) return true;
             }
 
             return false;
         }
 
-        @Override
-        public ItemStack[] getItems() {
-            if (!this.isResolved()) throw new IllegalStateException("Attempt to test on unresolved MachineIngredient");
-            List<ItemStack> itemStacks = new ArrayList<>(this.items);
-
-            for (IPromisedTag tag : this.tags) {
-                itemStacks.addAll(Arrays.asList(tag.toIngredient().getItems()));
+        public static IMachineIngredient of(IItemProvider... providers) {
+            ItemStack[] stacks = new ItemStack[providers.length];
+            for (int i = 0; i < providers.length; i++) {
+                stacks[i] = new ItemStack(providers[i].asItem(), 1);
             }
-
-            return itemStacks.toArray(new ItemStack[0]);
+            return new MachineIngredient(stacks, new IPromisedTag[0]);
         }
 
-        @Override
-        public IMachineIngredient of(IItemProvider... providers) {
-            List<ItemStack> items = new ArrayList<>();
-            Arrays.stream(providers).forEach(provider -> items.add(new ItemStack(provider.asItem())));
-            return new MachineIngredient(items, new ArrayList<>());
+        public static IMachineIngredient of(ItemStack... stacks) {
+            return new MachineIngredient(stacks, new IPromisedTag[0]);
         }
 
-        @Override
-        public IMachineIngredient of(ItemStack... stacks) {
-            return new MachineIngredient(Arrays.asList(stacks), new ArrayList<>());
+        public static IMachineIngredient of(IPromisedTag... tags) {
+            return new MachineIngredient(new ItemStack[0], tags);
         }
 
-        @Override
-        public IMachineIngredient of(IPromisedTag... tags) {
-            return new MachineIngredient(new ArrayList<>(), Arrays.asList(tags));
-        }
-
-        @Override
-        public IMachineIngredient fromIngredient(Ingredient ingredient) {
-            return this.of(ingredient.getItems());
+        public static IMachineIngredient fromIngredient(Ingredient ingredient) {
+            return of(ingredient.getItems());
         }
     }
 }

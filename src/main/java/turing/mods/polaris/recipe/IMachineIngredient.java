@@ -15,22 +15,9 @@ import java.util.Arrays;
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
 public interface IMachineIngredient {
-    default boolean test(@Nullable ItemStack stack) {
-        if (stack == null) return false;
-        return Arrays.asList(getItems()).contains(stack);
-    }
+    boolean test(@Nullable ItemStack stack);
 
-    ItemStack[] getItems();
+    boolean isEmpty();
 
-    default boolean isEmpty() {
-        return getItems()[0] != null;
-    }
-
-    IMachineIngredient of(IItemProvider... providers);
-
-    IMachineIngredient of(ItemStack... stacks);
-
-    IMachineIngredient of(IPromisedTag... tags);
-
-    IMachineIngredient fromIngredient(Ingredient ingredient);
+    boolean isResolved();
 }

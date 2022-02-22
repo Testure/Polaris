@@ -57,19 +57,25 @@ public class MaterialRegistryObject {
 
     public Item getItemFromSubItem(SubItem subItem) {
         if (hasBlocks() && blocks.stream().anyMatch(r -> ((SubBlockGenerated) r.get()).getSubItem() == subItem)) {
-            Optional<RegistryObject<Block>> object = blocks.stream().map(r -> {
-                if (((SubBlockGenerated) r.get()).getSubItem() == subItem) return r;
-                return null;
-            }).findFirst();
-            if (!object.isPresent()) throw new NullPointerException();
-            return object.get().get().asItem();
+            RegistryObject<Block> found = null;
+            for (RegistryObject<Block> block : getBlocks()) {
+                if (((SubBlockGenerated) block.get()).getSubItem() == subItem) {
+                    found = block;
+                    break;
+                }
+            }
+            if (found == null) throw new NullPointerException();
+            return found.get().asItem();
         }
-        Optional<RegistryObject<Item>> object = items.stream().map(r -> {
-            if (((SubItemGenerated) r.get()).getSubItem() == subItem) return r;
-            return null;
-        }).findFirst();
-        if (!object.isPresent()) throw new NullPointerException();
-        return object.get().get();
+        RegistryObject<Item> found = null;
+        for (RegistryObject<Item> item : getItems()) {
+            if (((SubItemGenerated) item.get()).getSubItem() == subItem) {
+                found = item;
+                break;
+            }
+        }
+        if (found == null) throw new NullPointerException();
+        return found.get();
     }
 
     public boolean hasSubItem(SubItem subItem) {

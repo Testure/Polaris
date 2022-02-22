@@ -26,18 +26,15 @@ public class PromisedTag implements IPromisedTag {
         Polaris.TAGS.add(this);
     }
 
-    @Override
-    public IPromisedTag of(ResourceLocation tagLoc) {
+    public static IPromisedTag of(ResourceLocation tagLoc) {
         return new PromisedTag(tagLoc.getPath(), tagLoc.getNamespace());
     }
 
-    @Override
-    public IPromisedTag of(String tagName) {
+    public static IPromisedTag of(String tagName) {
         return new PromisedTag(tagName, null);
     }
 
-    @Override
-    public IPromisedTag of(String tagName, String modId) {
+    public static IPromisedTag of(String tagName, String modId) {
         return new PromisedTag(tagName, modId);
     }
 

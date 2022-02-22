@@ -17,10 +17,20 @@
   "block.polaris.block": "%s Block",
   "block.polaris.ore": "%s Ore",
   "block.polaris.creative_power_provider": "Creative Power Source",
+  "block.polaris.hull": "%s Machine Hull",
 
   "tooltip.polaris.voltage_in": "§7Voltage IN:§r %s (%s)",
   "tooltip.polaris.voltage_out": "§7Voltage OUT:§r %s (%s)",
   "tooltip.polaris.energy_storage": "§7Max Energy Capacity:§r %s",
+  "tooltip.polaris.hull_spawn": "§8Mobs Don't Spawn On This Block!",
+  "tooltip.polaris.hull_disclaimer": "§8Not Actually a TileEntity.",
+
+  "block.polaris.casing.ulv": "Simple Machine Casing",
+  "block.polaris.casing.lv": "Basic Machine Casing",
+  "block.polaris.casing.mv": "Advanced Machine Casing",
+  "block.polaris.casing.hv": "Advanced Machine Casing II",
+  "block.polaris.casing.ev": "Advanced Machine Casing III",
+  "block.polaris.casing.iv": "Advanced Machine Casing IV",
 
   "block.polaris.compressor_lv": "Basic Compressor",
   "block.polaris.compressor_mv": "Advanced Compressor",
@@ -29,6 +39,7 @@
   "block.polaris.compressor_iv": "Advanced Compressor IV",
   "block.polaris.compressor_luv": "Advanced Compressor V",
 
+  "flavor.polaris.hull": "§8You Just Need§r §aI§bm§ca§dg§ei§9n§aa§bt§ci§do§en§r §8To Use This",
   "flavor.polaris.compressor": "§8Compact!!",
 
   "fluid.polaris.steam": "Steam",

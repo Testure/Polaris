@@ -71,11 +71,12 @@ public class MaterialDeferredRegister {
 
         MaterialRegistryObject newMaterial = new MaterialRegistryObject(name, () -> material, items, blocks.size() > 0 ? blocks : null, fluid);
         materials.put(name, newMaterial);
+
+        Polaris.LOGGER.info(String.format("created material '%s'", name));
         return newMaterial;
     }
 
     public void register(IEventBus bus) {
-        Polaris.LOGGER.debug("Register");
         itemRegister.register(bus);
         blockRegister.register(bus);
     }

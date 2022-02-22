@@ -3,6 +3,7 @@ package turing.mods.polaris.container;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.inventory.container.Slot;
@@ -11,9 +12,11 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IWorldPosCallable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.SlotItemHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
+import turing.mods.polaris.Polaris;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
@@ -24,7 +27,7 @@ public class MachineContainer extends Container {
     final IItemHandler itemHandler;
     final Block block;
 
-    public MachineContainer(ContainerType<?> type, int windowId, World world, BlockPos pos, PlayerInventory inventory, PlayerEntity player, Block block) {
+    public MachineContainer(ContainerType<?> type, int windowId, World world, BlockPos pos, PlayerInventory inventory, PlayerEntity player, SlotInfoProvider slots, Block block) {
         super(type, windowId);
         this.tile = world.getBlockEntity(pos);
         this.player = player;
@@ -32,7 +35,11 @@ public class MachineContainer extends Container {
         this.block = block;
 
         if (this.tile != null) {
-
+            this.tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null).ifPresent(handler -> {
+                for (SlotInfoProvider.SlotInfo slotInfo : slots.getSlots()) {
+                    addSlot(new SlotItemHandler(handler, slotInfo.index, slotInfo.x, slotInfo.y));
+                }
+            });
         }
 
         layoutPlayerInventorySlots(10, 70);
