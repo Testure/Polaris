@@ -60,6 +60,8 @@
   "tool.polaris.saw": "%s Saw",
   "tool.polaris.screwdriver": "%s Screwdriver",
   "tool.polaris.crowbar": "%s Crowbar",
+  "tool.polaris.file": "%s File",
+  "tool.polaris.mortar": "%s Mortar",
 
   "subItem.polaris.bucket": "Bucket of %s",
   "item.polaris.ingot": "%s Ingot",
