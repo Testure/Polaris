@@ -12,6 +12,7 @@ import net.minecraftforge.fml.RegistryObject;
 import turing.mods.polaris.Polaris;
 import turing.mods.polaris.block.SubBlockItemGenerated;
 import turing.mods.polaris.item.SubItemGenerated;
+import turing.mods.polaris.item.ToolItemGenerated;
 import turing.mods.polaris.registry.ItemRegistry;
 import turing.mods.polaris.registry.MaterialRegistry;
 import turing.mods.polaris.registry.MaterialRegistryObject;
@@ -33,11 +34,19 @@ public class ModItemTagsProvider extends ItemTagsProvider {
         for (MaterialRegistryObject materialRegistryObject : MaterialRegistry.getMaterials().values()) {
             for (RegistryObject<Item> item : materialRegistryObject.getItems()) {
                 if (materialRegistryObject.get().existingItems == null || !materialRegistryObject.get().existingItems.contains(item.get())) {
-                    SubItemGenerated itemGenerated = (SubItemGenerated) item.get();
-                    String parentTag = itemGenerated.getSubItem().name().toLowerCase() + "s";
+                    if (item.get() instanceof SubItemGenerated) {
+                        SubItemGenerated itemGenerated = (SubItemGenerated) item.get();
+                        String parentTag = itemGenerated.getSubItem().name().toLowerCase() + "s";
 
-                    tag(PolarisTags.Items.forge(parentTag + "/" + materialRegistryObject.getName())).add(itemGenerated);
-                    tag(PolarisTags.Items.forge(parentTag)).add(itemGenerated);
+                        tag(PolarisTags.Items.forge(parentTag + "/" + materialRegistryObject.getName())).add(itemGenerated);
+                        tag(PolarisTags.Items.forge(parentTag)).add(itemGenerated);
+                    } else if (item.get() instanceof ToolItemGenerated) {
+                        ToolItemGenerated toolItemGenerated = (ToolItemGenerated) item.get();
+                        String parentTag = "crafting_tools";
+
+                        tag(PolarisTags.Items.CRAFTING_TOOLS).add(toolItemGenerated);
+                        tag(PolarisTags.Items.mod(parentTag + "/" + toolItemGenerated.getSubItem().name().toLowerCase())).add(toolItemGenerated);
+                    }
                 }
             }
             if (materialRegistryObject.hasBlocks()) {

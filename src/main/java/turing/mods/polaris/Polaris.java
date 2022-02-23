@@ -6,6 +6,7 @@ import net.minecraft.profiler.IProfiler;
 import net.minecraft.resources.IResourceManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.ToolType;
 import net.minecraftforge.event.AddReloadListenerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -42,6 +43,17 @@ public class Polaris {
 
     private static boolean hasResolvedBefore = false;
     public static boolean tagsResolved = false;
+
+    public static class ToolTypes {
+        public static final ToolType WRENCH = ToolType.get("wrench");
+        public static final ToolType HAMMER = ToolType.get("hammer");
+        public static final ToolType SOFT_HAMMER = ToolType.get("soft_hammer");
+        public static final ToolType CROWBAR = ToolType.get("crowbar");
+        public static final ToolType SCREWDRIVER = ToolType.get("screwdriver");
+        public static final ToolType SAW = ToolType.get("saw");
+        public static final ToolType MORTAR = ToolType.get("mortar");
+        public static final ToolType FILE = ToolType.get("file");
+    }
 
     public Polaris() {
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);

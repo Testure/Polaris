@@ -1,13 +1,8 @@
 package turing.mods.polaris.item;
 
-public interface IMaterialToolItem extends ITintedItem, IHandheldItem, ILayeredItem {
-    void getMaterial();
+import net.minecraft.item.IItemTier;
+import turing.mods.polaris.material.Material;
 
-    int getDurability();
-
-    float getEnchantability();
-
-    float getAttackDamage();
-
-    float getMiningSpeed();
+public interface IMaterialToolItem extends IItemTier, ITintedItem, IHandheldItem, ILayeredItem {
+    Material getMaterial();
 }

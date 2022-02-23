@@ -29,6 +29,7 @@ public class PolarisTags {
         public static final ITag.INamedTag<Item> CIRCUIT_BASIC = mod("circuit_basic");
         public static final ITag.INamedTag<Item> CIRCUIT_GOOD = mod("circuit_good");
         public static final ITag.INamedTag<Item> CIRCUIT_ADVANCED = mod("circuit_advanced");
+        public static final ITag.INamedTag<Item> CRAFTING_TOOLS = mod("crafting_tools");
 
         public static ITag.INamedTag<Item> forge(String path) {
             return ItemTags.bind(Polaris.forgeLoc(path).toString());

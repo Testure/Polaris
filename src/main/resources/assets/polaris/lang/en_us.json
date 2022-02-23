@@ -24,6 +24,8 @@
   "tooltip.polaris.energy_storage": "§7Max Energy Capacity:§r %s",
   "tooltip.polaris.hull_spawn": "§8Mobs Don't Spawn On This Block!",
   "tooltip.polaris.hull_disclaimer": "§8Not Actually a TileEntity.",
+  "tooltip.polaris.durability": "§aDurability:§r %s§r§7/§r%s",
+  "tooltip.polaris.mining_speed": "§9Mining Speed:§r %s",
 
   "block.polaris.casing.ulv": "Simple Machine Casing",
   "block.polaris.casing.lv": "Basic Machine Casing",
@@ -46,6 +48,18 @@
 
   "tooltip.polaris.wood_substrate": "§8A Primitive Substrate",
   "tooltip.polaris.wood_board": "§8A Primitive Circuit Board",
+
+  "tool.polaris.sword": "%s Sword",
+  "tool.polaris.pickaxe": "%s Pickaxe",
+  "tool.polaris.shovel": "%s Shovel",
+  "tool.polaris.hoe": "%s Hoe",
+  "tool.polaris.axe": "%s Axe",
+  "tool.polaris.hammer": "%s Hammer",
+  "tool.polaris.soft_hammer": "%s Soft Hammer",
+  "tool.polaris.wrench": "%s Wrench",
+  "tool.polaris.saw": "%s Saw",
+  "tool.polaris.screwdriver": "%s Screwdriver",
+  "tool.polaris.crowbar": "%s Crowbar",
 
   "subItem.polaris.bucket": "Bucket of %s",
   "item.polaris.ingot": "%s Ingot",

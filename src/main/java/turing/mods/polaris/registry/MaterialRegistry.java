@@ -16,8 +16,8 @@ public class MaterialRegistry {
             .ingot()
             .fluid(false, 1200)
             .addFlags(GenerationFlags.GENERATE_GEAR, GenerationFlags.GENERATE_SMALL_GEAR, GenerationFlags.GENERATE_SCREW, GenerationFlags.GENERATE_SPRING)
-            .mass(120)
-            .toolStats(100, 1.0F, 2.0F, 2.0F)
+            .mass(90)
+            .toolStats(1000, 1, 2.0F, 2.0F, 3.0F)
             .ore(1)
             .textureSet(TextureSet.METAL)
             .withExistingItems(Items.IRON_INGOT, Items.IRON_BLOCK, Items.IRON_AXE, Items.IRON_NUGGET, Items.IRON_HOE, Items.IRON_PICKAXE, Items.IRON_SHOVEL, Items.IRON_SWORD)
@@ -27,7 +27,7 @@ public class MaterialRegistry {
             .color(0xFFC1C1C1)
             .ingot()
             .addFlags(GenerationFlags.GENERATE_SCREW, GenerationFlags.NO_COMPRESSION)
-            .mass(120)
+            .mass(90)
             .magnetic()
             .textureSet(TextureSet.MAGNETIC)
             .buildAndRegister();
@@ -36,11 +36,10 @@ public class MaterialRegistry {
             .color(0xFFFF8A23)
             .ingot()
             .fluid(false, 1200)
-            .mass(80)
+            .mass(64)
             .ore(1)
             .addFlags(GenerationFlags.GENERATE_SPRING)
             .textureSet(TextureSet.SHINY_METAL)
-            .toolStats(100, 2.0F, 2.0F, 2.0F)
             .buildAndRegister();
 
     public static MaterialRegistryObject register(String name, MaterialBuilder builder) {

@@ -9,6 +9,7 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class MaterialBuilder {
     protected int mass = 20;
@@ -93,6 +94,19 @@ public class MaterialBuilder {
         return this;
     }
 
+    public MaterialBuilder soft() {
+        this.type = "soft";
+        this.subItems.addAll(Arrays.asList(
+                SubItem.INGOT,
+                SubItem.DUST,
+                SubItem.SMALL_DUST,
+                SubItem.TINY_DUST,
+                SubItem.PLATE,
+                SubItem.BLOCK
+        ));
+        return this;
+    }
+
     public MaterialBuilder withExistingItems(Item... items) {
         this.existingItems = Arrays.asList(items);
         return this;
@@ -136,13 +150,28 @@ public class MaterialBuilder {
         return this;
     }
 
-    public MaterialBuilder toolStats(int durability, float enchantability, float miningSpeed, float attackDamage) {
+    public MaterialBuilder toolStats(int durability, int enchantability, float miningSpeed, float attackDamage, float attackSpeed) {
         this.toolStats = ToolStats.Builder.builder()
                 .durability(durability)
                 .enchantability(enchantability)
                 .miningSpeed(miningSpeed)
                 .attackDamage(attackDamage)
+                .attackSpeed(attackSpeed)
                 .build();
+        this.subItems.addAll(Arrays.asList(
+                SubItem.SWORD,
+                SubItem.PICKAXE,
+                SubItem.SHOVEL,
+                SubItem.AXE,
+                SubItem.HOE,
+                SubItem.HAMMER,
+                SubItem.MORTAR,
+                SubItem.SAW,
+                SubItem.SCREWDRIVER,
+                SubItem.FILE
+        ));
+        if (Objects.equals(this.type, "ingot")) this.subItems.addAll(Arrays.asList(SubItem.WRENCH, SubItem.CROWBAR));
+        if (Objects.equals(this.type, "soft")) this.subItems.add(SubItem.SOFT_HAMMER);
         return this;
     }
 

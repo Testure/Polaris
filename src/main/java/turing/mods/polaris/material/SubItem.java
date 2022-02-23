@@ -1,5 +1,11 @@
 package turing.mods.polaris.material;
 
+import net.minecraftforge.common.ToolType;
+import turing.mods.polaris.Polaris;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 public enum SubItem {
     INGOT,
     DUST,
@@ -37,10 +43,14 @@ public enum SubItem {
     PICKAXE(false, true, true),
     SHOVEL(false, true, true),
     HOE(false, true, true),
-    CROWBAR(false, true, true),
+    CROWBAR(true, false, true),
     WRENCH(true, false, true),
     HAMMER(false, true, true),
     SOFT_HAMMER(false, true, true),
+    MORTAR(false, true, true),
+    SAW(false, true, true),
+    FILE(false, true, true),
+    SCREWDRIVER(false, true, true),
     GEM;
 
     private final boolean layer0Color;
@@ -71,5 +81,11 @@ public enum SubItem {
 
     public boolean isTool() {
         return tool;
+    }
+
+    @Nullable
+    public static ToolType getToolType(@Nonnull SubItem subItem) {
+        if (!subItem.isTool()) return null;
+        return ToolType.get(subItem.name().toLowerCase());
     }
 }

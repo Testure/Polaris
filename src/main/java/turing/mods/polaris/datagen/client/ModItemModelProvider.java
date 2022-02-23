@@ -38,6 +38,10 @@ public class ModItemModelProvider extends ItemModelProvider {
         public final ItemModelBuilder shovel;
         public final ItemModelBuilder pickaxe;
         public final ItemModelBuilder hoe;
+        public final ItemModelBuilder file;
+        public final ItemModelBuilder screwdriver;
+        public final ItemModelBuilder mortar;
+        public final ItemModelBuilder saw;
         public final Map<SubItem, ItemModelBuilder> toolModels;
 
         public SingletonModels(ModItemModelProvider provider) {
@@ -50,12 +54,20 @@ public class ModItemModelProvider extends ItemModelProvider {
             axe = provider.stickToolBuilder("axe", "item/material_sets/tools/axe");
             pickaxe = provider.stickToolBuilder("pickaxe", "item/material_sets/tools/pickaxe");
             hoe = provider.stickToolBuilder("hoe", "item/material_sets/tools/hoe");
+            file = provider.toolBuilder("file", "item/material_sets/tools/handle_file", "item/material_sets/tools/file");
+            saw = provider.toolBuilder("saw", "item/material_sets/tools/handle_saw", "item/material_sets/tools/saw");
+            screwdriver = provider.toolBuilder("screwdriver", "item/material_sets/tools/handle_screwdriver", "item/material_sets/tools/screwdriver");
+            mortar = provider.toolBuilder("mortar", "item/material_sets/tools/mortar_base", "item/material_sets/tools/mortar");
 
             toolModels = Lists.mapOf(
                     new Tuple<>(SubItem.CROWBAR, crowbar),
                     new Tuple<>(SubItem.WRENCH, wrench),
                     new Tuple<>(SubItem.HAMMER, hammer),
                     new Tuple<>(SubItem.SOFT_HAMMER, softHammer),
+                    new Tuple<>(SubItem.SCREWDRIVER, screwdriver),
+                    new Tuple<>(SubItem.FILE, file),
+                    new Tuple<>(SubItem.SAW, saw),
+                    new Tuple<>(SubItem.MORTAR, mortar),
                     new Tuple<>(SubItem.SWORD, sword),
                     new Tuple<>(SubItem.AXE, axe),
                     new Tuple<>(SubItem.SHOVEL, shovel),

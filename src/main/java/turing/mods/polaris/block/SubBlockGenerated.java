@@ -5,6 +5,10 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.loot.LootContext;
+import net.minecraft.loot.LootParameters;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
@@ -12,11 +16,16 @@ import net.minecraft.world.IBlockDisplayReader;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.ToolType;
+import turing.mods.polaris.Polaris;
 import turing.mods.polaris.material.Material;
 import turing.mods.polaris.material.SubItem;
+import turing.mods.polaris.registry.MaterialRegistry;
+import turing.mods.polaris.registry.MaterialRegistryObject;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.Collections;
+import java.util.List;
 import java.util.function.Supplier;
 
 public class SubBlockGenerated extends Block implements IRenderTypedBlock, ITintedBlock {
@@ -29,12 +38,27 @@ public class SubBlockGenerated extends Block implements IRenderTypedBlock, ITint
                 .sound(blockMaterial == net.minecraft.block.material.Material.METAL ? SoundType.METAL : SoundType.STONE)
                 .harvestLevel(harvestLevel)
                 .harvestTool(ToolType.PICKAXE)
-                .strength((float) harvestLevel + 1.5F, (float) harvestLevel + 3.0F)
-                .requiresCorrectToolForDrops()
+                .strength((float) harvestLevel + 0.5F, (float) harvestLevel + 1.5F)
         );
         this.name = name;
         this.material = material;
         this.subItem = subItem;
+    }
+
+    public List<ItemStack> getDrops(BlockState state, LootContext.Builder builder) {
+        ItemStack tool = builder.getOptionalParameter(LootParameters.TOOL);
+        if (tool != null && tool.getToolTypes().contains(Polaris.ToolTypes.HAMMER)) {
+            if (subItem == SubItem.ORE && getMaterial().getSubItems().contains(SubItem.CRUSHED_ORE)) {
+                MaterialRegistryObject registryObject = MaterialRegistry.getMaterials().get(getMaterial().getName());
+                Item crushedOre = registryObject.getItemFromSubItem(SubItem.CRUSHED_ORE);
+                if (crushedOre != null) return Collections.singletonList(new ItemStack(crushedOre, 1));
+            } else if (subItem == SubItem.BLOCK && getMaterial().getSubItems().contains(SubItem.DUST)) {
+                MaterialRegistryObject registryObject = MaterialRegistry.getMaterials().get(getMaterial().getName());
+                Item dust = registryObject.getItemFromSubItem(SubItem.DUST);
+                if (dust != null) return Collections.singletonList(new ItemStack(dust, 8));
+            }
+        }
+        return super.getDrops(state, builder);
     }
 
     @OnlyIn(Dist.CLIENT)
