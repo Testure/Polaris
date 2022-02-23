@@ -51,7 +51,7 @@ public class HullBlock extends Block implements IRenderTypedBlock {
     @Nonnull
     @Override
     public String getDescriptionId() {
-        return "block.polaris.hull";
+        return "block.polaris.hull." + Voltages.VOLTAGES[tier].name;
     }
 
     @Override
@@ -69,7 +69,7 @@ public class HullBlock extends Block implements IRenderTypedBlock {
     @Nonnull
     @OnlyIn(Dist.CLIENT)
     public IFormattableTextComponent getName() {
-        return new TranslationTextComponent(getDescriptionId(), new TranslationTextComponent(Voltages.getVoltageTierTranslationKey(tier)));
+        return new TranslationTextComponent(getDescriptionId());
     }
 
     @Override

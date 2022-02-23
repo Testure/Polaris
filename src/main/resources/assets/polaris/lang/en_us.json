@@ -17,7 +17,6 @@
   "block.polaris.block": "%s Block",
   "block.polaris.ore": "%s Ore",
   "block.polaris.creative_power_provider": "Creative Power Source",
-  "block.polaris.hull": "%s Machine Hull",
 
   "tooltip.polaris.voltage_in": "§7Voltage IN:§r %s (%s)",
   "tooltip.polaris.voltage_out": "§7Voltage OUT:§r %s (%s)",
@@ -33,6 +32,15 @@
   "block.polaris.casing.hv": "Advanced Machine Casing II",
   "block.polaris.casing.ev": "Advanced Machine Casing III",
   "block.polaris.casing.iv": "Advanced Machine Casing IV",
+  "block.polaris.casing.luv": "Advanced Machine Casing V",
+
+  "block.polaris.hull.ulv": "§8ULV§r Machine Hull",
+  "block.polaris.hull.lv": "§aLV§r Machine Hull",
+  "block.polaris.hull.mv": "§6MV§r Machine Hull",
+  "block.polaris.hull.hv": "§eHV§r Machine Hull",
+  "block.polaris.hull.ev": "§dEV§r Machine Hull",
+  "block.polaris.hull.iv": "§9IV§r Machine Hull",
+  "block.polaris.hull.luv": "§5LuV§r Machine Hull",
 
   "block.polaris.compressor_lv": "Basic Compressor",
   "block.polaris.compressor_mv": "Advanced Compressor",
