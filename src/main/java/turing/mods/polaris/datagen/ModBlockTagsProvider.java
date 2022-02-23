@@ -28,7 +28,7 @@ public class ModBlockTagsProvider extends BlockTagsProvider {
         for (MaterialRegistryObject materialRegistryObject : MaterialRegistry.getMaterials().values()) {
             if (materialRegistryObject.hasBlocks()) {
                 for (RegistryObject<Block> block : materialRegistryObject.getBlocks()) {
-                    if (materialRegistryObject.get().existingItems == null || !materialRegistryObject.get().existingItems.contains(block.get().asItem())) {
+                    if (materialRegistryObject.get().existingItems == null || !materialRegistryObject.get().existingItems.containsValue(block.get().asItem())) {
                         SubBlockGenerated blockGenerated = (SubBlockGenerated) block.get();
                         String parentTag = blockGenerated.getSubItem().name().toLowerCase() + "s";
 

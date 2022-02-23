@@ -45,18 +45,18 @@ public class MaterialDeferredRegister {
             if (builder.fluidStats.isGaseous()) attributes.gaseous();
             fluid = FluidRegistry.register(name, attributes);
         }
-        if (builder.oreStats != null && (builder.existingItems == null || builder.existingItems.stream().noneMatch(item -> item.getRegistryName().getPath().contains("ore")))) {
+        if (builder.oreStats != null && (builder.existingItems == null || !builder.existingItems.containsKey(SubItem.ORE))) {
             SubBlockGenerated block = new SubBlockGenerated(name + "_ore", () -> material, SubItem.ORE, Material.STONE, 1);
             blocks.add(BlockRegistry.registerCustomItem(name + "_ore", () -> block, () -> new SubBlockItemGenerated(block, () -> material)));
         }
-        if (builder.subItems.contains(SubItem.BLOCK) && (builder.existingItems == null || builder.existingItems.stream().noneMatch(item -> item.getRegistryName().getPath().contains("block")))) {
+        if (builder.subItems.contains(SubItem.BLOCK) && (builder.existingItems == null || !builder.existingItems.containsKey(SubItem.BLOCK))) {
             SubBlockGenerated block = new SubBlockGenerated(name + "_block", () -> material, SubItem.BLOCK, Material.METAL, 1);
             blocks.add(BlockRegistry.registerCustomItem(name + "_block", () -> block, () -> new SubBlockItemGenerated(block, () -> material)));
         }
 
         for (int i = 0; i < material.getSubItems().size(); i++) {
             int finalI = i;
-            if (builder.existingItems == null || builder.existingItems.stream().noneMatch(item -> item.getRegistryName().getPath().contains(material.getSubItems().get(finalI).name().toLowerCase()))) {
+            if (builder.existingItems == null || !builder.existingItems.containsKey(material.getSubItems().get(i))) {
                 switch (material.getSubItems().get(i)) {
                     case ORE:
                     case BLOCK:

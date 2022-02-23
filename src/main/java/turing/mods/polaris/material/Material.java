@@ -7,6 +7,7 @@ import turing.mods.polaris.item.ITintedItem;
 
 import javax.annotation.Nonnull;
 import java.util.List;
+import java.util.Map;
 
 public class Material implements ITintedItem {
     public int mass;
@@ -17,7 +18,7 @@ public class Material implements ITintedItem {
     protected List<GenerationFlags> flags;
     protected List<Tuple<Material, Integer>> components;
     public TextureSet textureSet;
-    public List<Item> existingItems;
+    public Map<SubItem, Item> existingItems;
     protected ToolStats toolStats;
     protected FluidStats fluidStats;
     protected OreStats oreStats;
@@ -41,7 +42,7 @@ public class Material implements ITintedItem {
         this.magnetic = magnetic;
     }
 
-    public Material withExistingItems(List<Item> items) {
+    public Material withExistingItems(Map<SubItem, Item> items) {
         this.existingItems = items;
         return this;
     }

@@ -1,15 +1,29 @@
 package turing.mods.polaris.registry;
 
+import net.minecraft.item.Item;
 import net.minecraft.item.Items;
+import net.minecraft.util.Tuple;
 import net.minecraftforge.eventbus.api.IEventBus;
 import turing.mods.polaris.material.GenerationFlags;
 import turing.mods.polaris.material.MaterialBuilder;
+import turing.mods.polaris.material.SubItem;
 import turing.mods.polaris.material.TextureSet;
 
 import java.util.Map;
 
 public class MaterialRegistry {
     private static final MaterialDeferredRegister MATERIAL_DEFERRED_REGISTER = new MaterialDeferredRegister();
+
+    private static final Tuple<SubItem, Item>[] IRON_EXISTING = new Tuple[]{
+            new Tuple<>(SubItem.INGOT, Items.IRON_INGOT),
+            new Tuple<>(SubItem.BLOCK, Items.IRON_BLOCK),
+            new Tuple<>(SubItem.AXE, Items.IRON_AXE),
+            new Tuple<>(SubItem.NUGGET, Items.IRON_NUGGET),
+            new Tuple<>(SubItem.HOE, Items.IRON_HOE),
+            new Tuple<>(SubItem.PICKAXE, Items.IRON_PICKAXE),
+            new Tuple<>(SubItem.SHOVEL, Items.IRON_SHOVEL),
+            new Tuple<>(SubItem.SWORD, Items.IRON_SWORD)
+    };
 
     public static final MaterialRegistryObject IRON = MaterialBuilder.builder("iron")
             .color(0xFFC1C1C1)
@@ -20,7 +34,7 @@ public class MaterialRegistry {
             .toolStats(1000, 1, 2.0F, 2.0F, 3.0F)
             .ore(1)
             .textureSet(TextureSet.METAL)
-            .withExistingItems(Items.IRON_INGOT, Items.IRON_BLOCK, Items.IRON_AXE, Items.IRON_NUGGET, Items.IRON_HOE, Items.IRON_PICKAXE, Items.IRON_SHOVEL, Items.IRON_SWORD)
+            .withExistingItems(IRON_EXISTING)
             .buildAndRegister();
 
     public static final MaterialRegistryObject MAGNETIC_IRON = MaterialBuilder.builder("magnetic_iron")

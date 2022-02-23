@@ -57,7 +57,7 @@ public class ModBlockStateProvider extends BlockStateProvider {
         for (MaterialRegistryObject materialRegistryObject : MaterialRegistry.getMaterials().values()) {
             if (materialRegistryObject.hasBlocks()) {
                 for (RegistryObject<Block> block : materialRegistryObject.getBlocks()) {
-                    if (materialRegistryObject.get().existingItems == null || !materialRegistryObject.get().existingItems.contains(block.get().asItem())) {
+                    if (materialRegistryObject.get().existingItems == null || !materialRegistryObject.get().existingItems.containsValue(block.get().asItem())) {
                         SubBlockGenerated subBlockGenerated = (SubBlockGenerated) block.get();
                         simpleBlock(block.get(), models().getExistingFile(modLoc("block/" + materialRegistryObject.get().textureSet.name().toLowerCase() + "_" + subBlockGenerated.getSubItem().name().toLowerCase())));
                     }

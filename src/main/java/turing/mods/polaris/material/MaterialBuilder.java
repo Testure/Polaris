@@ -4,12 +4,10 @@ import net.minecraft.item.Item;
 import net.minecraft.util.Tuple;
 import turing.mods.polaris.registry.MaterialRegistry;
 import turing.mods.polaris.registry.MaterialRegistryObject;
+import turing.mods.polaris.util.Lists;
 
 import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class MaterialBuilder {
     protected int mass = 20;
@@ -23,7 +21,7 @@ public class MaterialBuilder {
     public OreStats oreStats;
     public TextureSet textureSet = TextureSet.METAL;
     protected List<Tuple<Material, Integer>> components;
-    public List<Item> existingItems;
+    public Map<SubItem, Item> existingItems;
     public Object cableStats;
     public Object fluidPipeStats;
     public Object itemPipeStats;
@@ -107,8 +105,9 @@ public class MaterialBuilder {
         return this;
     }
 
-    public MaterialBuilder withExistingItems(Item... items) {
-        this.existingItems = Arrays.asList(items);
+    public MaterialBuilder withExistingItems(Tuple<SubItem, Item>... items) {
+        this.existingItems = new HashMap<>();
+        Arrays.stream(items).forEach(item -> this.existingItems.put(item.getA(), item.getB()));
         return this;
     }
 
@@ -217,6 +216,7 @@ public class MaterialBuilder {
 
     public Material build() {
         for (GenerationFlags flag : this.flags) processFlag(flag);
-        return new Material(this.name, this.type, this.mass, this.color, this.subItems, this.flags, this.components, this.toolStats, this.fluidStats, this.oreStats, this.textureSet, this.magnetic);
+        Material material = new Material(this.name, this.type, this.mass, this.color, this.subItems, this.flags, this.components, this.toolStats, this.fluidStats, this.oreStats, this.textureSet, this.magnetic);
+        return (existingItems != null && !existingItems.isEmpty()) ? material.withExistingItems(existingItems) : material;
     }
 }

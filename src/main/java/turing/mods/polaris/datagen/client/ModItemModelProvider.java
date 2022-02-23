@@ -119,14 +119,14 @@ public class ModItemModelProvider extends ItemModelProvider {
         for (MaterialRegistryObject materialRegistryObject : MaterialRegistry.getMaterials().values()) {
             if (materialRegistryObject.hasBlocks()) {
                 for (RegistryObject<Block> block : materialRegistryObject.getBlocks()) {
-                    if (materialRegistryObject.get().existingItems == null || !materialRegistryObject.get().existingItems.contains(block.get().asItem())) {
+                    if (materialRegistryObject.get().existingItems == null || !materialRegistryObject.get().existingItems.containsValue(block.get().asItem())) {
                         SubBlockGenerated subBlockGenerated = (SubBlockGenerated) block.get();
                         withExistingParent(block.get().getRegistryName().getPath(), modLoc("block/" + materialRegistryObject.get().textureSet.name().toLowerCase() + "_" + subBlockGenerated.getSubItem().name().toLowerCase()));
                     }
                 }
             }
             for (RegistryObject<Item> item : materialRegistryObject.getItems()) {
-                if (materialRegistryObject.get().existingItems == null || !materialRegistryObject.get().existingItems.contains(item.get())) {
+                if (materialRegistryObject.get().existingItems == null || !materialRegistryObject.get().existingItems.containsValue(item.get())) {
                     String itemName = item.get().getRegistryName().getPath();
                     SubItem subItem = SubItem.valueOf(itemName.replaceFirst(materialRegistryObject.getName() + "_", "").toUpperCase());
                     if (!subItem.isTool())

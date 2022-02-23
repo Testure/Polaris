@@ -33,7 +33,7 @@ public class ModItemTagsProvider extends ItemTagsProvider {
     private void addMaterialTags() {
         for (MaterialRegistryObject materialRegistryObject : MaterialRegistry.getMaterials().values()) {
             for (RegistryObject<Item> item : materialRegistryObject.getItems()) {
-                if (materialRegistryObject.get().existingItems == null || !materialRegistryObject.get().existingItems.contains(item.get())) {
+                if (materialRegistryObject.get().existingItems == null || !materialRegistryObject.get().existingItems.containsValue(item.get())) {
                     if (item.get() instanceof SubItemGenerated) {
                         SubItemGenerated itemGenerated = (SubItemGenerated) item.get();
                         String parentTag = itemGenerated.getSubItem().name().toLowerCase() + "s";
@@ -51,7 +51,7 @@ public class ModItemTagsProvider extends ItemTagsProvider {
             }
             if (materialRegistryObject.hasBlocks()) {
                 for (RegistryObject<Block> block : materialRegistryObject.getBlocks()) {
-                    if (materialRegistryObject.get().existingItems == null || !materialRegistryObject.get().existingItems.contains(block.get().asItem())) {
+                    if (materialRegistryObject.get().existingItems == null || !materialRegistryObject.get().existingItems.containsValue(block.get().asItem())) {
                         SubBlockItemGenerated blockItem = (SubBlockItemGenerated) block.get().asItem();
                         String parentTag = blockItem.getSubItem().name().toLowerCase() + "s";
 

@@ -1,6 +1,7 @@
 package turing.mods.polaris.registry;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.Blocks;
 import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.client.renderer.color.BlockColors;
 import net.minecraft.client.renderer.color.ItemColors;
@@ -9,16 +10,15 @@ import net.minecraft.item.Items;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.RegistryObject;
+import turing.mods.polaris.Polaris;
 import turing.mods.polaris.block.SubBlockGenerated;
 import turing.mods.polaris.item.SubItemGenerated;
+import turing.mods.polaris.item.ToolItemGenerated;
 import turing.mods.polaris.material.Material;
 import turing.mods.polaris.material.SubItem;
 
 import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.function.Supplier;
 
 public class MaterialRegistryObject {
@@ -57,25 +57,47 @@ public class MaterialRegistryObject {
 
     public Item getItemFromSubItem(SubItem subItem) {
         if (hasBlocks() && blocks.stream().anyMatch(r -> ((SubBlockGenerated) r.get()).getSubItem() == subItem)) {
-            RegistryObject<Block> found = null;
-            for (RegistryObject<Block> block : getBlocks()) {
-                if (((SubBlockGenerated) block.get()).getSubItem() == subItem) {
-                    found = block;
+            Block found = null;
+            if (get().existingItems != null) {
+                for (Map.Entry<SubItem, Item> item : get().existingItems.entrySet()) {
+                    if (Block.byItem(item.getValue()) != Blocks.AIR && item.getKey() == subItem) {
+                        found = Block.byItem(item.getValue());
+                        break;
+                    }
+                }
+            }
+            if (found == null)
+                for (RegistryObject<Block> block : getBlocks()) {
+                    if (((SubBlockGenerated) block.get()).getSubItem() == subItem) {
+                        found = block.get();
+                        break;
+                    }
+                }
+            if (found == null) throw new NullPointerException();
+            return found.asItem();
+        }
+        Item found = null;
+        if (get().existingItems != null) {
+            for (Map.Entry<SubItem, Item> item : get().existingItems.entrySet()) {
+                if (item.getKey() == subItem) {
+                    found = item.getValue();
                     break;
                 }
             }
-            if (found == null) throw new NullPointerException();
-            return found.get().asItem();
         }
-        RegistryObject<Item> found = null;
-        for (RegistryObject<Item> item : getItems()) {
-            if (((SubItemGenerated) item.get()).getSubItem() == subItem) {
-                found = item;
-                break;
+        if (found == null)
+            for (RegistryObject<Item> item : getItems()) {
+                if (item.get() instanceof SubItemGenerated && ((SubItemGenerated) item.get()).getSubItem() == subItem) {
+                    found = item.get();
+                    break;
+                }
+                if (item.get() instanceof ToolItemGenerated && ((ToolItemGenerated) item.get()).getSubItem() == subItem) {
+                    found = item.get();
+                    break;
+                }
             }
-        }
         if (found == null) throw new NullPointerException();
-        return found.get();
+        return found;
     }
 
     public boolean hasSubItem(SubItem subItem) {

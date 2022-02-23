@@ -44,7 +44,7 @@ public class ModLootTableProvider extends BaseLootTableProvider {
         for (MaterialRegistryObject materialRegistryObject : MaterialRegistry.getMaterials().values()) {
             if (materialRegistryObject.hasBlocks()) {
                 for (RegistryObject<Block> block : materialRegistryObject.getBlocks()) {
-                    if (materialRegistryObject.get().existingItems == null || !materialRegistryObject.get().existingItems.contains(block.get().asItem())) {
+                    if (materialRegistryObject.get().existingItems == null || !materialRegistryObject.get().existingItems.containsValue(block.get().asItem())) {
                         lootTables.put(block.get(), createBasicTable(block.get().getRegistryName().getPath(), block.get()));
                     }
                 }
