@@ -1,12 +1,15 @@
 package turing.mods.polaris.client;
 
+import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.client.renderer.color.BlockColors;
 import net.minecraft.client.renderer.color.ItemColors;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import turing.mods.polaris.Polaris;
@@ -32,6 +35,7 @@ public class ClientSetup {
         setupItemColors(itemColors);
         materialClientSetup(itemColors, blockColors);
         setupBucketColors(itemColors);
+        setHullRenderTypes();
     }
 
     private static void machineClientSetup() {
@@ -51,6 +55,12 @@ public class ClientSetup {
         ItemRegistry.ITEMS.forEach(item -> {
             if (item.get() instanceof ITintedItem) itemColors.register(((ITintedItem) item.get())::getColor, item.get());
         });
+    }
+
+    private static void setHullRenderTypes() {
+        for (RegistryObject<Block> hull : BlockRegistry.HULLS) {
+            RenderTypeLookup.setRenderLayer(hull.get(), RenderType.cutoutMipped());
+        }
     }
 
     private static void blockClientSetup(BlockColors blockColors) {
