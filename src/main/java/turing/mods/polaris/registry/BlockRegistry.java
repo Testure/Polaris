@@ -43,6 +43,7 @@ public class BlockRegistry {
         RegistryObject<T> block = registerNoItem(name, supplier);
         Item.Properties properties = new Item.Properties().tab(Polaris.MISC);
         Registration.ITEMS.register(name, () -> new BlockItem(block.get(), properties));
+        BLOCKS.add((RegistryObject<Block>) block);
         return block;
     }
 

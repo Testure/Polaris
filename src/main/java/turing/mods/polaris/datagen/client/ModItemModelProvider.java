@@ -83,7 +83,7 @@ public class ModItemModelProvider extends ItemModelProvider {
         ModelFile itemGenerated = getExistingFile(mcLoc("item/generated"));
         ModelFile itemHandheld = getExistingFile(mcLoc("item/handheld"));
 
-        withExistingParent("creative_power_provider", modLoc("block/creative_power_provider"));
+        withExistingParent("creative_power_provider", modLoc("block/creative_power_provider_1_amps"));
 
         casingModels();
         hullModels();

@@ -29,6 +29,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public class MachineBlock extends Block {
+    public static final IntegerProperty AMPERAGE_OUTPUT = IntegerProperty.create("amperage_output", 1, 5);
     public static final IntegerProperty TIER = IntegerProperty.create("tier", 0, Voltages.VOLTAGES.length);
 
     protected final int tier;

@@ -23,6 +23,9 @@
   "tooltip.polaris.energy_storage": "§7Max Energy Capacity:§r %s",
   "tooltip.polaris.hull_spawn": "§8Mobs Don't Spawn On This Block!",
   "tooltip.polaris.hull_disclaimer": "§8Not Actually a TileEntity.",
+  "tooltip.polaris.creative": "§7Outputs Energy From Nothing",
+  "tooltip.polaris.creative1": "§7Hit With a Hammer To Configure§r §cAmperage§r §7Output",
+  "tooltip.polaris.creative2": "§7Hit With a Soft Hammer To Configure§r §aVoltage§r §7Output",
   "tooltip.polaris.durability": "§aDurability:§r %s§r§7/§r%s",
   "tooltip.polaris.mining_speed": "§9Mining Speed:§r %s",
 
@@ -51,6 +54,7 @@
 
   "flavor.polaris.hull": "§8You Just Need§r §aI§bm§ca§dg§ei§9n§aa§bt§ci§do§en§r §8To Use This",
   "flavor.polaris.compressor": "§8Compact!!",
+  "flavor.polaris.creative": "§8Tastes Like Guilt",
 
   "fluid.polaris.steam": "Steam",
 

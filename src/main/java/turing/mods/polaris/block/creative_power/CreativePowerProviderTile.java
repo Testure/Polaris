@@ -5,13 +5,16 @@ import net.minecraft.block.BlockState;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
+import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
+import net.minecraftforge.common.util.Constants;
 import tesseract.api.capability.TesseractGTCapability;
 import tesseract.api.gt.GTTransaction;
 import turing.mods.polaris.Polaris;
 import turing.mods.polaris.Voltages;
+import turing.mods.polaris.block.MachineBlock;
 import turing.mods.polaris.registry.TileRegistry;
 import turing.mods.polaris.tile.MachineEnergyHandler;
 import turing.mods.polaris.tile.MachineTile;
@@ -37,11 +40,13 @@ public class CreativePowerProviderTile extends MachineTile implements ITickableT
     public void adjustAmps() {
         amperage *= 2L;
         if (amperage > 16L) amperage = 1L;
+        updateState();
     }
 
     public void adjustVoltage() {
         voltageTier += 1;
         if (voltageTier >= Voltages.VOLTAGES.length) voltageTier = 0;
+        updateState();
     }
 
     private CompoundNBT writeConfig(CompoundNBT tag) {
@@ -53,24 +58,28 @@ public class CreativePowerProviderTile extends MachineTile implements ITickableT
     private void readConfig(CompoundNBT tag) {
         this.voltageTier = tag.getInt("voltageConfig");
         this.amperage = tag.getLong("amperageConfig");
+        updateState();
+    }
+
+    private void updateState() {
+        if (level == null || level.isClientSide) return;
+        level.setBlock(getBlockPos(), getBlockState().setValue(MachineBlock.AMPERAGE_OUTPUT, Voltages.getAmpIndex(amperage) + 1), Constants.BlockFlags.RERENDER_MAIN_THREAD);
     }
 
     @Override
     public void tick() {
         if (level == null || level.isClientSide) return;
         if (this.energyHandler.getEnergy() < this.energyHandler.getCapacity()) this.energyHandler.setEnergy(this.energyHandler.getCapacity());
-        Polaris.LOGGER.info(amperage);
-        for (Direction direction : Direction.values()) {
-            TileEntity te = level.getBlockEntity(getBlockPos().relative(direction));
-            if (te != null) {
-                te.getCapability(TesseractGTCapability.ENERGY_HANDLER_CAPABILITY, direction.getOpposite()).ifPresent(handler -> {
-                    if (handler.canInput()) {
-                        Voltages.Voltage voltage = Voltages.VOLTAGES[voltageTier];
-                        GTTransaction transaction = new GTTransaction(amperage, voltage.energy, energyHandler::extractEnergy);
-                        if (handler.insert(transaction)) transaction.commit();
-                    }
-                });
-            }
+        Direction direction = level.getBlockState(getBlockPos()).getValue(BlockStateProperties.FACING);
+        TileEntity te = level.getBlockEntity(getBlockPos().relative(direction));
+        if (te != null) {
+            te.getCapability(TesseractGTCapability.ENERGY_HANDLER_CAPABILITY, direction.getOpposite()).ifPresent(handler -> {
+                if (handler.canInput()) {
+                    Voltages.Voltage voltage = Voltages.VOLTAGES[voltageTier];
+                    GTTransaction transaction = new GTTransaction(amperage, voltage.energy, energyHandler::extractEnergy);
+                    if (handler.insert(transaction)) transaction.commit();
+                }
+            });
         }
     }
 

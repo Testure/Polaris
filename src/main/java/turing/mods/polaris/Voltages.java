@@ -6,13 +6,14 @@ import java.util.List;
 
 public class Voltages {
     public static final Voltage[] VOLTAGES = new Voltage[]{
-            new Voltage(8, "ulv"),
-            new Voltage(32, "lv"),
-            new Voltage(128, "mv"),
-            new Voltage(512, "hv"),
-            new Voltage(2048, "ev"),
-            new Voltage(8192, "iv")
+            new Voltage(8, "ulv", 0xFF555555),
+            new Voltage(32, "lv", 0xFFAAAAAA),
+            new Voltage(128, "mv", 0xFFFFAA00),
+            new Voltage(512, "hv", 0xFFFFFF55),
+            new Voltage(2048, "ev", 0xFFAA00AA),
+            new Voltage(8192, "iv", 0xFF5555FF)
     };
+    public static final long[] AMPS = new long[]{1L, 2L, 4L, 8L, 16L};
 
     public static final int ULV = 0;
     public static final int LV = 1;
@@ -22,6 +23,13 @@ public class Voltages {
     public static final int IV = 5;
 
     private static final int STORAGE_MULTIPLIER = 64;
+
+    public static int getAmpIndex(long amps) {
+        for (int i = 0; i < AMPS.length; i++) {
+            if (AMPS[i] == amps) return i;
+        }
+        return 0;
+    }
 
     @Nullable
     public static String voltageToString(int voltage) {
@@ -59,11 +67,13 @@ public class Voltages {
         public final int energy;
         public final String name;
         public final int capacity;
+        public final int color;
 
-        public Voltage(int energy, String name) {
+        public Voltage(int energy, String name, int color) {
             this.energy = energy;
             this.name = name;
             this.capacity = getEnergyCapacity(energy);
+            this.color = color;
         }
     }
 }

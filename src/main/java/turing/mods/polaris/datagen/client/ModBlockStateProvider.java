@@ -27,8 +27,7 @@ public class ModBlockStateProvider extends BlockStateProvider {
         createFluidBlockStates();
         casingBlockStates();
         hullBlockStates();
-
-        simpleBlock(BlockRegistry.CREATIVE_POWER_PROVIDER.get(), models().getExistingFile(modLoc("block/creative_power_provider")));
+        MachineBlockStates.createCreativePowerProviderModel(this);
 
         MachineBlockStates.createCompressorModel(this, MachineRegistry.COMPRESSOR);
     }
