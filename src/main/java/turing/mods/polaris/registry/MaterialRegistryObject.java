@@ -10,6 +10,7 @@ import net.minecraft.item.Items;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.RegistryObject;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import turing.mods.polaris.Polaris;
 import turing.mods.polaris.block.SubBlockGenerated;
 import turing.mods.polaris.item.SubItemGenerated;
@@ -113,13 +114,13 @@ public class MaterialRegistryObject {
     }
 
     @OnlyIn(Dist.CLIENT)
-    public void doClientSetup(ItemColors itemColors, BlockColors blockColors) {
-        getItems().forEach(item -> itemColors.register((a, b) -> get().getColor(a, b), item.get()));
+    public void doClientSetup(FMLClientSetupEvent event, ItemColors itemColors, BlockColors blockColors) {
+        event.enqueueWork(() -> getItems().forEach(item -> itemColors.register((a, b) -> get().getColor(a, b), item.get())));
         if (hasBlocks())
-            getBlocks().forEach(block -> {
+            event.enqueueWork(() -> getBlocks().forEach(block -> {
                 blockColors.register(((SubBlockGenerated) block.get())::getColor, block.get());
                 itemColors.register((stack, layer) -> get().color, block.get().asItem());
                 RenderTypeLookup.setRenderLayer(block.get(), ((SubBlockGenerated) block.get()).getRenderType());
-            });
+            }));
     }
 }

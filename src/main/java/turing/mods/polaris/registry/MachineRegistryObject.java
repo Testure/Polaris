@@ -15,6 +15,7 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.RegistryObject;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import turing.mods.polaris.container.MachineContainer;
 import turing.mods.polaris.screen.MachineScreen;
 
@@ -55,8 +56,8 @@ public class MachineRegistryObject<T extends TileEntity, B extends Block, I exte
     }
 
     @OnlyIn(Dist.CLIENT)
-    public void doClientSetup() {
-        getBlocks().forEach(block -> RenderTypeLookup.setRenderLayer(block.get(), RenderType.cutoutMipped()));
+    public void doClientSetup(FMLClientSetupEvent event) {
+        event.enqueueWork(() -> getBlocks().forEach(block -> RenderTypeLookup.setRenderLayer(block.get(), RenderType.cutoutMipped())));
         for (RegistryObject<ContainerType<?>> container : containers)
             ScreenManager.register((ContainerType<? extends MachineContainer>) container.get(), screenSupplier::apply);
     }

@@ -20,27 +20,27 @@ import turing.mods.polaris.registry.*;
 public class ClientSetup {
     @SubscribeEvent
     public static void init(FMLClientSetupEvent event) {
-        registerClient();
+        registerClient(event);
     }
 
-    public static void registerClient() {
+    public static void registerClient(FMLClientSetupEvent event) {
         ItemColors itemColors = Minecraft.getInstance().getItemColors();
         BlockColors blockColors = Minecraft.getInstance().getBlockColors();
 
-        machineClientSetup();
-        blockClientSetup(blockColors, itemColors);
-        setupItemColors(itemColors);
-        materialClientSetup(itemColors, blockColors);
-        setupBucketColors(itemColors);
+        machineClientSetup(event);
+        event.enqueueWork(() -> blockClientSetup(blockColors, itemColors));
+        event.enqueueWork(() -> setupItemColors(itemColors));
+        materialClientSetup(itemColors, blockColors, event);
+        event.enqueueWork(() -> setupBucketColors(itemColors));
     }
 
-    private static void machineClientSetup() {
+    private static void machineClientSetup(FMLClientSetupEvent event) {
         MachineRegistry.initScreens();
-        MachineRegistry.getMachines().forEach((name, machine) -> machine.doClientSetup());
+        MachineRegistry.getMachines().forEach((name, machine) -> machine.doClientSetup(event));
     }
 
-    private static void materialClientSetup(ItemColors itemColors, BlockColors blockColors) {
-        MaterialRegistry.getMaterials().forEach((name, material) -> material.doClientSetup(itemColors, blockColors));
+    private static void materialClientSetup(ItemColors itemColors, BlockColors blockColors, FMLClientSetupEvent event) {
+        MaterialRegistry.getMaterials().forEach((name, material) -> material.doClientSetup(event, itemColors, blockColors));
     }
 
     private static void setupBucketColors(ItemColors itemColors) {
