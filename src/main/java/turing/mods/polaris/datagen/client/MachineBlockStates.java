@@ -31,11 +31,22 @@ public class MachineBlockStates {
         };
         ResourceLocation baseModel = provider.modLoc("block/machine_energy_out");
         ModelFile[] files = new ModelFile[outputs.length];
+        ModelFile[] files1 = new ModelFile[outputs.length];
 
         for (int i = 0; i < outputs.length; i++) {
             BlockModelBuilder builder = provider.models().withExistingParent("creative_power_provider_" + (i + 1) + "_amps", baseModel);
+            BlockModelBuilder builder1 = provider.models().withExistingParent("creative_power_provider_" + (i + 1) + "_amps_hack", baseModel);
 
             builder.texture("all", txt)
+                    .texture("front", txt)
+                    .texture("top_overlay", overlay)
+                    .texture("bottom_overlay", overlay)
+                    .texture("left_overlay", overlay)
+                    .texture("right_overlay", overlay)
+                    .texture("front_overlay", outputs[i])
+                    .texture("back_overlay", overlay);
+            builder1.texture("all", txt)
+                    .texture("front", overlay)
                     .texture("top_overlay", overlay)
                     .texture("bottom_overlay", overlay)
                     .texture("left_overlay", overlay)
@@ -43,9 +54,10 @@ public class MachineBlockStates {
                     .texture("front_overlay", outputs[i])
                     .texture("back_overlay", overlay);
             files[i] = builder;
+            files1[i] = builder1;
         }
 
-        provider.directionalBlockFixed(BlockRegistry.CREATIVE_POWER_PROVIDER.get(), state -> files[state.getValue(MachineBlock.AMPERAGE_OUTPUT) - 1]);
+        provider.directionalBlockFixed(BlockRegistry.CREATIVE_POWER_PROVIDER.get(), state -> state.getValue(MachineBlock.BLOCK_STATE_UPDATE_HACK) ? files1[state.getValue(MachineBlock.AMPERAGE_OUTPUT) - 1] : files[state.getValue(MachineBlock.AMPERAGE_OUTPUT) - 1]);
     }
 
     public static void createCasingModel(ModBlockStateProvider provider, Block block, int tier, boolean isHull) {

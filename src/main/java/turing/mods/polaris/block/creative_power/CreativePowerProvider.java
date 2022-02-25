@@ -80,7 +80,7 @@ public class CreativePowerProvider extends Block implements ITintedBlock, IRende
     }
 
     protected BlockState getDefaultState() {
-        return defaultBlockState().setValue(MachineBlock.AMPERAGE_OUTPUT, 1).setValue(BlockStateProperties.FACING, Direction.NORTH);
+        return defaultBlockState().setValue(MachineBlock.AMPERAGE_OUTPUT, 1).setValue(BlockStateProperties.FACING, Direction.NORTH).setValue(MachineBlock.BLOCK_STATE_UPDATE_HACK, false);
     }
 
     @Override
@@ -122,6 +122,6 @@ public class CreativePowerProvider extends Block implements ITintedBlock, IRende
 
     @Override
     protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
-        builder.add(MachineBlock.AMPERAGE_OUTPUT, BlockStateProperties.FACING);
+        builder.add(MachineBlock.AMPERAGE_OUTPUT, BlockStateProperties.FACING, MachineBlock.BLOCK_STATE_UPDATE_HACK);
     }
 }

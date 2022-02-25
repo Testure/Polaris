@@ -10,6 +10,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.BlockItemUseContext;
+import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.IntegerProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.tileentity.TileEntity;
@@ -31,6 +32,9 @@ import javax.annotation.ParametersAreNonnullByDefault;
 public class MachineBlock extends Block {
     public static final IntegerProperty AMPERAGE_OUTPUT = IntegerProperty.create("amperage_output", 1, 5);
     public static final IntegerProperty TIER = IntegerProperty.create("tier", 0, Voltages.VOLTAGES.length);
+
+    //THIS IS A HORRIBLE HACK PLEASE FIX
+    public static final BooleanProperty BLOCK_STATE_UPDATE_HACK = BooleanProperty.create("hack");
 
     protected final int tier;
 

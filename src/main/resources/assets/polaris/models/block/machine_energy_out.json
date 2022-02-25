@@ -3,6 +3,7 @@
   "textures": {
     "particle": "#all",
     "all": "#all",
+    "front": "#front",
     "top_overlay": "#top_overlay",
     "bottom_overlay": "#bottom_overlay",
     "left_overlay": "#left_overlay",

@@ -40,13 +40,13 @@ public class CreativePowerProviderTile extends MachineTile implements ITickableT
     public void adjustAmps() {
         amperage *= 2L;
         if (amperage > 16L) amperage = 1L;
-        updateState();
+        updateState(false);
     }
 
     public void adjustVoltage() {
         voltageTier += 1;
         if (voltageTier >= Voltages.VOLTAGES.length) voltageTier = 0;
-        updateState();
+        updateState(true);
     }
 
     private CompoundNBT writeConfig(CompoundNBT tag) {
@@ -58,12 +58,13 @@ public class CreativePowerProviderTile extends MachineTile implements ITickableT
     private void readConfig(CompoundNBT tag) {
         this.voltageTier = tag.getInt("voltageConfig");
         this.amperage = tag.getLong("amperageConfig");
-        updateState();
+        updateState(true);
     }
 
-    private void updateState() {
+    private void updateState(boolean hackUpdate) {
         if (level == null || level.isClientSide) return;
-        level.setBlock(getBlockPos(), getBlockState().setValue(MachineBlock.AMPERAGE_OUTPUT, Voltages.getAmpIndex(amperage) + 1), Constants.BlockFlags.RERENDER_MAIN_THREAD);
+        BlockState newState = getBlockState().setValue(MachineBlock.AMPERAGE_OUTPUT, Voltages.getAmpIndex(amperage) + 1);
+        level.setBlock(getBlockPos(), !hackUpdate ? newState : newState.setValue(MachineBlock.BLOCK_STATE_UPDATE_HACK, !newState.getValue(MachineBlock.BLOCK_STATE_UPDATE_HACK)), Constants.BlockFlags.BLOCK_UPDATE + Constants.BlockFlags.RERENDER_MAIN_THREAD);
     }
 
     @Override
