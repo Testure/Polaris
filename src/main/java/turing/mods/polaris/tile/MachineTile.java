@@ -16,13 +16,18 @@ import static turing.mods.polaris.Voltages.ULV;
 
 public class MachineTile extends TileEntity {
     protected final MachineEnergyHandler energyHandler;
-    protected final LazyOptional<IEnergyHandler> energy;
+    protected final LazyOptional<IEnergyHandler> energyOptional;
     protected boolean workingDisabled;
 
     public MachineTile(TileEntityType<?> type) {
         super(type);
         this.energyHandler = createEnergyHandler();
-        this.energy = LazyOptional.of(() -> energyHandler);
+        this.energyOptional = LazyOptional.of(() -> this.energyHandler);
+    }
+
+    protected MachineEnergyHandler createEnergyHandler() {
+        Voltages.Voltage ulv = Voltages.VOLTAGES[ULV];
+        return new MachineEnergyHandler(this, ulv.capacity, 2L, ulv.energy, false, true);
     }
 
     public void setDisabled(boolean disabled) {
@@ -42,18 +47,13 @@ public class MachineTile extends TileEntity {
     @Override
     public void setRemoved() {
         super.setRemoved();
-        energy.invalidate();
-    }
-
-    protected MachineEnergyHandler createEnergyHandler() {
-        Voltages.Voltage ulv = Voltages.VOLTAGES[ULV];
-        return new MachineEnergyHandler(this, ulv.capacity, 2L, ulv.energy, false, true);
+        energyOptional.invalidate();
     }
 
     @Nonnull
     @Override
     public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
-        if (cap == TesseractGTCapability.ENERGY_HANDLER_CAPABILITY) return energy.cast();
+        if (cap == TesseractGTCapability.ENERGY_HANDLER_CAPABILITY) return energyOptional.cast();
         return super.getCapability(cap, side);
     }
 }

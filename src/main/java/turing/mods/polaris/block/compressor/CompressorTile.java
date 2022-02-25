@@ -3,8 +3,6 @@ package turing.mods.polaris.block.compressor;
 import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.container.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
@@ -12,12 +10,7 @@ import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tileentity.ITickableTileEntity;
-import net.minecraft.tileentity.LockableTileEntity;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.Constants;
@@ -27,8 +20,8 @@ import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 import turing.mods.polaris.Polaris;
 import turing.mods.polaris.Voltages;
-import turing.mods.polaris.container.compressor.CompressorContainer;
-import turing.mods.polaris.recipe.*;
+import turing.mods.polaris.recipe.IMachineRecipe;
+import turing.mods.polaris.recipe.Recipes;
 import turing.mods.polaris.registry.MachineRegistry;
 import turing.mods.polaris.tile.IInventoryTile;
 import turing.mods.polaris.tile.MachineEnergyHandler;
@@ -37,9 +30,6 @@ import turing.mods.polaris.tile.MachineTile;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Objects;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
@@ -194,11 +184,13 @@ public class CompressorTile extends MachineTile implements ITickableTileEntity, 
     }
 
     private void recipeTick() {
-        long energyToRemove = Math.min(energyUse, Voltages.VOLTAGES[tier].energy);
+        int energyToRemove = Math.min(energyUse, Voltages.VOLTAGES[tier].energy);
 
         if (time >= 0)
             if (energyHandler.removeEnergy(energyToRemove) < energyToRemove) {
                 time = -3;
+                setChanged();
+                return;
                 //TODO out of energy sound
             }
 
@@ -328,7 +320,7 @@ public class CompressorTile extends MachineTile implements ITickableTileEntity, 
 
     @Override
     protected MachineEnergyHandler createEnergyHandler() {
-        Voltages.Voltage voltage = Voltages.VOLTAGES[tier];
+        Voltages.Voltage voltage = Voltages.VOLTAGES[tier + 1];
         return new MachineEnergyHandler(this, voltage.capacity, 2L, voltage.energy, false, true);
     }
 
