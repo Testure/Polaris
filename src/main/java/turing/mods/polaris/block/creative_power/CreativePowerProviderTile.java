@@ -35,7 +35,7 @@ public class CreativePowerProviderTile extends MachineTile implements ITickableT
     }
 
     public void adjustAmps() {
-        amperage *= amperage;
+        amperage *= 2L;
         if (amperage > 16L) amperage = 1L;
     }
 
