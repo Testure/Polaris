@@ -56,6 +56,16 @@ public class MaterialRegistry {
             .textureSet(TextureSet.SHINY_METAL)
             .buildAndRegister();
 
+    public static final MaterialRegistryObject RUBBER = MaterialBuilder.builder("rubber")
+            .color(0xFF191919)
+            .soft()
+            .fluid(false, 1000)
+            .mass(32)
+            .textureSet(TextureSet.DULL_METAL)
+            .addFlags(GenerationFlags.IS_SOFT, GenerationFlags.NO_VANILLA_TOOLS)
+            .toolStats(1200, 2, 3.0F, 1.0F, 3.0F)
+            .buildAndRegister();
+
     public static MaterialRegistryObject register(String name, MaterialBuilder builder) {
         return MATERIAL_DEFERRED_REGISTER.register(name, builder);
     }

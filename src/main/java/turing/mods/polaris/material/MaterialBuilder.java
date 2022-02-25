@@ -64,6 +64,26 @@ public class MaterialBuilder {
                 this.subItems.remove(SubItem.TINY_DUST);
                 this.subItems.remove(SubItem.NUGGET);
                 break;
+            case IS_SOFT:
+                this.subItems.remove(SubItem.MORTAR);
+                this.subItems.remove(SubItem.SAW);
+                this.subItems.remove(SubItem.SCREWDRIVER);
+                this.subItems.remove(SubItem.FILE);
+                this.subItems.remove(SubItem.HAMMER);
+                this.subItems.remove(SubItem.WRENCH);
+                this.subItems.remove(SubItem.CROWBAR);
+                this.subItems.add(SubItem.SOFT_HAMMER);
+                break;
+            case NO_MORTAR:
+                this.subItems.remove(SubItem.MORTAR);
+                break;
+            case NO_VANILLA_TOOLS:
+                this.subItems.remove(SubItem.SWORD);
+                this.subItems.remove(SubItem.AXE);
+                this.subItems.remove(SubItem.PICKAXE);
+                this.subItems.remove(SubItem.HOE);
+                this.subItems.remove(SubItem.SHOVEL);
+                break;
             default:
                 break;
         }
@@ -170,7 +190,6 @@ public class MaterialBuilder {
                 SubItem.FILE
         ));
         if (Objects.equals(this.type, "ingot")) this.subItems.addAll(Arrays.asList(SubItem.WRENCH, SubItem.CROWBAR));
-        if (Objects.equals(this.type, "soft")) this.subItems.add(SubItem.SOFT_HAMMER);
         return this;
     }
 

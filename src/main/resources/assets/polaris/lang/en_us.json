@@ -101,5 +101,6 @@
 
   "material.polaris.iron": "Iron",
   "material.polaris.magnetic_iron": "Magnetic Iron",
-  "material.polaris.copper": "Copper"
+  "material.polaris.copper": "Copper",
+  "material.polaris.rubber": "Rubber"
 }

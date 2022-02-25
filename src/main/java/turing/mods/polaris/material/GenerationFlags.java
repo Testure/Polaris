@@ -8,4 +8,7 @@ public enum GenerationFlags {
     GENERATE_LENS,
     GENERATE_SPRING,
     NO_COMPRESSION,
+    IS_SOFT,
+    NO_VANILLA_TOOLS,
+    NO_MORTAR,
 }
