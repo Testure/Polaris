@@ -26,6 +26,7 @@ import turing.mods.polaris.item.BucketItemGenerated;
 
 import javax.annotation.Nonnull;
 import java.util.HashMap;
+import java.util.function.Supplier;
 
 public class FluidDeferredRegister {
     private final HashMap<String, FluidRegistryObject<?, ?, ?, ?>> fluids = new HashMap<>();
@@ -59,16 +60,20 @@ public class FluidDeferredRegister {
         return fluids;
     }
 
-    public BasicFluidRegistryObject register(String name, FluidAttributes.Builder builder) {
+    public BasicFluidRegistryObject register(String name, FluidAttributes.Builder builder, Supplier<turing.mods.polaris.material.Material> materialSupplier) {
         builder.overlay(OVERLAY);
         BasicFluidRegistryObject fluidRegistryObject = new BasicFluidRegistryObject(name);
         ForgeFlowingFluid.Properties properties = new ForgeFlowingFluid.Properties(fluidRegistryObject::getStill, fluidRegistryObject::getFlowing, builder).bucket(fluidRegistryObject::getBucket).block(fluidRegistryObject::getBlock);
         fluidRegistryObject.updateStill(fluidDeferredRegister.register(name, () -> new ForgeFlowingFluid.Source(properties)));
         fluidRegistryObject.updateFlowing(fluidDeferredRegister.register("flowing_" + name, () -> new ForgeFlowingFluid.Flowing(properties)));
-        fluidRegistryObject.updateBucket(itemDeferredRegister.register(name + "_bucket", () -> new BucketItemGenerated(fluidRegistryObject::getStill)));
+        fluidRegistryObject.updateBucket(itemDeferredRegister.register(name + "_bucket", () -> new BucketItemGenerated(fluidRegistryObject::getStill, materialSupplier)));
         fluidRegistryObject.updateBlock(blockDeferredRegister.register(name, () -> new FlowingFluidBlock(fluidRegistryObject::getStill, AbstractBlock.Properties.of(Material.WATER).strength(100.0F).dynamicShape().noDrops())));
         fluids.put(name, fluidRegistryObject);
         return fluidRegistryObject;
+    }
+
+    public BasicFluidRegistryObject register(String name, FluidAttributes.Builder builder) {
+        return register(name, builder, () -> null);
     }
 
     public void register(IEventBus bus) {

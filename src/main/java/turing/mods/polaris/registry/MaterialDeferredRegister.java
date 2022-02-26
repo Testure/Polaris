@@ -43,7 +43,7 @@ public class MaterialDeferredRegister {
         if (builder.fluidStats != null) {
             FluidAttributes.Builder attributes = FluidAttributes.builder(TEXTURE, TEXTURE).color(builder.color).temperature(builder.fluidStats.temp).translationKey("material.polaris." + name);
             if (builder.fluidStats.isGaseous()) attributes.gaseous();
-            fluid = FluidRegistry.register(name, attributes);
+            fluid = FluidRegistry.register(name, attributes, () -> material);
         }
         if (builder.oreStats != null && (builder.existingItems == null || !builder.existingItems.containsKey(SubItem.ORE))) {
             SubBlockGenerated block = new SubBlockGenerated(name + "_ore", () -> material, SubItem.ORE, Material.STONE, 1);

@@ -4,17 +4,14 @@ import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 import net.minecraft.util.Tuple;
 import net.minecraftforge.eventbus.api.IEventBus;
-import turing.mods.polaris.material.GenerationFlags;
-import turing.mods.polaris.material.MaterialBuilder;
-import turing.mods.polaris.material.SubItem;
-import turing.mods.polaris.material.TextureSet;
+import turing.mods.polaris.material.*;
 
 import java.util.Map;
 
 public class MaterialRegistry {
     private static final MaterialDeferredRegister MATERIAL_DEFERRED_REGISTER = new MaterialDeferredRegister();
 
-    private static final Tuple<SubItem, Item>[] IRON_EXISTING = new Tuple[]{
+    public static final Tuple<SubItem, Item>[] IRON_EXISTING = new Tuple[]{
             new Tuple<>(SubItem.INGOT, Items.IRON_INGOT),
             new Tuple<>(SubItem.BLOCK, Items.IRON_BLOCK),
             new Tuple<>(SubItem.AXE, Items.IRON_AXE),
@@ -29,6 +26,7 @@ public class MaterialRegistry {
             .color(0xFFC1C1C1)
             .ingot()
             .fluid(false, 1200)
+            .component(Components.IRON)
             .addFlags(GenerationFlags.GENERATE_GEAR, GenerationFlags.GENERATE_SMALL_GEAR, GenerationFlags.GENERATE_SCREW, GenerationFlags.GENERATE_SPRING)
             .mass(90)
             .toolStats(1000, 1, 2.0F, 2.0F, 3.0F)
@@ -42,7 +40,8 @@ public class MaterialRegistry {
             .ingot()
             .addFlags(GenerationFlags.GENERATE_SCREW, GenerationFlags.NO_COMPRESSION)
             .mass(90)
-            .magnetic()
+            .component(Components.IRON)
+            .magnetic(IRON)
             .textureSet(TextureSet.MAGNETIC)
             .buildAndRegister();
 
@@ -52,8 +51,20 @@ public class MaterialRegistry {
             .fluid(false, 1200)
             .mass(64)
             .ore(1)
+            .component(Components.COPPER)
             .addFlags(GenerationFlags.GENERATE_SPRING)
             .textureSet(TextureSet.SHINY_METAL)
+            .buildAndRegister();
+
+    public static final MaterialRegistryObject BRONZE = MaterialBuilder.builder("bronze")
+            .color(0xFFE56622)
+            .ingot()
+            .fluid(false, 1200)
+            .mass(80)
+            .components(new ComponentStack(Components.COPPER, 3), new ComponentStack(Components.TIN))
+            .addFlags(GenerationFlags.GENERATE_SCREW, GenerationFlags.GENERATE_GEAR, GenerationFlags.GENERATE_SMALL_GEAR)
+            .toolStats(800, 2, 3.0F, 2.5F, 3.0F)
+            .textureSet(TextureSet.DULL_METAL)
             .buildAndRegister();
 
     public static final MaterialRegistryObject RUBBER = MaterialBuilder.builder("rubber")

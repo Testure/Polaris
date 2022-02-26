@@ -109,6 +109,13 @@ public class MaterialRegistryObject {
         return Collections.unmodifiableList(items);
     }
 
+    public boolean hasItem(Item item) {
+        for (RegistryObject<Item> registryObject : getItems()) if (Objects.requireNonNull(registryObject.get().getRegistryName()).getPath().equals(Objects.requireNonNull(item.getRegistryName()).getPath())) return true;
+        if (get().existingItems != null)
+            for (Item existingItem : get().existingItems.values()) if (Objects.requireNonNull(existingItem.getRegistryName()).getPath().equals(Objects.requireNonNull(item.getRegistryName()).getPath())) return true;
+        return false;
+    }
+
     public Material get() {
         return material.get();
     }

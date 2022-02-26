@@ -1,13 +1,17 @@
 package turing.mods.polaris;
 
+import net.minecraft.block.Blocks;
 import net.minecraft.client.resources.ReloadListener;
 import net.minecraft.item.ItemGroup;
+import net.minecraft.item.ItemStack;
 import net.minecraft.profiler.IProfiler;
 import net.minecraft.resources.IResourceManager;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.ToolType;
 import net.minecraftforge.event.AddReloadListenerEvent;
+import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -18,6 +22,8 @@ import net.minecraftforge.fml.event.server.FMLServerStoppedEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import turing.mods.polaris.block.SubBlockItemGenerated;
+import turing.mods.polaris.item.SubItemGenerated;
 import turing.mods.polaris.itemgroups.ItemGroupMaterials;
 import turing.mods.polaris.itemgroups.ItemGroupMisc;
 import turing.mods.polaris.itemgroups.ItemGroupOres;
@@ -25,10 +31,14 @@ import turing.mods.polaris.itemgroups.ItemGroupTools;
 import turing.mods.polaris.recipe.DefaultRecipes;
 import turing.mods.polaris.recipe.IPromisedTag;
 import turing.mods.polaris.registry.FluidRegistry;
+import turing.mods.polaris.registry.MaterialRegistry;
+import turing.mods.polaris.registry.MaterialRegistryObject;
 import turing.mods.polaris.registry.Registration;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 @Mod("polaris")
 public class Polaris {
@@ -110,6 +120,23 @@ public class Polaris {
     @SubscribeEvent
     public void onServerStarting(FMLServerStartingEvent event) {
         resolveTags();
+    }
+
+    @SubscribeEvent
+    public void onTooltip(ItemTooltipEvent event) {
+        ItemStack stack = event.getItemStack();
+        boolean isGenerated = (stack.getItem() instanceof SubItemGenerated) || (stack.getItem() instanceof SubBlockItemGenerated);
+        boolean isMaterialItem = isGenerated || Arrays.stream(MaterialRegistry.IRON_EXISTING).anyMatch(tuple -> stack.sameItem(tuple.getB().getDefaultInstance()));
+
+        if (isMaterialItem && stack.getToolTypes().isEmpty() && !stack.isCorrectToolForDrops(Blocks.COBWEB.defaultBlockState())) {
+            MaterialRegistryObject material = null;
+
+            for (MaterialRegistryObject registryObject : MaterialRegistry.getMaterials().values())
+                if (registryObject.hasItem(stack.getItem())) material = registryObject;
+
+            if (material != null && material.get().getComponents() != null)
+                event.getToolTip().add(material.get().getFormulaTooltip());
+        }
     }
 
     @SubscribeEvent

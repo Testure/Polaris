@@ -28,6 +28,10 @@
   "tooltip.polaris.creative2": "§7Hit With a Soft Hammer To Configure§r §aVoltage§r §7Output",
   "tooltip.polaris.durability": "§aDurability:§r %s§r§7/§r%s",
   "tooltip.polaris.mining_speed": "§9Mining Speed:§r %s",
+  "tooltip.polaris.fluid_state.gas": "§9State: Gas",
+  "tooltip.polaris.fluid_state.liquid": "§9State: Liquid",
+  "tooltip.polaris.fluid_temp": "§cTemperature:§r %s §cK",
+  "tooltip.polaris.fluid_stats": "§7Fluid Stats:",
 
   "block.polaris.casing.ulv": "Simple Machine Casing",
   "block.polaris.casing.lv": "Basic Machine Casing",
@@ -99,8 +103,20 @@
   "item.polaris.wood_substrate": "Wooden Substrate",
   "item.polaris.wood_board": "Wooden Circuit Board",
 
+  "subscript.0": "§e₀",
+  "subscript.1": "§e₁",
+  "subscript.2": "§e₂",
+  "subscript.3": "§e₃",
+  "subscript.4": "§e₄",
+  "subscript.5": "§e₅",
+  "subscript.6": "§e₆",
+  "subscript.7": "§e₇",
+  "subscript.8": "§e₈",
+  "subscript.9": "§e₉",
+
   "material.polaris.iron": "Iron",
   "material.polaris.magnetic_iron": "Magnetic Iron",
   "material.polaris.copper": "Copper",
-  "material.polaris.rubber": "Rubber"
+  "material.polaris.rubber": "Rubber",
+  "material.polaris.bronze": "Bronze"
 }

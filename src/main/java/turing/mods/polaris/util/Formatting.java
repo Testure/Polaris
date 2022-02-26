@@ -1,22 +1,24 @@
 package turing.mods.polaris.util;
 
 import net.minecraft.client.resources.I18n;
+import net.minecraft.util.Tuple;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import turing.mods.polaris.Voltages;
+import turing.mods.polaris.material.ComponentStack;
 
 import javax.annotation.Nullable;
 
 import static net.minecraft.util.text.TextFormatting.*;
 
 import java.text.NumberFormat;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Formatting {
+    public static final String[] SUBSCRIPT_NUMBERS = new String[]{ "subscript.0", "subscript.1", "subscript.2", "subscript.3", "subscript.4", "subscript.5", "subscript.6", "subscript.7", "subscript.8", "subscript.9" };
+
     public static List<ITextComponent> stringsToTextComponents(List<String> strings) {
         List<ITextComponent> list = new ArrayList<>();
 
@@ -48,6 +50,43 @@ public class Formatting {
         NumberFormat format = NumberFormat.getInstance();
         format.setGroupingUsed(true);
         return format.format(number);
+    }
+
+    public static String getSubscript(int number) {
+        if (number < 2) return "";
+        if (number < 10) return SUBSCRIPT_NUMBERS[number];
+        else {
+            String toString = Integer.toString(number);
+            StringBuilder builder = new StringBuilder(toString.length());
+
+            for (int i = 0; i < toString.length(); i++) {
+                builder.append(SUBSCRIPT_NUMBERS[Integer.getInteger(toString.substring(i, i))]);
+            }
+
+            return builder.toString();
+        }
+    }
+
+    public static Tuple<String, Map<Integer, TranslationTextComponent>> createChemicalFormula(ComponentStack... stacks) {
+        if (stacks == null || stacks.length <= 0) return null;
+        int characterCount = 1;
+        for (ComponentStack stack : stacks) {
+            characterCount += (stack.getComponent().getChemicalName().length() + stack.getCount());
+            if (stack.getComponent().isCombination()) characterCount += 2;
+        }
+
+        StringBuilder builder = new StringBuilder(characterCount);
+        Map<Integer, TranslationTextComponent> subscripts = new HashMap<>();
+
+        for (ComponentStack stack : stacks) {
+            String subscript = getSubscript(stack.getCount());
+            if (stack.getComponent().isCombination()) builder.append("(");
+            builder.append(stack.getComponent().getChemicalName());
+            if (!Objects.equals(subscript, "")) subscripts.put(builder.length(), new TranslationTextComponent(subscript));
+            if (stack.getComponent().isCombination()) builder.append(")");
+        }
+
+        return new Tuple<>(builder.toString(), subscripts);
     }
 
     /**

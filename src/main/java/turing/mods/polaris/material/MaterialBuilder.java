@@ -20,12 +20,12 @@ public class MaterialBuilder {
     public FluidStats fluidStats;
     public OreStats oreStats;
     public TextureSet textureSet = TextureSet.METAL;
-    protected List<Tuple<Material, Integer>> components;
+    protected ComponentStack[] components;
     public Map<SubItem, Item> existingItems;
     public Object cableStats;
     public Object fluidPipeStats;
     public Object itemPipeStats;
-    protected boolean magnetic = false;
+    protected MaterialRegistryObject magnetic;
 
     private static int getDefaultSmeltAmount(@Nullable String type) {
         switch (type != null ? type : "") {
@@ -131,8 +131,8 @@ public class MaterialBuilder {
         return this;
     }
 
-    public MaterialBuilder magnetic() {
-        this.magnetic = true;
+    public MaterialBuilder magnetic(MaterialRegistryObject magneticOf) {
+        this.magnetic = magneticOf;
         return this;
     }
 
@@ -206,11 +206,13 @@ public class MaterialBuilder {
         return this;
     }
 
-    public MaterialBuilder components(List<Material> materials, List<Integer> amounts) {
-        for (int i = 0; i < materials.size(); i++) {
-            Tuple<Material, Integer> tuple = new Tuple<>(materials.get(i), amounts.get(i));
-            this.components.add(tuple);
-        }
+    public MaterialBuilder component(Component component) {
+        this.components = new ComponentStack[]{new ComponentStack(component, 1)};
+        return this;
+    }
+
+    public MaterialBuilder components(ComponentStack... stacks) {
+        this.components = stacks;
         return this;
     }
 
