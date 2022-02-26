@@ -138,10 +138,10 @@ dependencies {
     minecraft 'net.minecraftforge:forge:1.16.5-36.2.26'
 
     implementation fg.deobf("com.github.GregTech-Intergalactical:TesseractAPI:${tesseract_version}")
-    implementation fg.deobf("com.blamejared.crafttweaker:CraftTweaker-1.16.5:7.1.2.499")
+    implementation fg.deobf("com.blamejared.crafttweaker:CraftTweaker-${ct_version}")
 
-    compileOnly fg.deobf("mezz.jei:jei-1.16.5:7.7.1.150:api")
-    runtimeOnly fg.deobf("mezz.jei:jei-1.16.5:7.7.1.150")
+    compileOnly fg.deobf("mezz.jei:jei-${jei_version}:api")
+    runtimeOnly fg.deobf("mezz.jei:jei-${jei_version}")
 
     // You may put jars on which you depend on in ./libs or you may define them like so..
     // compile "some.group:artifact:version:classifier"
