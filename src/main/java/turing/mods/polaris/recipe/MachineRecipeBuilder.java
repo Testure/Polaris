@@ -1,15 +1,17 @@
 package turing.mods.polaris.recipe;
 
+import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 import turing.mods.polaris.Voltages;
 
-import javax.annotation.Nullable;
-
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.function.Consumer;
 
 import static turing.mods.polaris.Voltages.ULV;
 
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 public class MachineRecipeBuilder {
     protected int EUt = Voltages.VOLTAGES[ULV].energy;
     protected int duration = 100;

@@ -7,7 +7,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.util.NonNullList;
 import turing.mods.polaris.Polaris;
-import turing.mods.polaris.item.SubItemGenerated;
 import turing.mods.polaris.material.SubItem;
 import turing.mods.polaris.registry.MaterialRegistry;
 import turing.mods.polaris.registry.MaterialRegistryObject;

@@ -1,14 +1,17 @@
 package turing.mods.polaris.material;
 
+import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.item.Item;
 import net.minecraft.util.Tuple;
 import turing.mods.polaris.registry.MaterialRegistry;
 import turing.mods.polaris.registry.MaterialRegistryObject;
-import turing.mods.polaris.util.Lists;
 
 import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.*;
 
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 public class MaterialBuilder {
     protected int mass = 20;
     public int color = 0xFFFFFFFF;
@@ -125,7 +128,8 @@ public class MaterialBuilder {
         return this;
     }
 
-    public MaterialBuilder withExistingItems(Tuple<SubItem, Item>... items) {
+    @SafeVarargs
+    public final MaterialBuilder withExistingItems(Tuple<SubItem, Item>... items) {
         this.existingItems = new HashMap<>();
         Arrays.stream(items).forEach(item -> this.existingItems.put(item.getA(), item.getB()));
         return this;

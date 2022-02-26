@@ -1,5 +1,6 @@
 package turing.mods.polaris.item;
 
+import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -13,12 +14,15 @@ import turing.mods.polaris.util.Formatting;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.*;
 
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 public class CraftingItem extends Item implements IBasicModeledItem, ITintedItem {
-    private int color;
-    private Rarity rarity;
-    private List<ITextComponent> tooltips;
+    private final int color;
+    private final Rarity rarity;
+    private final List<ITextComponent> tooltips;
 
     public CraftingItem(String name, @Nullable Integer color, @Nullable Rarity rarity, @Nullable Integer maxStackSize, @Nullable List<ITextComponent> tooltips) {
         super(new Properties().stacksTo(maxStackSize != null ? maxStackSize : 64).tab(Polaris.MISC));

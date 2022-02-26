@@ -1,5 +1,6 @@
 package turing.mods.polaris;
 
+import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.resources.ReloadListener;
 import net.minecraft.item.ItemGroup;
@@ -7,7 +8,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.profiler.IProfiler;
 import net.minecraft.resources.IResourceManager;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.ToolType;
 import net.minecraftforge.event.AddReloadListenerEvent;
@@ -35,12 +35,14 @@ import turing.mods.polaris.registry.MaterialRegistry;
 import turing.mods.polaris.registry.MaterialRegistryObject;
 import turing.mods.polaris.registry.Registration;
 
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 
 @Mod("polaris")
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 public class Polaris {
     public static final String MODID = "polaris";
     public static final Logger LOGGER = LogManager.getLogger("Polaris");
@@ -88,13 +90,11 @@ public class Polaris {
     }
 
     private void enqueueIMC(final InterModEnqueueEvent event) {
-        //InterModComms.sendTo("polaris", "helloworld", () -> { LOGGER.info("Hello world from the MDK"); return "Hello world";});
+
     }
 
     private void processIMC(final InterModProcessEvent event) {
-        //LOGGER.info("Got IMC {}", event.getIMCStream().
-                //map(m->m.getMessageSupplier().get()).
-                //collect(Collectors.toList()));
+
     }
 
     @SubscribeEvent

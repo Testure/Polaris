@@ -1,5 +1,6 @@
 package turing.mods.polaris.block;
 
+import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -24,10 +25,13 @@ import turing.mods.polaris.registry.MaterialRegistryObject;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.Supplier;
 
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 public class SubBlockGenerated extends Block implements IRenderTypedBlock, ITintedBlock {
     public final String name;
     private final Supplier<Material> material;

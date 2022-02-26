@@ -12,7 +12,7 @@ public class FluidRegistryObject<STILL extends Fluid, FLOWING extends Fluid, BLO
     private RegistryObject<FLOWING> flowingRegistryObject;
     private RegistryObject<BLOCK> blockRegistryObject;
     private RegistryObject<BUCKET> bucketRegistryObject;
-    private String name;
+    private final String name;
 
     public FluidRegistryObject(String name) {
         this.name = name;

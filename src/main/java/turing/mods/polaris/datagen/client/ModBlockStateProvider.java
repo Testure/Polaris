@@ -1,5 +1,6 @@
 package turing.mods.polaris.datagen.client;
 
+import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.data.DataGenerator;
@@ -14,8 +15,11 @@ import turing.mods.polaris.Polaris;
 import turing.mods.polaris.block.SubBlockGenerated;
 import turing.mods.polaris.registry.*;
 
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.function.Function;
 
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 public class ModBlockStateProvider extends BlockStateProvider {
     public ModBlockStateProvider(DataGenerator dataGenerator, ExistingFileHelper fileHelper) {
         super(dataGenerator, Polaris.MODID, fileHelper);

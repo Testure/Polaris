@@ -5,16 +5,11 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 import turing.mods.polaris.Voltages;
 
-import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
-
 import java.util.List;
 
 import static turing.mods.polaris.Voltages.ULV;
 
-/**
- *
- */
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public interface IMachineRecipe {

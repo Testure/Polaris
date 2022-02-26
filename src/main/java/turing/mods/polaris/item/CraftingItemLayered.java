@@ -15,8 +15,8 @@ import java.util.List;
 import java.util.Map;
 
 public class CraftingItemLayered extends CraftingItem implements ILayeredItem {
-    private String layer0;
-    private String layer1;
+    private final String layer0;
+    private final String layer1;
     private Integer layer0Color;
     private Integer layer1Color;
 

@@ -1,19 +1,22 @@
 package turing.mods.polaris.datagen.client;
 
+import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.generators.BlockModelBuilder;
 import net.minecraftforge.client.model.generators.ModelFile;
-import net.minecraftforge.fml.RegistryObject;
 import turing.mods.polaris.block.MachineBlock;
 import turing.mods.polaris.registry.BlockRegistry;
 import turing.mods.polaris.registry.MachineRegistryObject;
 
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Objects;
 import java.util.function.Function;
 
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 public class MachineBlockStates {
     private static Function<BlockState, ModelFile> machineModelProviderFunction(ModelFile normal, ModelFile powered) {
         return state -> state.getValue(BlockStateProperties.POWERED) ? powered : normal;

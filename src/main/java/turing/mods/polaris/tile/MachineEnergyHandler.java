@@ -5,7 +5,6 @@ import net.minecraft.util.Direction;
 import tesseract.api.gt.GTConsumer;
 import tesseract.api.gt.GTTransaction;
 import tesseract.api.gt.IEnergyHandler;
-import turing.mods.polaris.Polaris;
 
 public class MachineEnergyHandler implements IEnergyHandler {
     protected long energy;
@@ -47,10 +46,6 @@ public class MachineEnergyHandler implements IEnergyHandler {
 
     @Override
     public boolean addEnergy(GTTransaction.TransferData data) {
-        /*if (data.getVoltage() > getInputVoltage()) {
-            tile.overVolt();
-            return false;
-        }*/
         this.energy = Math.min(getCapacity(), this.energy + data.getEnergy(getInputAmperage(), true));
         return true;
     }

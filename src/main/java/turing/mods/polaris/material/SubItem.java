@@ -1,7 +1,6 @@
 package turing.mods.polaris.material;
 
 import net.minecraftforge.common.ToolType;
-import turing.mods.polaris.Polaris;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;

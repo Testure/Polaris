@@ -2,6 +2,7 @@ package turing.mods.polaris.screen;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
+import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.IHasContainer;
 import net.minecraft.client.gui.screen.Screen;
@@ -12,9 +13,11 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import turing.mods.polaris.container.MachineContainer;
 
+import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 public class MachineScreen<T extends MachineContainer> extends ContainerScreen<MachineContainer> implements IHasContainer<MachineContainer> {
     private final ResourceLocation gui;
     private final ITextComponent guiTitle;

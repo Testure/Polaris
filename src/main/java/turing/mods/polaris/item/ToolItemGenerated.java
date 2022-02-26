@@ -2,6 +2,7 @@ package turing.mods.polaris.item;
 
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
+import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.LivingEntity;
@@ -12,7 +13,6 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ToolItem;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.util.math.BlockPos;
@@ -38,6 +38,7 @@ import static net.minecraft.block.material.Material.*;
 import static net.minecraft.util.text.TextFormatting.*;
 
 @ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 public class ToolItemGenerated extends Item implements IMaterialToolItem {
     protected final Supplier<Material> materialSupplier;
     protected final SubItem subItem;

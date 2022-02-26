@@ -1,5 +1,6 @@
 package turing.mods.polaris.block.compressor;
 
+import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
@@ -16,8 +17,11 @@ import turing.mods.polaris.registry.MachineRegistry;
 import turing.mods.polaris.util.Formatting;
 
 import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.List;
 
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 public class CompressorItem extends BlockItem {
     private final int tier;
 

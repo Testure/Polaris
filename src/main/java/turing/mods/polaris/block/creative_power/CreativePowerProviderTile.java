@@ -12,7 +12,6 @@ import net.minecraft.util.Direction;
 import net.minecraftforge.common.util.Constants;
 import tesseract.api.capability.TesseractGTCapability;
 import tesseract.api.gt.GTTransaction;
-import turing.mods.polaris.Polaris;
 import turing.mods.polaris.Voltages;
 import turing.mods.polaris.block.MachineBlock;
 import turing.mods.polaris.registry.TileRegistry;

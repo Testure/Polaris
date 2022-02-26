@@ -1,16 +1,20 @@
 package turing.mods.polaris.recipe;
 
 import com.google.common.collect.ImmutableMap;
+import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 import turing.mods.polaris.Polaris;
 import turing.mods.polaris.Voltages;
 
 import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 public class RecipeMap {
     public final String name;
     public final int maxInputs;
@@ -61,6 +65,7 @@ public class RecipeMap {
         return null;
     }
 
+    @Nullable
     public IMachineRecipe findRecipe(ItemStack[] inputs, @Nullable FluidStack[] inputFluids, int voltage, int duration, int circuit, boolean exactVoltage) {
         for (IMachineRecipe machineRecipe : RECIPES.values())
             if (duration <= 0 || machineRecipe.getDuration() == duration)

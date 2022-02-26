@@ -20,8 +20,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ToolType;
-import net.minecraftforge.common.util.LazyOptional;
-import tesseract.api.gt.GTConsumer;
 import turing.mods.polaris.Voltages;
 
 import javax.annotation.Nullable;

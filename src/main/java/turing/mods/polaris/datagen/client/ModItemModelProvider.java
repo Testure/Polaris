@@ -1,8 +1,8 @@
 package turing.mods.polaris.datagen.client;
 
+import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.block.Block;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.util.Tuple;
 import net.minecraftforge.client.model.generators.ItemModelBuilder;
@@ -20,9 +20,11 @@ import turing.mods.polaris.registry.*;
 import turing.mods.polaris.util.Lists;
 
 import javax.annotation.Nullable;
-import java.util.HashMap;
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Map;
 
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 public class ModItemModelProvider extends ItemModelProvider {
     public ModItemModelProvider(DataGenerator dataGenerator, ExistingFileHelper fileHelper) {
         super(dataGenerator, Polaris.MODID, fileHelper);
