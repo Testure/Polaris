@@ -27,16 +27,16 @@ public class ClientSetup {
         ItemColors itemColors = Minecraft.getInstance().getItemColors();
         BlockColors blockColors = Minecraft.getInstance().getBlockColors();
 
-        machineClientSetup(event);
+        machineClientSetup(event, blockColors, itemColors);
         event.enqueueWork(() -> blockClientSetup(blockColors, itemColors));
         event.enqueueWork(() -> setupItemColors(itemColors));
         materialClientSetup(itemColors, blockColors, event);
         event.enqueueWork(() -> setupBucketColors(itemColors));
     }
 
-    private static void machineClientSetup(FMLClientSetupEvent event) {
+    private static void machineClientSetup(FMLClientSetupEvent event, BlockColors blockColors, ItemColors itemColors) {
         MachineRegistry.initScreens();
-        MachineRegistry.getMachines().forEach((name, machine) -> machine.doClientSetup(event));
+        MachineRegistry.getMachines().forEach((name, machine) -> machine.doClientSetup(event, blockColors, itemColors));
     }
 
     private static void materialClientSetup(ItemColors itemColors, BlockColors blockColors, FMLClientSetupEvent event) {

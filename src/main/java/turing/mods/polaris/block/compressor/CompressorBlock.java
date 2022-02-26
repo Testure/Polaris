@@ -18,10 +18,14 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.world.IBlockDisplayReader;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.network.NetworkHooks;
+import turing.mods.polaris.Config;
+import turing.mods.polaris.Voltages;
+import turing.mods.polaris.block.ITintedBlock;
 import turing.mods.polaris.block.MachineBlock;
 import turing.mods.polaris.container.compressor.CompressorContainer;
 
@@ -30,12 +34,20 @@ import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
-public class CompressorBlock extends MachineBlock {
+public class CompressorBlock extends MachineBlock implements ITintedBlock {
     public static final DirectionProperty FACING = BlockStateProperties.FACING;
     public static final BooleanProperty POWERED = BlockStateProperties.POWERED;
 
     public CompressorBlock(int tier) {
         super(tier);
+    }
+
+    @Override
+    public int getColor(@Nonnull BlockState state, @Nullable IBlockDisplayReader displayReader, @Nullable BlockPos pos, int layer) {
+        if (!Config.MACHINE_TIER_COLORS.get()) {
+            if (layer == 0) return Config.MACHINE_BASE_COLOR.get();
+        } else if (layer == 0) return tier == 0 ? Config.MACHINE_BASE_COLOR.get() : Voltages.VOLTAGES[tier + 1].color;
+        return 0xFFFFFFFF;
     }
 
     @Nullable

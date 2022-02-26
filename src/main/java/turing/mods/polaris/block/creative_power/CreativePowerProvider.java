@@ -64,7 +64,7 @@ public class CreativePowerProvider extends Block implements ITintedBlock, IRende
                 return Voltages.VOLTAGES[voltageTier].color;
             }
         }
-        if (layer == 2) return 0xFFD2DCFF;
+        if (layer == 0) return Config.MACHINE_BASE_COLOR.get();
         return 0xFFFFFFFF;
     }
 

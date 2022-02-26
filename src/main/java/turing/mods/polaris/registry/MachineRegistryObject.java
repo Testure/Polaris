@@ -5,6 +5,8 @@ import net.minecraft.block.Block;
 import net.minecraft.client.gui.ScreenManager;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.RenderTypeLookup;
+import net.minecraft.client.renderer.color.BlockColors;
+import net.minecraft.client.renderer.color.ItemColors;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.ContainerType;
@@ -16,6 +18,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import turing.mods.polaris.block.ITintedBlock;
 import turing.mods.polaris.container.MachineContainer;
 import turing.mods.polaris.screen.MachineScreen;
 
@@ -56,8 +59,14 @@ public class MachineRegistryObject<T extends TileEntity, B extends Block, I exte
     }
 
     @OnlyIn(Dist.CLIENT)
-    public void doClientSetup(FMLClientSetupEvent event) {
-        event.enqueueWork(() -> getBlocks().forEach(block -> RenderTypeLookup.setRenderLayer(block.get(), RenderType.cutoutMipped())));
+    public void doClientSetup(FMLClientSetupEvent event, BlockColors blockColors, ItemColors itemColors) {
+        event.enqueueWork(() -> getBlocks().forEach(block -> {
+            RenderTypeLookup.setRenderLayer(block.get(), RenderType.cutoutMipped());
+            if (block.get() instanceof ITintedBlock) {
+                blockColors.register(((ITintedBlock) block.get())::getColor, block.get());
+                itemColors.register((a, layer) -> ((ITintedBlock) block.get()).getColor(block.get().defaultBlockState(), null, null, layer), block.get().asItem());
+            }
+        }));
         for (RegistryObject<ContainerType<?>> container : containers)
             ScreenManager.register((ContainerType<? extends MachineContainer>) container.get(), screenSupplier::apply);
     }
