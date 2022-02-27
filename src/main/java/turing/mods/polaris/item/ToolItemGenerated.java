@@ -17,7 +17,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ToolType;
@@ -75,9 +77,9 @@ public class ToolItemGenerated extends Item implements IMaterialToolItem {
     @Override
     public void appendHoverText(ItemStack stack, @Nullable World world, List<ITextComponent> tooltips, ITooltipFlag flag) {
         int damage = stack.getDamageValue();
-        //I have forgotten how to calculate percentages.
-        int percent = damage > 0 ? (int) ((float) (stack.getMaxDamage() / (stack.getMaxDamage() - damage))) : 100;
-        tooltips.add(new TranslationTextComponent("tooltip.polaris.durability", (percent >= 25 && percent <= 70 ? YELLOW : (percent < 25 ? RED : GREEN)) + Formatting.formattedNumber(stack.getMaxDamage() - damage), GREEN + Formatting.formattedNumber(stack.getMaxDamage())));
+        int durability = stack.getMaxDamage();
+        double percent = ((double) damage / (double) durability * 100D);
+        tooltips.add(new TranslationTextComponent("tooltip.polaris.durability", (percent >= 25 && percent <= 70 ? YELLOW : (percent < 25 ? GREEN : RED)) + Formatting.formattedNumber(durability - damage), GREEN + Formatting.formattedNumber(durability)));
         tooltips.add(new TranslationTextComponent("tooltip.polaris.mining_speed", BLUE + Float.toString(getSpeed())));
         super.appendHoverText(stack, world, tooltips, flag);
     }
