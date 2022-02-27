@@ -9,6 +9,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
@@ -103,6 +104,7 @@ public class CreativePowerProvider extends Block implements ITintedBlock, IRende
                 CreativePowerProviderTile tile = (CreativePowerProviderTile) te;
                 if (stack.getToolTypes().contains(Polaris.ToolTypes.SOFT_HAMMER)) tile.adjustVoltage();
                 else tile.adjustAmps();
+                stack.hurtAndBreak(1, player, (a) -> a.broadcastBreakEvent(EquipmentSlotType.MAINHAND));
             }
             return ActionResultType.SUCCESS;
         }
