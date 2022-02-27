@@ -22,8 +22,19 @@ public class MaterialRegistry {
             new Tuple<>(SubItem.SWORD, Items.IRON_SWORD)
     };
 
+    public static final Tuple<SubItem, Item>[] GOLD_EXISTING = new Tuple[]{
+            new Tuple<>(SubItem.INGOT, Items.GOLD_INGOT),
+            new Tuple<>(SubItem.BLOCK, Items.GOLD_BLOCK),
+            new Tuple<>(SubItem.AXE, Items.GOLDEN_AXE),
+            new Tuple<>(SubItem.NUGGET, Items.GOLD_NUGGET),
+            new Tuple<>(SubItem.HOE, Items.GOLDEN_HOE),
+            new Tuple<>(SubItem.PICKAXE, Items.GOLDEN_PICKAXE),
+            new Tuple<>(SubItem.SHOVEL, Items.GOLDEN_SHOVEL),
+            new Tuple<>(SubItem.SWORD, Items.GOLDEN_SWORD)
+    };
+
     public static final MaterialRegistryObject IRON = MaterialBuilder.builder("iron")
-            .color(0xFFC1C1C1)
+            .color(0xC1C1C1)
             .ingot()
             .fluid(false, 1200)
             .component(Components.IRON)
@@ -33,6 +44,19 @@ public class MaterialRegistry {
             .ore(1)
             .textureSet(TextureSet.METAL)
             .withExistingItems(IRON_EXISTING)
+            .buildAndRegister();
+
+    public static final MaterialRegistryObject GOLD = MaterialBuilder.builder("gold")
+            .color(0xFFFAF25E)
+            .ingot()
+            .fluid(false, 1200)
+            .component(Components.GOLD)
+            .addFlags(GenerationFlags.GENERATE_GEAR, GenerationFlags.GENERATE_SCREW, GenerationFlags.NO_MORTAR)
+            .mass(120)
+            .toolStats(32, 5, 7.0F, 2.6F, 3.0F)
+            .ore(1)
+            .textureSet(TextureSet.SHINY_METAL)
+            .withExistingItems(GOLD_EXISTING)
             .buildAndRegister();
 
     public static final MaterialRegistryObject MAGNETIC_IRON = MaterialBuilder.builder("magnetic_iron")
@@ -56,6 +80,39 @@ public class MaterialRegistry {
             .textureSet(TextureSet.SHINY_METAL)
             .buildAndRegister();
 
+    public static final MaterialRegistryObject TIN = MaterialBuilder.builder("tin")
+            .color(0xE3E4EA)
+            .ingot()
+            .fluid(false, 1200)
+            .mass(70)
+            .ore(1)
+            .component(Components.TIN)
+            .addFlags(GenerationFlags.GENERATE_SCREW, GenerationFlags.GENERATE_GEAR)
+            .textureSet(TextureSet.DULL_METAL)
+            .buildAndRegister();
+
+    public static final MaterialRegistryObject SILVER = MaterialBuilder.builder("silver")
+            .color(0xFFD0CEFF)
+            .ingot()
+            .fluid(false, 1200)
+            .mass(70)
+            .ore(1)
+            .component(Components.SILVER)
+            .addFlags(GenerationFlags.GENERATE_SCREW, GenerationFlags.GENERATE_GEAR)
+            .textureSet(TextureSet.SHINY_METAL)
+            .buildAndRegister();
+
+    public static final MaterialRegistryObject LEAD = MaterialBuilder.builder("lead")
+            .color(0x594570)
+            .ingot()
+            .fluid(false, 1200)
+            .mass(65)
+            .ore(1)
+            .component(Components.LEAD)
+            .addFlags(GenerationFlags.GENERATE_SCREW, GenerationFlags.GENERATE_GEAR)
+            .textureSet(TextureSet.DULL_METAL)
+            .buildAndRegister();
+
     public static final MaterialRegistryObject BRONZE = MaterialBuilder.builder("bronze")
             .color(0xFFE56622)
             .ingot()
@@ -63,8 +120,19 @@ public class MaterialRegistry {
             .mass(80)
             .components(new ComponentStack(Components.COPPER, 3), new ComponentStack(Components.TIN))
             .addFlags(GenerationFlags.GENERATE_SCREW, GenerationFlags.GENERATE_GEAR, GenerationFlags.GENERATE_SMALL_GEAR)
-            .toolStats(800, 2, 3.0F, 2.5F, 3.0F)
+            .toolStats(130, 2, 3.0F, 2.5F, 3.0F)
             .textureSet(TextureSet.DULL_METAL)
+            .buildAndRegister();
+
+    public static final MaterialRegistryObject ELECTRUM = MaterialBuilder.builder("electrum")
+            .color(0xFFF6F660)
+            .ingot()
+            .fluid(false, 1200)
+            .mass(140)
+            .components(new ComponentStack(Components.GOLD), new ComponentStack(Components.SILVER))
+            .addFlags(GenerationFlags.GENERATE_SCREW, GenerationFlags.GENERATE_GEAR, GenerationFlags.GENERATE_SMALL_GEAR, GenerationFlags.NO_MORTAR)
+            .toolStats(64, 8, 6.0F, 2.7F, 3.0F)
+            .textureSet(TextureSet.SHINY_METAL)
             .buildAndRegister();
 
     public static final MaterialRegistryObject RUBBER = MaterialBuilder.builder("rubber")

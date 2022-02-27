@@ -115,10 +115,15 @@
   "subscript.9": "§e₉",
 
   "material.polaris.iron": "Iron",
+  "material.polaris.gold": "Gold",
   "material.polaris.magnetic_iron": "Magnetic Iron",
   "material.polaris.copper": "Copper",
+  "material.polaris.tin": "Tin",
   "material.polaris.rubber": "Rubber",
   "material.polaris.bronze": "Bronze",
+  "material.polaris.electrum": "Electrum",
+  "material.polaris.silver": "Silver",
+  "material.polaris.lead": "Lead",
   "material.polaris.oxygen": "Oxygen",
   "material.polaris.hydrogen": "Hydrogen"
 }
