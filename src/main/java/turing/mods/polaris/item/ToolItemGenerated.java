@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.attributes.Attribute;
@@ -67,6 +68,7 @@ public class ToolItemGenerated extends Item implements IMaterialToolItem {
         if (toolType == ToolType.get("sword")) speed += 0.6F;
         if (toolType == ToolType.AXE || toolType == Polaris.ToolTypes.SAW || toolType == Polaris.ToolTypes.HAMMER) speed -= 0.2F;
         if (toolType == ToolType.PICKAXE) speed += 0.2F;
+        if (toolType == Polaris.ToolTypes.CROWBAR) speed -= 0.5F;
         return speed;
     }
 
@@ -124,6 +126,8 @@ public class ToolItemGenerated extends Item implements IMaterialToolItem {
     public float getDestroySpeed(ItemStack stack, BlockState state) {
         net.minecraft.block.material.Material blockMaterial = state.getMaterial();
         switch (toolType.getName()) {
+            case "crowbar":
+                return blockMaterial != WEB && state.getBlock() != Blocks.CHAIN && state.getBlock() != Blocks.IRON_BARS && state.getBlock() != Blocks.IRON_DOOR ? super.getDestroySpeed(stack, state) : getSpeed();
             case "hammer":
                 return blockMaterial != STONE && blockMaterial != METAL ? super.getDestroySpeed(stack, state) : getSpeed();
             case "axe":
@@ -150,11 +154,8 @@ public class ToolItemGenerated extends Item implements IMaterialToolItem {
     }
 
     public boolean mineBlock(ItemStack stack, World world, BlockState state, BlockPos pos, LivingEntity entity) {
-        if (toolType == ToolType.get("sword") && state.getDestroySpeed(world, pos) != 0.0F) {
-            stack.hurtAndBreak(2, entity, (a) -> a.broadcastBreakEvent(EquipmentSlotType.MAINHAND));
-        } else if (!world.isClientSide && state.getDestroySpeed(world, pos) != 0.0F) {
-            stack.hurtAndBreak(1, entity, (a) -> a.broadcastBreakEvent(EquipmentSlotType.MAINHAND));
-        }
+        if (getDestroySpeed(stack, state) != getSpeed()) stack.hurtAndBreak(2, entity, (a) -> a.broadcastBreakEvent(EquipmentSlotType.MAINHAND));
+        else stack.hurtAndBreak(1, entity, (a) -> a.broadcastBreakEvent(EquipmentSlotType.MAINHAND));
         return true;
     }
 
@@ -212,15 +213,15 @@ public class ToolItemGenerated extends Item implements IMaterialToolItem {
         Material material = getMaterial();
         float damage = material.getToolStats().getAttackDamage();
         if (toolType == ToolType.get("sword") || toolType == Polaris.ToolTypes.CROWBAR || toolType == Polaris.ToolTypes.SAW) damage += 1.0F;
-        if (toolType == ToolType.AXE || toolType == Polaris.ToolTypes.HAMMER) damage += 2.0F;
-        if (toolType == Polaris.ToolTypes.SOFT_HAMMER || toolType == Polaris.ToolTypes.MORTAR) damage -= 1.0F;
+        if (toolType == ToolType.AXE || toolType == Polaris.ToolTypes.HAMMER) damage += 3.0F;
+        if (toolType == Polaris.ToolTypes.SOFT_HAMMER || toolType == Polaris.ToolTypes.MORTAR || toolType == ToolType.HOE) damage -= 1.0F;
         return damage;
     }
 
     @Override
     public int getLevel() {
         Material material = getMaterial();
-        return material.mass >= 35 && material.mass <= 100 ? 2 : (material.mass < 35 ? 1 : 3);
+        return material.mass >= 25 && material.mass <= 75 ? 2 : (material.mass < 25 ? 1 : 3);
     }
 
     @Nonnull

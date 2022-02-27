@@ -40,7 +40,7 @@ public class MaterialRegistry {
             .component(Components.IRON)
             .addFlags(GenerationFlags.GENERATE_GEAR, GenerationFlags.GENERATE_SMALL_GEAR, GenerationFlags.GENERATE_SCREW, GenerationFlags.GENERATE_SPRING)
             .mass(90)
-            .toolStats(1000, 1, 2.0F, 2.0F, 3.0F)
+            .toolStats(250, 1, 5.0F, 5.0F, 3.0F)
             .ore(1)
             .textureSet(TextureSet.METAL)
             .withExistingItems(IRON_EXISTING)
@@ -53,7 +53,7 @@ public class MaterialRegistry {
             .component(Components.GOLD)
             .addFlags(GenerationFlags.GENERATE_GEAR, GenerationFlags.GENERATE_SCREW, GenerationFlags.NO_MORTAR)
             .mass(120)
-            .toolStats(32, 5, 7.0F, 2.6F, 3.0F)
+            .toolStats(32, 5, 8.0F, 3.0F, 3.0F)
             .ore(1)
             .textureSet(TextureSet.SHINY_METAL)
             .withExistingItems(GOLD_EXISTING)
@@ -120,7 +120,7 @@ public class MaterialRegistry {
             .mass(80)
             .components(new ComponentStack(Components.COPPER, 3), new ComponentStack(Components.TIN))
             .addFlags(GenerationFlags.GENERATE_SCREW, GenerationFlags.GENERATE_GEAR, GenerationFlags.GENERATE_SMALL_GEAR)
-            .toolStats(130, 2, 3.0F, 2.5F, 3.0F)
+            .toolStats(130, 2, 4.0F, 3.5F, 3.0F)
             .textureSet(TextureSet.DULL_METAL)
             .buildAndRegister();
 
@@ -131,7 +131,7 @@ public class MaterialRegistry {
             .mass(140)
             .components(new ComponentStack(Components.GOLD), new ComponentStack(Components.SILVER))
             .addFlags(GenerationFlags.GENERATE_SCREW, GenerationFlags.GENERATE_GEAR, GenerationFlags.GENERATE_SMALL_GEAR, GenerationFlags.NO_MORTAR)
-            .toolStats(64, 8, 6.0F, 2.7F, 3.0F)
+            .toolStats(64, 8, 6.5F, 2.1F, 3.0F)
             .textureSet(TextureSet.SHINY_METAL)
             .buildAndRegister();
 
