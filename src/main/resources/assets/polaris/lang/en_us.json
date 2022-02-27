@@ -118,5 +118,7 @@
   "material.polaris.magnetic_iron": "Magnetic Iron",
   "material.polaris.copper": "Copper",
   "material.polaris.rubber": "Rubber",
-  "material.polaris.bronze": "Bronze"
+  "material.polaris.bronze": "Bronze",
+  "material.polaris.oxygen": "Oxygen",
+  "material.polaris.hydrogen": "Hydrogen"
 }

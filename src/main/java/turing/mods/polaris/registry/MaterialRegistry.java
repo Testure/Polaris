@@ -77,6 +77,22 @@ public class MaterialRegistry {
             .toolStats(1200, 2, 3.0F, 1.0F, 3.0F)
             .buildAndRegister();
 
+    public static final MaterialRegistryObject OXYGEN = MaterialBuilder.builder("oxygen")
+            .color(0xFF87CDFF)
+            .mass(0)
+            .components(new ComponentStack(Components.OXYGEN))
+            .textureSet(TextureSet.METAL)
+            .fluid(true, 1000)
+            .buildAndRegister();
+
+    public static final MaterialRegistryObject HYDROGEN = MaterialBuilder.builder("hydrogen")
+            .color(0xFF7C9FFF)
+            .mass(0)
+            .components(new ComponentStack(Components.HYDROGEN))
+            .textureSet(TextureSet.METAL)
+            .fluid(true, 1000)
+            .buildAndRegister();
+
     public static MaterialRegistryObject register(String name, MaterialBuilder builder) {
         return MATERIAL_DEFERRED_REGISTER.register(name, builder);
     }
