@@ -68,7 +68,7 @@ public class SubBlockGenerated extends Block implements IRenderTypedBlock, ITint
     @OnlyIn(Dist.CLIENT)
     @Override
     public int getColor(@Nonnull BlockState blockState, @Nullable IBlockDisplayReader reader, @Nullable BlockPos pos, int layer) {
-        return getMaterial().color;
+        return subItem == SubItem.ORE ? (layer == 1 ? getMaterial().color : 0xFFFFFFFF) : getMaterial().color;
     }
 
     @Override

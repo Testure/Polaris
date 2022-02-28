@@ -34,7 +34,7 @@ public class MaterialRegistry {
     };
 
     public static final MaterialRegistryObject IRON = MaterialBuilder.builder("iron")
-            .color(0xC1C1C1)
+            .color(0xFFC8C8C8)
             .ingot()
             .fluid(false, 1200)
             .component(Components.IRON)
@@ -47,7 +47,7 @@ public class MaterialRegistry {
             .buildAndRegister();
 
     public static final MaterialRegistryObject GOLD = MaterialBuilder.builder("gold")
-            .color(0xFFFAF25E)
+            .color(0xFFFFE650)
             .ingot()
             .fluid(false, 1200)
             .component(Components.GOLD)
@@ -60,7 +60,7 @@ public class MaterialRegistry {
             .buildAndRegister();
 
     public static final MaterialRegistryObject MAGNETIC_IRON = MaterialBuilder.builder("magnetic_iron")
-            .color(0xFFC1C1C1)
+            .color(0xFFC8C8C8)
             .ingot()
             .addFlags(GenerationFlags.GENERATE_SCREW, GenerationFlags.NO_COMPRESSION)
             .mass(90)
@@ -81,18 +81,18 @@ public class MaterialRegistry {
             .buildAndRegister();
 
     public static final MaterialRegistryObject TIN = MaterialBuilder.builder("tin")
-            .color(0xE3E4EA)
+            .color(0xFFDCDCDC)
             .ingot()
             .fluid(false, 1200)
             .mass(70)
             .ore(1)
             .component(Components.TIN)
             .addFlags(GenerationFlags.GENERATE_SCREW, GenerationFlags.GENERATE_GEAR)
-            .textureSet(TextureSet.DULL_METAL)
+            .textureSet(TextureSet.METAL)
             .buildAndRegister();
 
     public static final MaterialRegistryObject SILVER = MaterialBuilder.builder("silver")
-            .color(0xFFD0CEFF)
+            .color(0xFFDCDCFF)
             .ingot()
             .fluid(false, 1200)
             .mass(70)
@@ -103,7 +103,7 @@ public class MaterialRegistry {
             .buildAndRegister();
 
     public static final MaterialRegistryObject LEAD = MaterialBuilder.builder("lead")
-            .color(0x594570)
+            .color(0xFF8C648C)
             .ingot()
             .fluid(false, 1200)
             .mass(65)
@@ -114,18 +114,18 @@ public class MaterialRegistry {
             .buildAndRegister();
 
     public static final MaterialRegistryObject BRONZE = MaterialBuilder.builder("bronze")
-            .color(0xFFE56622)
+            .color(0xFFFF8000)
             .ingot()
             .fluid(false, 1200)
             .mass(80)
             .components(new ComponentStack(Components.COPPER, 3), new ComponentStack(Components.TIN))
             .addFlags(GenerationFlags.GENERATE_SCREW, GenerationFlags.GENERATE_GEAR, GenerationFlags.GENERATE_SMALL_GEAR)
             .toolStats(130, 2, 4.0F, 3.5F, 3.0F)
-            .textureSet(TextureSet.DULL_METAL)
+            .textureSet(TextureSet.DULL_METAL_HARSH)
             .buildAndRegister();
 
     public static final MaterialRegistryObject ELECTRUM = MaterialBuilder.builder("electrum")
-            .color(0xFFF6F660)
+            .color(0xFFFFFF64)
             .ingot()
             .fluid(false, 1200)
             .mass(140)
@@ -136,17 +136,17 @@ public class MaterialRegistry {
             .buildAndRegister();
 
     public static final MaterialRegistryObject RUBBER = MaterialBuilder.builder("rubber")
-            .color(0xFF191919)
+            .color(0xFF000000)
             .soft()
             .fluid(false, 1000)
             .mass(32)
-            .textureSet(TextureSet.DULL_METAL)
+            .textureSet(TextureSet.SHINY_METAL)
             .addFlags(GenerationFlags.IS_SOFT, GenerationFlags.NO_VANILLA_TOOLS)
             .toolStats(1200, 2, 3.0F, 1.0F, 3.0F)
             .buildAndRegister();
 
     public static final MaterialRegistryObject OXYGEN = MaterialBuilder.builder("oxygen")
-            .color(0xFF87CDFF)
+            .color(0xFF4CC3FF)
             .mass(0)
             .components(new ComponentStack(Components.OXYGEN))
             .textureSet(TextureSet.METAL)
@@ -154,7 +154,7 @@ public class MaterialRegistry {
             .buildAndRegister();
 
     public static final MaterialRegistryObject HYDROGEN = MaterialBuilder.builder("hydrogen")
-            .color(0xFF7C9FFF)
+            .color(0xFF0000B5)
             .mass(0)
             .components(new ComponentStack(Components.HYDROGEN))
             .textureSet(TextureSet.METAL)
