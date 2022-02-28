@@ -45,8 +45,8 @@ public class MachineTile extends TileEntity {
     public void overVolt() {}
 
     @Override
-    public void setRemoved() {
-        super.setRemoved();
+    public void remove() {
+        super.remove();
         energyOptional.invalidate();
     }
 

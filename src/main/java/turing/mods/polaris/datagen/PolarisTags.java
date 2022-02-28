@@ -12,15 +12,15 @@ import turing.mods.polaris.Polaris;
 public class PolarisTags {
     public static final class Blocks {
         public static ITag.INamedTag<Block> forge(String path) {
-            return BlockTags.bind(Polaris.forgeLoc(path).toString());
+            return BlockTags.makeWrapperTag(Polaris.forgeLoc(path).toString());
         }
 
         public static ITag.INamedTag<Block> mod(String path) {
-            return BlockTags.bind(Polaris.modLoc(path).toString());
+            return BlockTags.makeWrapperTag(Polaris.modLoc(path).toString());
         }
 
         public static ITag.INamedTag<Block> mc(String path) {
-            return BlockTags.bind(Polaris.mcLoc(path).toString());
+            return BlockTags.makeWrapperTag(Polaris.mcLoc(path).toString());
         }
     }
 
@@ -32,29 +32,29 @@ public class PolarisTags {
         public static final ITag.INamedTag<Item> CRAFTING_TOOLS = mod("crafting_tools");
 
         public static ITag.INamedTag<Item> forge(String path) {
-            return ItemTags.bind(Polaris.forgeLoc(path).toString());
+            return ItemTags.makeWrapperTag(Polaris.forgeLoc(path).toString());
         }
 
         public static ITag.INamedTag<Item> mod(String path) {
-            return ItemTags.bind(Polaris.modLoc(path).toString());
+            return ItemTags.makeWrapperTag(Polaris.modLoc(path).toString());
         }
 
         public static ITag.INamedTag<Item> mc(String path) {
-            return ItemTags.bind(Polaris.mcLoc(path).toString());
+            return ItemTags.makeWrapperTag(Polaris.mcLoc(path).toString());
         }
     }
 
     public static final class Fluids {
         public static ITag.INamedTag<Fluid> forge(String path) {
-            return FluidTags.bind(Polaris.forgeLoc(path).toString());
+            return FluidTags.makeWrapperTag(Polaris.forgeLoc(path).toString());
         }
 
         public static ITag.INamedTag<Fluid> mod(String path) {
-            return FluidTags.bind(Polaris.modLoc(path).toString());
+            return FluidTags.makeWrapperTag(Polaris.modLoc(path).toString());
         }
 
         public static ITag.INamedTag<Fluid> mc(String path) {
-            return FluidTags.bind(Polaris.mcLoc(path).toString());
+            return FluidTags.makeWrapperTag(Polaris.mcLoc(path).toString());
         }
     }
 }

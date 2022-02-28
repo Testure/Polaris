@@ -68,7 +68,7 @@ public class Material implements ITintedItem {
                 if (formula.getB().get(i) != null) {
                     tooltip.append(formula.getB().get(i));
                     finalI -= 1;
-                } else if (formula.getA().length() >= finalI) tooltip.append(TextFormatting.YELLOW + String.valueOf(formula.getA().charAt(finalI)));
+                } else if (formula.getA().length() >= finalI) tooltip.appendString(TextFormatting.YELLOW + String.valueOf(formula.getA().charAt(finalI)));
                 finalI += 1;
             }
             this.formulaTooltip = tooltip;

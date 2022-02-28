@@ -45,10 +45,10 @@ import java.util.List;
 @ParametersAreNonnullByDefault
 public class CreativePowerProvider extends Block implements ITintedBlock, IRenderTypedBlock {
     public CreativePowerProvider() {
-        super(AbstractBlock.Properties.of(Material.METAL)
+        super(AbstractBlock.Properties.create(Material.IRON)
                 .harvestTool(ToolType.PICKAXE)
-                .strength(-1.0F, 50.0F)
-                .sound(SoundType.NETHERITE_BLOCK)
+                .hardnessAndResistance(-1.0F, 50.0F)
+                .sound(SoundType.NETHERITE)
                 .harvestLevel(0)
                 .noDrops()
         );
@@ -57,7 +57,7 @@ public class CreativePowerProvider extends Block implements ITintedBlock, IRende
     @Override
     public int getColor(@Nonnull BlockState state, @Nullable IBlockDisplayReader displayReader, @Nullable BlockPos pos, int layer) {
         if (displayReader != null && pos != null && layer == 3) {
-            TileEntity te = displayReader.getBlockEntity(pos);
+            TileEntity te = displayReader.getTileEntity(pos);
             if (te instanceof CreativePowerProviderTile) {
                 CompoundNBT nbt = te.getUpdateTag();
                 int voltageTier = nbt.getInt("voltageConfig");
@@ -71,40 +71,40 @@ public class CreativePowerProvider extends Block implements ITintedBlock, IRende
 
     @Override
     public RenderType getRenderType() {
-        return RenderType.cutoutMipped();
+        return RenderType.getCutoutMipped();
     }
 
     @Nullable
     @Override
     public BlockState getStateForPlacement(BlockItemUseContext context) {
-        return getDefaultState().setValue(BlockStateProperties.FACING, context.getHorizontalDirection().getOpposite());
+        return defaultState().with(BlockStateProperties.FACING, context.getPlacementHorizontalFacing().getOpposite());
     }
 
-    protected BlockState getDefaultState() {
-        return defaultBlockState().setValue(MachineBlock.AMPERAGE_OUTPUT, 1).setValue(BlockStateProperties.FACING, Direction.NORTH).setValue(MachineBlock.BLOCK_STATE_UPDATE_HACK, false);
+    protected BlockState defaultState() {
+        return getDefaultState().with(MachineBlock.AMPERAGE_OUTPUT, 1).with(BlockStateProperties.FACING, Direction.NORTH).with(MachineBlock.BLOCK_STATE_UPDATE_HACK, false);
     }
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void appendHoverText(@Nonnull ItemStack stack, @Nullable IBlockReader reader, @Nonnull List<ITextComponent> tooltips, @Nonnull ITooltipFlag flag) {
+    public void addInformation(@Nonnull ItemStack stack, @Nullable IBlockReader reader, @Nonnull List<ITextComponent> tooltips, @Nonnull ITooltipFlag flag) {
         if (Config.SHOW_MACHINE_FLAVOR_TEXT.get()) tooltips.add(new TranslationTextComponent("flavor.polaris.creative"));
         tooltips.add(new TranslationTextComponent("tooltip.polaris.creative"));
         tooltips.add(new TranslationTextComponent("tooltip.polaris.creative1"));
         tooltips.add(new TranslationTextComponent("tooltip.polaris.creative2"));
-        super.appendHoverText(stack, reader, tooltips, flag);
+        super.addInformation(stack, reader, tooltips, flag);
     }
 
     @Override
-    public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult rayTraceResult) {
-        if (world.isClientSide) return ActionResultType.FAIL;
-        ItemStack stack = player.getItemInHand(hand);
-        TileEntity te = world.getBlockEntity(pos);
+    public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult rayTraceResult) {
+        if (world.isRemote) return ActionResultType.FAIL;
+        ItemStack stack = player.getHeldItem(hand);
+        TileEntity te = world.getTileEntity(pos);
         if (!stack.isEmpty() && (stack.getToolTypes().contains(Polaris.ToolTypes.HAMMER) || stack.getToolTypes().contains(Polaris.ToolTypes.SOFT_HAMMER))) {
             if (te instanceof CreativePowerProviderTile) {
                 CreativePowerProviderTile tile = (CreativePowerProviderTile) te;
                 if (stack.getToolTypes().contains(Polaris.ToolTypes.SOFT_HAMMER)) tile.adjustVoltage();
                 else tile.adjustAmps();
-                stack.hurtAndBreak(1, player, (a) -> a.broadcastBreakEvent(EquipmentSlotType.MAINHAND));
+                stack.damageItem(1, player, (a) -> a.sendBreakAnimation(EquipmentSlotType.MAINHAND));
             }
             return ActionResultType.SUCCESS;
         }
@@ -123,7 +123,7 @@ public class CreativePowerProvider extends Block implements ITintedBlock, IRende
     }
 
     @Override
-    protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
+    protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
         builder.add(MachineBlock.AMPERAGE_OUTPUT, BlockStateProperties.FACING, MachineBlock.BLOCK_STATE_UPDATE_HACK);
     }
 }

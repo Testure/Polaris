@@ -26,34 +26,34 @@ public class CasingBlock extends Block {
     private final int tier;
 
     public CasingBlock(int tier) {
-        super(Properties.of(Material.HEAVY_METAL)
-                .sound(SoundType.NETHERITE_BLOCK)
+        super(Properties.create(Material.IRON)
+                .sound(SoundType.NETHERITE)
                 .harvestLevel(1)
                 .harvestTool(ToolType.PICKAXE)
-                .strength(2.5F, 5.0F)
-                .requiresCorrectToolForDrops()
-                .isValidSpawn((a, b, c, d) -> false)
+                .hardnessAndResistance(2.5F, 5.0F)
+                .setRequiresTool()
+                .setAllowsSpawn((a, b, c, d) -> false)
         );
         this.tier = tier;
     }
 
     @Override
     @Nonnull
-    public String getDescriptionId() {
+    public String getTranslationKey() {
         return "block.polaris.casing." + Voltages.VOLTAGES[tier].name;
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable IBlockReader reader, List<ITextComponent> tooltips, ITooltipFlag flag) {
+    public void addInformation(ItemStack stack, @Nullable IBlockReader reader, List<ITextComponent> tooltips, ITooltipFlag flag) {
         tooltips.add(new TranslationTextComponent("tooltip.polaris.hull_spawn"));
         tooltips.add(new TranslationTextComponent("tooltip.polaris.hull_disclaimer"));
-        super.appendHoverText(stack, reader, tooltips, flag);
+        super.addInformation(stack, reader, tooltips, flag);
     }
 
     @Override
     @Nonnull
     @OnlyIn(Dist.CLIENT)
-    public IFormattableTextComponent getName() {
-        return new TranslationTextComponent(getDescriptionId());
+    public IFormattableTextComponent getTranslatedName() {
+        return new TranslationTextComponent(getTranslationKey());
     }
 }

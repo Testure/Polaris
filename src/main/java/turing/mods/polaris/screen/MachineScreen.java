@@ -32,18 +32,18 @@ public class MachineScreen<T extends MachineContainer> extends ContainerScreen<M
     public void render(MatrixStack matrixStack, int mouseX, int mouseY, float pt) {
         this.renderBackground(matrixStack);
         super.render(matrixStack, mouseX, mouseY, pt);
-        this.renderTooltip(matrixStack, mouseX, mouseY);
+        this.renderHoveredTooltip(matrixStack, mouseX, mouseY);
     }
 
     @Override
-    protected void renderLabels(MatrixStack matrixStack, int x, int y) {
-        drawString(matrixStack, Minecraft.getInstance().font, guiTitle.getString(), 3, 3, 0xFFFFFF);
+    protected void drawGuiContainerForegroundLayer(MatrixStack matrixStack, int x, int y) {
+        drawString(matrixStack, Minecraft.getInstance().fontRenderer, guiTitle.getString(), 3, 3, 0xFFFFFF);
     }
 
     @Override
-    protected void renderBg(MatrixStack matrixStack, float pt, int x, int y) {
+    protected void drawGuiContainerBackgroundLayer(MatrixStack matrixStack, float pt, int x, int y) {
         RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-        this.minecraft.getTextureManager().bind(gui);
+        this.minecraft.getTextureManager().bindTexture(gui);
         int rel1X = (this.width - this.getXSize()) / 2;
         int rel1Y = (this.height - this.getYSize()) / 2;
 

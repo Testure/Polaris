@@ -38,11 +38,11 @@ public class SubBlockGenerated extends Block implements IRenderTypedBlock, ITint
     private final SubItem subItem;
 
     public SubBlockGenerated(String name, Supplier<Material> material, SubItem subItem, net.minecraft.block.material.Material blockMaterial, int harvestLevel) {
-        super(AbstractBlock.Properties.of(blockMaterial)
-                .sound(blockMaterial == net.minecraft.block.material.Material.METAL ? SoundType.METAL : SoundType.STONE)
+        super(AbstractBlock.Properties.create(blockMaterial)
+                .sound(blockMaterial == net.minecraft.block.material.Material.IRON ? SoundType.METAL : SoundType.STONE)
                 .harvestLevel(harvestLevel)
                 .harvestTool(ToolType.PICKAXE)
-                .strength((float) harvestLevel + 0.5F, (float) harvestLevel + 1.5F)
+                .hardnessAndResistance((float) harvestLevel + 0.5F, (float) harvestLevel + 1.5F)
         );
         this.name = name;
         this.material = material;
@@ -50,7 +50,7 @@ public class SubBlockGenerated extends Block implements IRenderTypedBlock, ITint
     }
 
     public List<ItemStack> getDrops(BlockState state, LootContext.Builder builder) {
-        ItemStack tool = builder.getOptionalParameter(LootParameters.TOOL);
+        ItemStack tool = builder.get(LootParameters.TOOL);
         if (tool != null && tool.getToolTypes().contains(Polaris.ToolTypes.HAMMER)) {
             if (subItem == SubItem.ORE && getMaterial().getSubItems().contains(SubItem.CRUSHED_ORE)) {
                 MaterialRegistryObject registryObject = MaterialRegistry.getMaterials().get(getMaterial().getName());
@@ -73,7 +73,7 @@ public class SubBlockGenerated extends Block implements IRenderTypedBlock, ITint
 
     @Override
     public RenderType getRenderType() {
-        if (subItem == SubItem.ORE) return RenderType.cutoutMipped();
+        if (subItem == SubItem.ORE) return RenderType.getCutoutMipped();
         return IRenderTypedBlock.super.getRenderType();
     }
 
@@ -87,14 +87,14 @@ public class SubBlockGenerated extends Block implements IRenderTypedBlock, ITint
 
     @Nonnull
     @Override
-    public String getDescriptionId() {
+    public String getTranslationKey() {
         return "block.polaris." + subItem.name().toLowerCase();
     }
 
     @Nonnull
     @Override
     @OnlyIn(Dist.CLIENT)
-    public IFormattableTextComponent getName() {
-        return new TranslationTextComponent(getDescriptionId(), new TranslationTextComponent("material.polaris." + getMaterial().getName()));
+    public IFormattableTextComponent getTranslatedName() {
+        return new TranslationTextComponent(getTranslationKey(), new TranslationTextComponent("material.polaris." + getMaterial().getName()));
     }
 }

@@ -59,8 +59,8 @@ public class MaterialRegistryObject {
             Block found = null;
             if (get().existingItems != null) {
                 for (Map.Entry<SubItem, Item> item : get().existingItems.entrySet()) {
-                    if (Block.byItem(item.getValue()) != Blocks.AIR && item.getKey() == subItem) {
-                        found = Block.byItem(item.getValue());
+                    if (Block.getBlockFromItem(item.getValue()) != Blocks.AIR && item.getKey() == subItem) {
+                        found = Block.getBlockFromItem(item.getValue());
                         break;
                     }
                 }

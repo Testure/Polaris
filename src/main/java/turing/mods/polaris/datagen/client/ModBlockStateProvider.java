@@ -72,7 +72,7 @@ public class ModBlockStateProvider extends BlockStateProvider {
     public void directionalBlockFixed(Block block, Function<BlockState, ModelFile> func) {
         getVariantBuilder(block)
                 .forAllStates(blockState -> {
-                    Direction direction = blockState.getValue(BlockStateProperties.FACING);
+                    Direction direction = blockState.get(BlockStateProperties.FACING);
                     return ConfiguredModel.builder()
                             .modelFile(func.apply(blockState))
                             .rotationX(0)
@@ -84,7 +84,7 @@ public class ModBlockStateProvider extends BlockStateProvider {
     public void horizontalDirectionalBlockFixed(Block block, Function<BlockState, ModelFile> func) {
         getVariantBuilder(block)
                 .forAllStates(blockState -> {
-                    Direction direction = blockState.getValue(BlockStateProperties.HORIZONTAL_FACING);
+                    Direction direction = blockState.get(BlockStateProperties.HORIZONTAL_FACING);
                     return ConfiguredModel.builder()
                             .modelFile(func.apply(blockState))
                             .rotationX(0)
@@ -94,6 +94,6 @@ public class ModBlockStateProvider extends BlockStateProvider {
     }
 
     private int getX(Direction direction) {
-        return (180 + direction.get2DDataValue() * 90) % 360;
+        return (180 + direction.getHorizontalIndex() * 90) % 360;
     }
 }

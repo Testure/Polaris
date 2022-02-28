@@ -20,7 +20,7 @@ public class ItemGroupOres extends ItemGroup {
     }
 
     @Override
-    public void fillItemList(NonNullList<ItemStack> list) {
+    public void fill(NonNullList<ItemStack> list) {
         for (MaterialRegistryObject material : MaterialRegistry.getMaterials().values()) {
             if (material.hasSubItem(SubItem.ORE)) {
                 Item ore = material.getItemFromSubItem(SubItem.ORE);
@@ -30,7 +30,7 @@ public class ItemGroupOres extends ItemGroup {
     }
 
     @Override
-    public ItemStack makeIcon() {
+    public ItemStack createIcon() {
         return Items.IRON_ORE.getDefaultInstance();
     }
 }

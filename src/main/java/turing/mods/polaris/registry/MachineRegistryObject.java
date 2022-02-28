@@ -61,13 +61,13 @@ public class MachineRegistryObject<T extends TileEntity, B extends Block, I exte
     @OnlyIn(Dist.CLIENT)
     public void doClientSetup(FMLClientSetupEvent event, BlockColors blockColors, ItemColors itemColors) {
         event.enqueueWork(() -> getBlocks().forEach(block -> {
-            RenderTypeLookup.setRenderLayer(block.get(), RenderType.cutoutMipped());
+            RenderTypeLookup.setRenderLayer(block.get(), RenderType.getCutoutMipped());
             if (block.get() instanceof ITintedBlock) {
                 blockColors.register(((ITintedBlock) block.get())::getColor, block.get());
-                itemColors.register((a, layer) -> ((ITintedBlock) block.get()).getColor(block.get().defaultBlockState(), null, null, layer), block.get().asItem());
+                itemColors.register((a, layer) -> ((ITintedBlock) block.get()).getColor(block.get().getDefaultState(), null, null, layer), block.get().asItem());
             }
         }));
         for (RegistryObject<ContainerType<?>> container : containers)
-            ScreenManager.register((ContainerType<? extends MachineContainer>) container.get(), screenSupplier::apply);
+            ScreenManager.registerFactory((ContainerType<? extends MachineContainer>) container.get(), screenSupplier::apply);
     }
 }

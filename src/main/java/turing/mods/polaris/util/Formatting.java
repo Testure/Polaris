@@ -100,6 +100,6 @@ public class Formatting {
      */
     public static TranslationTextComponent createVoltageTooltip(String key, int voltageTier, @Nullable TextFormatting color) {
         Voltages.Voltage voltage = Voltages.VOLTAGES[voltageTier];
-        return new TranslationTextComponent(key, (color != null ? color : GREEN) + formattedNumber(voltage.energy), I18n.get(Voltages.getVoltageTierTranslationKey(voltageTier)));
+        return new TranslationTextComponent(key, (color != null ? color : GREEN) + formattedNumber(voltage.energy), I18n.format(Voltages.getVoltageTierTranslationKey(voltageTier)));
     }
 }

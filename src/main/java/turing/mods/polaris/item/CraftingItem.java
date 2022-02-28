@@ -25,7 +25,7 @@ public class CraftingItem extends Item implements IBasicModeledItem, ITintedItem
     private final List<ITextComponent> tooltips;
 
     public CraftingItem(String name, @Nullable Integer color, @Nullable Rarity rarity, @Nullable Integer maxStackSize, @Nullable List<ITextComponent> tooltips) {
-        super(new Properties().stacksTo(maxStackSize != null ? maxStackSize : 64).tab(Polaris.MISC));
+        super(new Properties().maxStackSize(maxStackSize != null ? maxStackSize : 64).group(Polaris.MISC));
         this.color = color != null ? color : 0xFFFFFFFF;
         this.rarity = rarity;
         this.tooltips = tooltips != null ? tooltips : new ArrayList<>();
@@ -59,8 +59,8 @@ public class CraftingItem extends Item implements IBasicModeledItem, ITintedItem
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void appendHoverText(ItemStack stack, @Nullable World world, List<ITextComponent> tooltips, ITooltipFlag flag) {
+    public void addInformation(ItemStack stack, @Nullable World world, List<ITextComponent> tooltips, ITooltipFlag flag) {
         tooltips.addAll(this.tooltips);
-        super.appendHoverText(stack, world, tooltips, flag);
+        super.addInformation(stack, world, tooltips, flag);
     }
 }

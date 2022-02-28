@@ -107,7 +107,7 @@ public class MachineRecipe implements IMachineRecipe {
             if (isEmpty()) return false;
 
             for (ItemStack itemStack : this.items)
-                if (itemStack.sameItem(stack)) return true;
+                if (itemStack.isItemEqual(stack)) return true;
             for (IPromisedTag tag : this.tags) {
                 if (tag.toIngredient().test(stack)) return true;
             }
@@ -132,7 +132,7 @@ public class MachineRecipe implements IMachineRecipe {
         }
 
         public static IMachineIngredient fromIngredient(Ingredient ingredient) {
-            return of(ingredient.getItems());
+            return of(ingredient.getMatchingStacks());
         }
     }
 }

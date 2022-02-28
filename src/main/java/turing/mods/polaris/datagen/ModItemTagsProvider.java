@@ -25,9 +25,9 @@ public class ModItemTagsProvider extends ItemTagsProvider {
     }
 
     @Override
-    protected void addTags() {
+    protected void registerTags() {
         addMaterialTags();
-        tag(PolarisTags.Items.CIRCUIT_LOGIC).add(ItemRegistry.VACUUM_TUBE.get(), ItemRegistry.NAND.get());
+        getOrCreateBuilder(PolarisTags.Items.CIRCUIT_LOGIC).add(ItemRegistry.VACUUM_TUBE.get(), ItemRegistry.NAND.get());
     }
 
     private void addMaterialTags() {
@@ -38,14 +38,14 @@ public class ModItemTagsProvider extends ItemTagsProvider {
                         SubItemGenerated itemGenerated = (SubItemGenerated) item.get();
                         String parentTag = itemGenerated.getSubItem().name().toLowerCase() + "s";
 
-                        tag(PolarisTags.Items.forge(parentTag + "/" + materialRegistryObject.getName())).add(itemGenerated);
-                        tag(PolarisTags.Items.forge(parentTag)).add(itemGenerated);
+                        getOrCreateBuilder(PolarisTags.Items.forge(parentTag + "/" + materialRegistryObject.getName())).add(itemGenerated);
+                        getOrCreateBuilder(PolarisTags.Items.forge(parentTag)).add(itemGenerated);
                     } else if (item.get() instanceof ToolItemGenerated) {
                         ToolItemGenerated toolItemGenerated = (ToolItemGenerated) item.get();
                         String parentTag = "crafting_tools";
 
-                        tag(PolarisTags.Items.CRAFTING_TOOLS).add(toolItemGenerated);
-                        tag(PolarisTags.Items.mod(parentTag + "/" + toolItemGenerated.getSubItem().name().toLowerCase())).add(toolItemGenerated);
+                        getOrCreateBuilder(PolarisTags.Items.CRAFTING_TOOLS).add(toolItemGenerated);
+                        getOrCreateBuilder(PolarisTags.Items.mod(parentTag + "/" + toolItemGenerated.getSubItem().name().toLowerCase())).add(toolItemGenerated);
                     }
                 }
             }
@@ -55,8 +55,8 @@ public class ModItemTagsProvider extends ItemTagsProvider {
                         SubBlockItemGenerated blockItem = (SubBlockItemGenerated) block.get().asItem();
                         String parentTag = blockItem.getSubItem().name().toLowerCase() + "s";
 
-                        tag(PolarisTags.Items.forge(parentTag + "/" + materialRegistryObject.getName())).add(blockItem);
-                        tag(PolarisTags.Items.forge(parentTag)).add(blockItem);
+                        getOrCreateBuilder(PolarisTags.Items.forge(parentTag + "/" + materialRegistryObject.getName())).add(blockItem);
+                        getOrCreateBuilder(PolarisTags.Items.forge(parentTag)).add(blockItem);
                     }
                 }
             }
@@ -64,6 +64,6 @@ public class ModItemTagsProvider extends ItemTagsProvider {
     }
 
     public TagsProvider.Builder<Item> getOrCreateItemBuilder(ITag.INamedTag<Item> tag) {
-        return tag(tag);
+        return getOrCreateBuilder(tag);
     }
 }

@@ -18,7 +18,7 @@ public class SubBlockItemGenerated extends BlockItem {
     private final SubItem subItem;
 
     public SubBlockItemGenerated(SubBlockGenerated block, Supplier<Material> material) {
-        super(block, new Properties().tab(block.getSubItem() == SubItem.ORE ? Polaris.ORES : Polaris.MATERIALS));
+        super(block, new Properties().group(block.getSubItem() == SubItem.ORE ? Polaris.ORES : Polaris.MATERIALS));
         this.material = material;
         this.subItem = block.getSubItem();
     }
@@ -33,21 +33,21 @@ public class SubBlockItemGenerated extends BlockItem {
 
     @Nonnull
     @Override
-    public String getDescriptionId() {
+    public String getTranslationKey() {
         return "block.polaris." + subItem.name().toLowerCase();
     }
 
     @Nonnull
     @Override
     @OnlyIn(Dist.CLIENT)
-    public ITextComponent getName(@Nonnull ItemStack stack) {
-        return getDescription();
+    public ITextComponent getDisplayName(@Nonnull ItemStack stack) {
+        return getName();
     }
 
     @Nonnull
     @Override
     @OnlyIn(Dist.CLIENT)
-    public ITextComponent getDescription() {
-        return new TranslationTextComponent(getDescriptionId(), new TranslationTextComponent("material.polaris." + getMaterial().getName()));
+    public ITextComponent getName() {
+        return new TranslationTextComponent(getTranslationKey(), new TranslationTextComponent("material.polaris." + getMaterial().getName()));
     }
 }

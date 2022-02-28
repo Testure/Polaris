@@ -12,7 +12,7 @@ public class ModRecipeProvider extends RecipeProvider {
     }
 
     @Override
-    protected void buildShapelessRecipes(Consumer<IFinishedRecipe> consumer) {
+    protected void registerRecipes(Consumer<IFinishedRecipe> consumer) {
 
     }
 }

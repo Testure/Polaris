@@ -61,17 +61,17 @@ public class CreativePowerProviderTile extends MachineTile implements ITickableT
     }
 
     private void updateState(boolean hackUpdate) {
-        if (level == null || level.isClientSide) return;
-        BlockState newState = getBlockState().setValue(MachineBlock.AMPERAGE_OUTPUT, Voltages.getAmpIndex(amperage) + 1);
-        level.setBlock(getBlockPos(), !hackUpdate ? newState : newState.setValue(MachineBlock.BLOCK_STATE_UPDATE_HACK, !newState.getValue(MachineBlock.BLOCK_STATE_UPDATE_HACK)), Constants.BlockFlags.BLOCK_UPDATE + Constants.BlockFlags.RERENDER_MAIN_THREAD);
+        if (world == null || world.isRemote) return;
+        BlockState newState = getBlockState().with(MachineBlock.AMPERAGE_OUTPUT, Voltages.getAmpIndex(amperage) + 1);
+        world.setBlockState(getPos(), !hackUpdate ? newState : newState.with(MachineBlock.BLOCK_STATE_UPDATE_HACK, !newState.get(MachineBlock.BLOCK_STATE_UPDATE_HACK)), Constants.BlockFlags.BLOCK_UPDATE + Constants.BlockFlags.RERENDER_MAIN_THREAD);
     }
 
     @Override
     public void tick() {
-        if (level == null || level.isClientSide) return;
+        if (world == null || world.isRemote) return;
         if (this.energyHandler.getEnergy() < this.energyHandler.getCapacity()) this.energyHandler.setEnergy(this.energyHandler.getCapacity());
-        Direction direction = level.getBlockState(getBlockPos()).getValue(BlockStateProperties.FACING);
-        TileEntity te = level.getBlockEntity(getBlockPos().relative(direction));
+        Direction direction = world.getBlockState(getPos()).get(BlockStateProperties.FACING);
+        TileEntity te = world.getTileEntity(getPos().offset(direction));
         if (te != null) {
             te.getCapability(TesseractGTCapability.ENERGY_HANDLER_CAPABILITY, direction.getOpposite()).ifPresent(handler -> {
                 if (handler.canInput()) {
@@ -84,25 +84,25 @@ public class CreativePowerProviderTile extends MachineTile implements ITickableT
     }
 
     @Override
-    public CompoundNBT save(CompoundNBT tag) {
-        return writeConfig(super.save(tag));
+    public CompoundNBT write(CompoundNBT tag) {
+        return writeConfig(super.write(tag));
     }
 
     @Override
-    public void load(BlockState state, CompoundNBT tag) {
+    public void read(BlockState state, CompoundNBT tag) {
         readConfig(tag);
-        super.load(state, tag);
+        super.read(state, tag);
     }
 
     @Nullable
     @Override
     public SUpdateTileEntityPacket getUpdatePacket() {
-        return new SUpdateTileEntityPacket(getBlockPos(), -1, writeConfig(new CompoundNBT()));
+        return new SUpdateTileEntityPacket(getPos(), -1, writeConfig(new CompoundNBT()));
     }
 
     @Override
     public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt) {
-        readConfig(pkt.getTag());
+        readConfig(pkt.getNbtCompound());
     }
 
     @Override

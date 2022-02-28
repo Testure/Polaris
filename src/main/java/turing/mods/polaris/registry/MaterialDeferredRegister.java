@@ -46,11 +46,11 @@ public class MaterialDeferredRegister {
             fluid = FluidRegistry.register(name, attributes, () -> material);
         }
         if (builder.oreStats != null && (builder.existingItems == null || !builder.existingItems.containsKey(SubItem.ORE))) {
-            SubBlockGenerated block = new SubBlockGenerated(name + "_ore", () -> material, SubItem.ORE, Material.STONE, 1);
+            SubBlockGenerated block = new SubBlockGenerated(name + "_ore", () -> material, SubItem.ORE, Material.ROCK, 1);
             blocks.add(BlockRegistry.registerCustomItem(name + "_ore", () -> block, () -> new SubBlockItemGenerated(block, () -> material)));
         }
         if (builder.subItems.contains(SubItem.BLOCK) && (builder.existingItems == null || !builder.existingItems.containsKey(SubItem.BLOCK))) {
-            SubBlockGenerated block = new SubBlockGenerated(name + "_block", () -> material, SubItem.BLOCK, Material.METAL, 1);
+            SubBlockGenerated block = new SubBlockGenerated(name + "_block", () -> material, SubItem.BLOCK, Material.IRON, 1);
             blocks.add(BlockRegistry.registerCustomItem(name + "_block", () -> block, () -> new SubBlockItemGenerated(block, () -> material)));
         }
 

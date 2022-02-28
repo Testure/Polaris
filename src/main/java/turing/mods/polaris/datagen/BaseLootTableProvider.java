@@ -34,37 +34,37 @@ public abstract class BaseLootTableProvider extends LootTableProvider {
     protected abstract void addTables();
 
     protected LootTable.Builder createStandardTable(String name, Block block) {
-        LootPool.Builder builder = LootPool.lootPool()
+        LootPool.Builder builder = LootPool.builder()
                 .name(name)
-                .setRolls(ConstantRange.exactly(1))
-                .add(ItemLootEntry.lootTableItem(block)
-                        .apply(CopyName.copyName(CopyName.Source.BLOCK_ENTITY))
-                        .apply(CopyNbt.copyData(CopyNbt.Source.BLOCK_ENTITY)
-                                .copy("energy", "BlockEntityTag.energy", CopyNbt.Action.REPLACE)
+                .rolls(ConstantRange.of(1))
+                .addEntry(ItemLootEntry.builder(block)
+                        .acceptFunction(CopyName.builder(CopyName.Source.BLOCK_ENTITY))
+                        .acceptFunction(CopyNbt.builder(CopyNbt.Source.BLOCK_ENTITY)
+                                .addOperation("energy", "BlockEntityTag.energy", CopyNbt.Action.REPLACE)
                         )
-                        .apply(SetContents.setContents()
-                                .withEntry(DynamicLootEntry.dynamicEntry(Polaris.mcLoc("contents")))
+                        .acceptFunction(SetContents.builderIn()
+                                .addLootEntry(DynamicLootEntry.func_216162_a(Polaris.mcLoc("contents")))
                         )
                 );
-        return LootTable.lootTable().withPool(builder);
+        return LootTable.builder().addLootPool(builder);
     }
 
     protected LootTable.Builder createBasicTable(String name, Block block) {
-        LootPool.Builder builder = LootPool.lootPool()
+        LootPool.Builder builder = LootPool.builder()
                 .name(name)
-                .setRolls(ConstantRange.exactly(1))
-                .add(ItemLootEntry.lootTableItem(block));
-        return LootTable.lootTable().withPool(builder);
+                .rolls(ConstantRange.of(1))
+                .addEntry(ItemLootEntry.builder(block));
+        return LootTable.builder().addLootPool(builder);
     }
 
     @Override
-    public void run(DirectoryCache cache) {
+    public void act(DirectoryCache cache) {
         addTables();
 
         Map<ResourceLocation, LootTable> tables = new HashMap<>();
 
         for (Map.Entry<Block, LootTable.Builder> entry : lootTables.entrySet()) {
-            tables.put(entry.getKey().getLootTable(), entry.getValue().setParamSet(LootParameterSets.BLOCK).build());
+            tables.put(entry.getKey().getLootTable(), entry.getValue().setParameterSet(LootParameterSets.BLOCK).build());
         }
 
         writeTables(cache, tables);
@@ -76,7 +76,7 @@ public abstract class BaseLootTableProvider extends LootTableProvider {
         tables.forEach((key, lootTable) -> {
             Path path = outputFolder.resolve("data/" + key.getNamespace() + "/loot_tables/" + key.getPath() + ".json");
             try {
-                IDataProvider.save(GSON, cache, LootTableManager.serialize(lootTable), path);
+                IDataProvider.save(GSON, cache, LootTableManager.toJson(lootTable), path);
             } catch (IOException exception) {
                 Polaris.LOGGER.error("Couldn't write loot table {}", path, exception);
             }

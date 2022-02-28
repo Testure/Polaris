@@ -37,12 +37,12 @@ public class MachineBlock extends Block {
     protected final int tier;
 
     public MachineBlock(int tier) {
-        super(AbstractBlock.Properties.of(Material.HEAVY_METAL)
-                .strength(2.5F, 5.0F)
+        super(AbstractBlock.Properties.create(Material.IRON)
+                .hardnessAndResistance(2.5F, 5.0F)
                 .harvestLevel(0)
                 .harvestTool(ToolType.PICKAXE)
-                .sound(SoundType.NETHERITE_BLOCK)
-                .isValidSpawn((a, b, c, d) -> false)
+                .sound(SoundType.NETHERITE)
+                .setAllowsSpawn((a, b, c, d) -> false)
         );
         this.tier = tier;
     }
@@ -53,8 +53,8 @@ public class MachineBlock extends Block {
         return getDefaultState();
     }
 
-    protected BlockState getDefaultState() {
-        return defaultBlockState().setValue(TIER, tier);
+    protected BlockState defaultState() {
+        return this.getDefaultState().with(TIER, tier);
     }
 
     @Override
@@ -63,21 +63,21 @@ public class MachineBlock extends Block {
     }
 
     @Override
-    public void onRemove(BlockState state, World world, BlockPos pos, BlockState newState, boolean isMoving) {
-        if (!state.is(newState.getBlock())) {
-            TileEntity te = world.getBlockEntity(pos);
+    public void onReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean isMoving) {
+        if (!state.isIn(newState.getBlock())) {
+            TileEntity te = world.getTileEntity(pos);
 
             if (te instanceof IInventory) {
-                InventoryHelper.dropContents(world, pos, (IInventory) te);
-                world.updateNeighbourForOutputSignal(pos, this);
+                InventoryHelper.dropInventoryItems(world, pos, (IInventory) te);
+                world.updateComparatorOutputLevel(pos, this);
             }
-            super.onRemove(state, world, pos, newState, isMoving);
+            super.onReplaced(state, world, pos, newState, isMoving);
         }
     }
 
     @Override
-    public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult result) {
-        if (world.isClientSide) {
+    public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult result) {
+        if (world.isRemote) {
             return ActionResultType.SUCCESS;
         }
         this.interactWith(world, pos, player, hand);
@@ -89,7 +89,7 @@ public class MachineBlock extends Block {
     }
 
     @Override
-    protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
+    protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
         builder.add(TIER);
     }
 }

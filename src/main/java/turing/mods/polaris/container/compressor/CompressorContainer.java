@@ -28,7 +28,7 @@ public class CompressorContainer extends MachineContainer {
     }
 
     private void trackProgress() {
-        addDataSlot(new IntReferenceHolder() {
+        trackInt(new IntReferenceHolder() {
             @Override
             public int get() {
                 CompressorTile tileEntity = (CompressorTile) tile;
@@ -46,7 +46,7 @@ public class CompressorContainer extends MachineContainer {
                 tileEntity.readProgress(tag);
             }
         });
-        addDataSlot(new IntReferenceHolder() {
+        trackInt(new IntReferenceHolder() {
             @Override
             public int get() {
                 CompressorTile tileEntity = (CompressorTile) tile;

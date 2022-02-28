@@ -22,19 +22,19 @@ public class ItemGroupMaterials extends ItemGroup {
     }
 
     @Override
-    public void fillItemList(NonNullList<ItemStack> list) {
+    public void fill(NonNullList<ItemStack> list) {
         for (MaterialRegistryObject material : MaterialRegistry.getMaterials().values()) {
             for (SubItem subItem : SubItem.values()) {
                 if (material.hasSubItem(subItem) && !subItem.isTool()) {
                     Item item = material.getItemFromSubItem(subItem);
-                    if (item.getItemCategory() instanceof ItemGroupMaterials || !Objects.equals(item.getCreatorModId(item.getDefaultInstance()), Polaris.MODID)) list.add(item.getDefaultInstance());
+                    if (item.getGroup() instanceof ItemGroupMaterials || !Objects.equals(item.getCreatorModId(item.getDefaultInstance()), Polaris.MODID)) list.add(item.getDefaultInstance());
                 }
             }
         }
     }
 
     @Override
-    public ItemStack makeIcon() {
+    public ItemStack createIcon() {
         return Items.IRON_BLOCK.getDefaultInstance();
     }
 }

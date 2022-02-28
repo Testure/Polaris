@@ -34,53 +34,53 @@ public class HullBlock extends Block implements IRenderTypedBlock {
     private final int tier;
 
     public HullBlock(int tier) {
-        super(Properties.of(Material.HEAVY_METAL)
+        super(Properties.create(Material.IRON)
                 .harvestLevel(1)
                 .harvestTool(ToolType.PICKAXE)
-                .sound(SoundType.NETHERITE_BLOCK)
-                .strength(2.5F, 5.0F)
-                .isValidSpawn((a, b, c, d) -> false)
+                .sound(SoundType.NETHERITE)
+                .hardnessAndResistance(2.5F, 5.0F)
+                .setAllowsSpawn((a, b, c, d) -> false)
         );
         this.tier = tier;
     }
 
     @Override
     public RenderType getRenderType() {
-        return RenderType.cutoutMipped();
+        return RenderType.getCutoutMipped();
     }
 
     @Nonnull
     @Override
-    public String getDescriptionId() {
+    public String getTranslationKey() {
         return "block.polaris.hull." + Voltages.VOLTAGES[tier].name;
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable IBlockReader reader, List<ITextComponent> tooltips, ITooltipFlag flag) {
+    public void addInformation(ItemStack stack, @Nullable IBlockReader reader, List<ITextComponent> tooltips, ITooltipFlag flag) {
         if (Config.SHOW_MACHINE_FLAVOR_TEXT.get()) tooltips.add(new TranslationTextComponent("flavor.polaris.hull"));
         tooltips.add(Formatting.createVoltageTooltip("tooltip.polaris.voltage_in", tier, TextFormatting.GREEN));
         tooltips.add(Formatting.createVoltageTooltip("tooltip.polaris.voltage_out", tier, TextFormatting.RED));
         tooltips.add(new TranslationTextComponent("tooltip.polaris.energy_storage", TextFormatting.GREEN + Formatting.formattedNumber(Voltages.VOLTAGES[tier].capacity)));
         tooltips.add(new TranslationTextComponent("tooltip.polaris.hull_spawn"));
         tooltips.add(new TranslationTextComponent("tooltip.polaris.hull_disclaimer"));
-        super.appendHoverText(stack, reader, tooltips, flag);
+        super.addInformation(stack, reader, tooltips, flag);
     }
 
     @Override
     @Nonnull
     @OnlyIn(Dist.CLIENT)
-    public IFormattableTextComponent getName() {
-        return new TranslationTextComponent(getDescriptionId());
+    public IFormattableTextComponent getTranslatedName() {
+        return new TranslationTextComponent(getTranslationKey());
     }
 
     @Override
-    protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
+    protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
         builder.add(BlockStateProperties.FACING);
     }
 
     @Nullable
     @Override
     public BlockState getStateForPlacement(BlockItemUseContext context) {
-        return defaultBlockState().setValue(BlockStateProperties.FACING, context.getHorizontalDirection().getOpposite());
+        return getDefaultState().with(BlockStateProperties.FACING, context.getPlacementHorizontalFacing().getOpposite());
     }
 }

@@ -41,7 +41,7 @@ public class BlockRegistry {
 
     public static <T extends Block> RegistryObject<T> register(String name, Supplier<T> supplier) {
         RegistryObject<T> block = registerNoItem(name, supplier);
-        Item.Properties properties = new Item.Properties().tab(Polaris.MISC);
+        Item.Properties properties = new Item.Properties().group(Polaris.MISC);
         Registration.ITEMS.register(name, () -> new BlockItem(block.get(), properties));
         BLOCKS.add((RegistryObject<Block>) block);
         return block;

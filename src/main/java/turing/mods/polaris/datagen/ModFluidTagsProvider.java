@@ -15,10 +15,10 @@ public class ModFluidTagsProvider extends FluidTagsProvider {
     }
 
     @Override
-    protected void addTags() {
+    protected void registerTags() {
         for (FluidRegistryObject<?, ?, ?, ?> fluidRegistryObject : FluidRegistry.getFluids().values()) {
-            tag(PolarisTags.Fluids.forge(fluidRegistryObject.getName())).add(fluidRegistryObject.getStill()).add(fluidRegistryObject.getFlowing());
-            tag(PolarisTags.Fluids.mc("water")).add(fluidRegistryObject.getStill()).add(fluidRegistryObject.getFlowing());
+            getOrCreateBuilder(PolarisTags.Fluids.forge(fluidRegistryObject.getName())).add(fluidRegistryObject.getStill()).add(fluidRegistryObject.getFlowing());
+            getOrCreateBuilder(PolarisTags.Fluids.mc("water")).add(fluidRegistryObject.getStill()).add(fluidRegistryObject.getFlowing());
         }
     }
 }

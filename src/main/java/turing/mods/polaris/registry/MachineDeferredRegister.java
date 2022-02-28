@@ -62,14 +62,14 @@ public class MachineDeferredRegister {
 
             RegistryObject<B> block = blockRegister.register(tieredName, BSupplier);
             RegistryObject<I> item = itemRegister.register(tieredName, ISupplier);
-            RegistryObject<TileEntityType<T>> tile = tileRegister.register(tieredName, () -> TileEntityType.Builder.of(TSupplier, block.get()).build(null));
+            RegistryObject<TileEntityType<T>> tile = tileRegister.register(tieredName, () -> TileEntityType.Builder.create(TSupplier, block.get()).build(null));
             blocks.add(block);
             items.add(item);
             tiles.add(tile);
 
             RegistryObject<ContainerType<?>> container = containerRegister.register(tieredName, () -> IForgeContainerType.create((((windowId, inv, data) -> {
                 BlockPos pos = data.readBlockPos();
-                World world = inv.player.level;
+                World world = inv.player.world;
                 data.setIndex(0, 0);
                 return containerSupplier.apply(finalI, windowId, world, pos, inv, inv.player, data);
             }))));

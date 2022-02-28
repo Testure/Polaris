@@ -126,9 +126,9 @@ public class Polaris {
     public void onTooltip(ItemTooltipEvent event) {
         ItemStack stack = event.getItemStack();
         boolean isGenerated = (stack.getItem() instanceof SubItemGenerated) || (stack.getItem() instanceof SubBlockItemGenerated);
-        boolean isMaterialItem = isGenerated || Arrays.stream(MaterialRegistry.IRON_EXISTING).anyMatch(tuple -> stack.sameItem(tuple.getB().getDefaultInstance()));
+        boolean isMaterialItem = isGenerated || Arrays.stream(MaterialRegistry.IRON_EXISTING).anyMatch(tuple -> stack.isItemEqual(tuple.getB().getDefaultInstance()));
 
-        if (isMaterialItem && stack.getToolTypes().isEmpty() && !stack.isCorrectToolForDrops(Blocks.COBWEB.defaultBlockState())) {
+        if (isMaterialItem && stack.getToolTypes().isEmpty() && !stack.canHarvestBlock(Blocks.COBWEB.getDefaultState())) {
             MaterialRegistryObject material = null;
 
             for (MaterialRegistryObject registryObject : MaterialRegistry.getMaterials().values())

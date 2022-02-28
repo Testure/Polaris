@@ -15,7 +15,7 @@ public class ItemGroupMisc extends ItemGroup {
     }
 
     @Override
-    public ItemStack makeIcon() {
+    public ItemStack createIcon() {
         return Items.ACACIA_BOAT.getDefaultInstance();
     }
 }

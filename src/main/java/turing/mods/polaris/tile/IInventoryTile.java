@@ -14,17 +14,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public interface IInventoryTile extends IInventory {
-    int getContainerSize();
-
     boolean isEmpty();
-
-    ItemStack getItem(int slot);
-
-    ItemStack removeItem(int slot, int amount);
-
-    ItemStack removeItemNoUpdate(int slot);
-
-    void setItem(int slot, ItemStack stack);
 
     default boolean isItemValidForSlot(int slot, ItemStack stack) {
         return canInsertIntoSlot(stack, slot);
@@ -38,15 +28,15 @@ public interface IInventoryTile extends IInventory {
 
     World getWorld();
 
-    BlockPos getBlockPos();
+    BlockPos getPos();
 
     void clear();
 
     default boolean isUsableByPlayer(PlayerEntity player) {
-        return isWithinUsableDistance(IWorldPosCallable.create(getWorld(), getBlockPos()), player);
+        return isWithinUsableDistance(IWorldPosCallable.of(getWorld(), getPos()), player);
     }
 
     default boolean isWithinUsableDistance(IWorldPosCallable worldPos, PlayerEntity player) {
-        return worldPos.evaluate((a, b) -> a.getBlockState(b).is(this.getBlockState().getBlock()) && player.distanceToSqr((double) b.getX() + 0.5D, (double) b.getY() + 0.5D, (double) b.getZ() + 0.5D) <= 64.0D, true);
+        return worldPos.applyOrElse((a, b) -> a.getBlockState(b).isIn(this.getBlockState().getBlock()) && player.getDistanceSq((double) b.getX() + 0.5D, (double) b.getY() + 0.5D, (double) b.getZ() + 0.5D) <= 64.0D, true);
     }
 }

@@ -19,7 +19,7 @@ import java.util.function.Function;
 @MethodsReturnNonnullByDefault
 public class MachineBlockStates {
     private static Function<BlockState, ModelFile> machineModelProviderFunction(ModelFile normal, ModelFile powered) {
-        return state -> state.getValue(BlockStateProperties.POWERED) ? powered : normal;
+        return state -> state.get(BlockStateProperties.POWERED) ? powered : normal;
     }
 
     public static void createCreativePowerProviderModel(ModBlockStateProvider provider) {
@@ -60,7 +60,7 @@ public class MachineBlockStates {
             files1[i] = builder1;
         }
 
-        provider.directionalBlockFixed(BlockRegistry.CREATIVE_POWER_PROVIDER.get(), state -> state.getValue(MachineBlock.BLOCK_STATE_UPDATE_HACK) ? files1[state.getValue(MachineBlock.AMPERAGE_OUTPUT) - 1] : files[state.getValue(MachineBlock.AMPERAGE_OUTPUT) - 1]);
+        provider.directionalBlockFixed(BlockRegistry.CREATIVE_POWER_PROVIDER.get(), state -> state.get(MachineBlock.BLOCK_STATE_UPDATE_HACK) ? files1[state.get(MachineBlock.AMPERAGE_OUTPUT) - 1] : files[state.get(MachineBlock.AMPERAGE_OUTPUT) - 1]);
     }
 
     public static void createCasingModel(ModBlockStateProvider provider, Block block, int tier, boolean isHull) {

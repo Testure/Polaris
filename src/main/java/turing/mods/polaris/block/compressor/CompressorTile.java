@@ -11,6 +11,7 @@ import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.util.Direction;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.Constants;
@@ -55,7 +56,7 @@ public class CompressorTile extends MachineTile implements ITickableTileEntity, 
 
     @Override
     public void tick() {
-        if (level == null || level.isClientSide) return;
+        if (world == null || world.isRemote) return;
         if (recipeSearchDetails != null && !Polaris.tagsResolved) return;
 
         if (recipeSearchDetails != null) {
@@ -73,7 +74,7 @@ public class CompressorTile extends MachineTile implements ITickableTileEntity, 
             ItemStack stack = this.itemStackHandler.getStackInSlot(0);
             IMachineRecipe recipe = null;
 
-            if (!stack.isEmpty() && currentInput != null && currentInput.sameItem(stack)) {
+            if (!stack.isEmpty() && currentInput != null && currentInput.isItemEqual(stack)) {
                 recipe = findRecipe(stack);
 
                 if (recipe != null && energyHandler.getEnergy() > (recipe.getEUt() * 4L)) {
@@ -127,13 +128,13 @@ public class CompressorTile extends MachineTile implements ITickableTileEntity, 
     }
 
     @Override
-    public CompoundNBT save(CompoundNBT tag) {
-        return writeTag(super.save(tag));
+    public CompoundNBT write(CompoundNBT tag) {
+        return writeTag(super.write(tag));
     }
 
     @Override
-    public void load(BlockState state, CompoundNBT tag) {
-        super.load(state, tag);
+    public void read(BlockState state, CompoundNBT tag) {
+        super.read(state, tag);
         readTag(tag);
     }
 
@@ -150,20 +151,20 @@ public class CompressorTile extends MachineTile implements ITickableTileEntity, 
 
     @Override
     public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt) {
-        readTag(pkt.getTag());
+        readTag(pkt.getNbtCompound());
     }
 
     @Nullable
     @Override
     public SUpdateTileEntityPacket getUpdatePacket() {
-        return new SUpdateTileEntityPacket(getBlockPos(), -1, writeTag(new CompoundNBT()));
+        return new SUpdateTileEntityPacket(getPos(), -1, writeTag(new CompoundNBT()));
     }
 
     @Override
     public void handleDisabled(boolean previousValue) {
-        if (level == null) return;
-        if (!previousValue && this.workingDisabled && currentRecipe != null) updateState(level.getBlockState(getBlockPos()), 0);
-        else if (previousValue && !this.workingDisabled && currentRecipe != null) updateState(level.getBlockState(getBlockPos()), -1);
+        if (world == null) return;
+        if (!previousValue && this.workingDisabled && currentRecipe != null) updateState(world.getBlockState(getPos()), 0);
+        else if (previousValue && !this.workingDisabled && currentRecipe != null) updateState(world.getBlockState(getPos()), -1);
     }
 
     private static CompoundNBT serializeRecipe(ItemStack input, int voltage) {
@@ -175,7 +176,7 @@ public class CompressorTile extends MachineTile implements ITickableTileEntity, 
 
     @Nullable
     private static IMachineRecipe findRecipeFromTag(CompoundNBT tag) {
-        return Recipes.COMPRESSOR.findRecipe(new ItemStack[]{ItemStack.of(tag.getCompound("input"))}, null, tag.getInt("voltage"), -1, -1, true);
+        return Recipes.COMPRESSOR.findRecipe(new ItemStack[]{ItemStack.read(tag.getCompound("input"))}, null, tag.getInt("voltage"), -1, -1, true);
     }
 
     @Nullable
@@ -189,13 +190,13 @@ public class CompressorTile extends MachineTile implements ITickableTileEntity, 
         if (time >= 0)
             if (energyHandler.removeEnergy(energyToRemove) < energyToRemove) {
                 time = -3;
-                setChanged();
+                markDirty();
                 return;
                 //TODO out of energy sound
             }
 
         time += 1;
-        setChanged();
+        markDirty();
     }
 
     private void finishRecipe() {
@@ -211,11 +212,11 @@ public class CompressorTile extends MachineTile implements ITickableTileEntity, 
             if (this.itemStackHandler.getStackInSlot(0).isEmpty()) {
                 currentInput = null;
                 currentRecipe = null;
-                updateState(level.getBlockState(worldPosition), -1);
-            } else if (this.itemStackHandler.getStackInSlot(0).sameItem(currentInput)) {
+                updateState(world.getBlockState(pos), -1);
+            } else if (this.itemStackHandler.getStackInSlot(0).isItemEqual(currentInput)) {
                 startRecipe(currentRecipe);
             }
-            setChanged();
+            markDirty();
         }
     }
 
@@ -227,36 +228,36 @@ public class CompressorTile extends MachineTile implements ITickableTileEntity, 
         this.timeGoal = recipe.getDuration();
         this.energyUse = recipe.getEUt();
         this.itemStackHandler.setStackInSlot(0, newStack);
-        updateState(level.getBlockState(worldPosition), -1);
+        updateState(world.getBlockState(pos), -1);
     }
 
     private void updateState(BlockState blockState, int override) {
-        boolean isPowered = blockState.getValue(BlockStateProperties.POWERED);
+        boolean isPowered = blockState.get(BlockStateProperties.POWERED);
         boolean shouldUpdateState = override > -1 ? (override == 1) : isPowered == (currentRecipe == null);
         int blockFlags = Constants.BlockFlags.NOTIFY_NEIGHBORS + Constants.BlockFlags.BLOCK_UPDATE;
 
         if (shouldUpdateState)
-            level.setBlock(worldPosition, blockState.setValue(BlockStateProperties.POWERED, override > -1 ? (override == 1) : currentRecipe != null), blockFlags);
-        if (blockState.getValue(BlockStateProperties.POWERED)) /*TODO machine sounds*/;
+            world.setBlockState(pos, blockState.with(BlockStateProperties.POWERED, override > -1 ? (override == 1) : currentRecipe != null), blockFlags);
+        if (blockState.get(BlockStateProperties.POWERED)) /*TODO machine sounds*/;
     }
 
     private boolean isSlotFree(int slot, ItemStack wantedStack) {
         ItemStack currentStack = this.itemStackHandler.getStackInSlot(slot);
-        return currentStack == ItemStack.EMPTY || (currentStack.sameItem(wantedStack) && (currentStack.getCount() + wantedStack.getCount()) <= this.itemStackHandler.getSlotLimit(slot) && (currentStack.getCount() + wantedStack.getCount()) <= currentStack.getMaxStackSize());
+        return currentStack == ItemStack.EMPTY || (currentStack.isItemEqual(wantedStack) && (currentStack.getCount() + wantedStack.getCount()) <= this.itemStackHandler.getSlotLimit(slot) && (currentStack.getCount() + wantedStack.getCount()) <= currentStack.getMaxStackSize());
     }
 
     @Override
-    public void setRemoved() {
-        super.setRemoved();
+    public void remove() {
+        super.remove();
         inventory.invalidate();
     }
 
     public void encodeExtraData(PacketBuffer buffer) {
-        buffer.writeBlockPos(getBlockPos());
+        buffer.writeBlockPos(getPos());
     }
 
     @Override
-    public int getContainerSize() {
+    public int getSizeInventory() {
         return 2;
     }
 
@@ -268,48 +269,38 @@ public class CompressorTile extends MachineTile implements ITickableTileEntity, 
     }
 
     @Override
-    public ItemStack getItem(int slot) {
+    public ItemStack getStackInSlot(int slot) {
         return this.itemStackHandler.getStackInSlot(slot);
     }
 
     @Override
-    public ItemStack removeItem(int slot, int amount) {
+    public ItemStack decrStackSize(int slot, int amount) {
         return this.itemStackHandler.extractItem(slot, amount, false);
     }
 
     @Override
-    public ItemStack removeItemNoUpdate(int slot) {
+    public ItemStack removeStackFromSlot(int slot) {
         ItemStack stack = this.itemStackHandler.getStackInSlot(slot);
         this.itemStackHandler.setStackInSlot(slot, ItemStack.EMPTY);
         return stack;
     }
 
     @Override
-    public void setItem(int slot, ItemStack stack) {
+    public void setInventorySlotContents(int slot, ItemStack stack) {
         this.itemStackHandler.setStackInSlot(slot, stack);
     }
 
     @Override
     public World getWorld() {
-        return getLevel();
+        return world;
     }
 
     @Override
     public void clear() {
         for (int i = 0; i < this.itemStackHandler.getSlots() - 1; i++) {
-            removeItemNoUpdate(i);
+            removeStackFromSlot(i);
         }
-        setItem(this.itemStackHandler.getSlots() - 1, ItemStack.EMPTY);
-    }
-
-    @Override
-    public boolean stillValid(PlayerEntity player) {
-        return isUsableByPlayer(player);
-    }
-
-    @Override
-    public void clearContent() {
-        clear();
+        setInventorySlotContents(this.itemStackHandler.getSlots() - 1, ItemStack.EMPTY);
     }
 
     private ItemStackHandler createHandler() {
@@ -340,11 +331,11 @@ public class CompressorTile extends MachineTile implements ITickableTileEntity, 
         protected void onContentsChanged(int slot) {
             ItemStack newStack = this.getStackInSlot(0);
 
-            if (currentInput == null || (!newStack.sameItem(currentInput) && !newStack.isEmpty())) {
+            if (currentInput == null || (!newStack.isItemEqual(currentInput) && !newStack.isEmpty())) {
                 currentInput = newStack;
             }
 
-            setChanged();
+            markDirty();
         }
 
         @Override

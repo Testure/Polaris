@@ -63,22 +63,22 @@ public class CompressorBlock extends MachineBlock implements ITintedBlock {
     @Nullable
     @Override
     public BlockState getStateForPlacement(BlockItemUseContext context) {
-        return getDefaultState().setValue(FACING, context.getHorizontalDirection().getOpposite());
+        return defaultState().with(FACING, context.getPlacementHorizontalFacing().getOpposite());
     }
 
     @Override
-    protected BlockState getDefaultState() {
-        return defaultBlockState().setValue(MachineBlock.TIER, tier + 1).setValue(POWERED, false).setValue(FACING, Direction.NORTH);
+    protected BlockState defaultState() {
+        return this.getDefaultState().with(MachineBlock.TIER, tier + 1).with(POWERED, false).with(FACING, Direction.NORTH);
     }
 
     @Override
     public BlockState rotate(BlockState state, Rotation rot) {
-        return state.setValue(FACING, rot.rotate(state.getValue(FACING)));
+        return state.with(FACING, rot.rotate(state.get(FACING)));
     }
 
     @Override
     public BlockState mirror(BlockState state, Mirror mirror) {
-        return state.setValue(FACING, mirror.mirror(state.getValue(FACING)));
+        return state.with(FACING, mirror.mirror(state.get(FACING)));
     }
 
     @Override
@@ -88,7 +88,7 @@ public class CompressorBlock extends MachineBlock implements ITintedBlock {
 
     @Override
     protected void interactWith(World world, BlockPos pos, PlayerEntity player, Hand hand) {
-        TileEntity te = world.getBlockEntity(pos);
+        TileEntity te = world.getTileEntity(pos);
 
         if (te instanceof CompressorTile && player instanceof ServerPlayerEntity) {
             CompressorTile tile = (CompressorTile) te;
@@ -110,8 +110,8 @@ public class CompressorBlock extends MachineBlock implements ITintedBlock {
     }
 
     @Override
-    protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
-        super.createBlockStateDefinition(builder);
+    protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
+        super.fillStateContainer(builder);
         builder.add(FACING, POWERED);
     }
 }

@@ -26,16 +26,16 @@ public class CompressorItem extends BlockItem {
     private final int tier;
 
     public CompressorItem(int tier) {
-        super(MachineRegistry.COMPRESSOR.getBlocks().get(tier).get(), new Properties().tab(Polaris.MISC));
+        super(MachineRegistry.COMPRESSOR.getBlocks().get(tier).get(), new Properties().group(Polaris.MISC));
         this.tier = tier;
     }
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void appendHoverText(ItemStack stack, @Nullable World world, List<ITextComponent> tooltips, ITooltipFlag flag) {
+    public void addInformation(ItemStack stack, @Nullable World world, List<ITextComponent> tooltips, ITooltipFlag flag) {
         if (Config.SHOW_MACHINE_FLAVOR_TEXT.get()) tooltips.add(new TranslationTextComponent("flavor.polaris.compressor"));
         tooltips.add(Formatting.createVoltageTooltip("tooltip.polaris.voltage_in", tier + 1, TextFormatting.GREEN));
         tooltips.add(new TranslationTextComponent("tooltip.polaris.energy_storage", TextFormatting.RED + Formatting.formattedNumber(Voltages.getEnergyCapacity(Voltages.VOLTAGES[tier + 1].energy))));
-        super.appendHoverText(stack, world, tooltips, flag);
+        super.addInformation(stack, world, tooltips, flag);
     }
 }

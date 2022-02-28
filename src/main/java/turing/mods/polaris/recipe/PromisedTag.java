@@ -60,8 +60,8 @@ public class PromisedTag implements IPromisedTag {
     @Override
     public void resolve() {
         resolved = true;
-        tag = ItemTags.bind(this.tagLoc.toString());
-        ingredient = Ingredient.of(toTag());
+        tag = ItemTags.makeWrapperTag(this.tagLoc.toString());
+        ingredient = Ingredient.fromTag(toTag());
     }
 
     @Override

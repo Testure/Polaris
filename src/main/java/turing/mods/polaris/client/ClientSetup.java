@@ -57,7 +57,7 @@ public class ClientSetup {
         BlockRegistry.BLOCKS.forEach(block -> {
             if (block.get() instanceof ITintedBlock) {
                 blockColors.register(((ITintedBlock) block.get())::getColor, block.get());
-                itemColors.register((a, layer) -> ((ITintedBlock) block.get()).getColor(block.get().defaultBlockState(), null, null, layer), block.get().asItem());
+                itemColors.register((a, layer) -> ((ITintedBlock) block.get()).getColor(block.get().getDefaultState(), null, null, layer), block.get().asItem());
             }
             if (block.get() instanceof IRenderTypedBlock) RenderTypeLookup.setRenderLayer(block.get(), ((IRenderTypedBlock) block.get()).getRenderType());
         });

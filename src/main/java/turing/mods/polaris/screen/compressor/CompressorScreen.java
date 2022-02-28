@@ -20,18 +20,17 @@ public class CompressorScreen extends MachineScreen<CompressorContainer> {
     }
 
     @Override
-    protected void renderTooltip(MatrixStack matrixStack, int x, int y) {
-        super.renderTooltip(matrixStack, x, y);
-
+    protected void renderHoveredTooltip(MatrixStack matrixStack, int x, int y) {
+        super.renderHoveredTooltip(matrixStack, x, y);
     }
 
     @Override
-    protected void renderBg(MatrixStack matrixStack, float pt, int x, int y) {
-        super.renderBg(matrixStack, pt, x, y);
+    protected void drawGuiContainerBackgroundLayer(MatrixStack matrixStack, float pt, int x, int y) {
+        super.drawGuiContainerBackgroundLayer(matrixStack, pt, x, y);
 
         int rel1X = (this.width - this.getXSize()) / 2;
         int rel1Y = (this.height - this.getYSize()) / 2;
-        int progress = ((CompressorContainer) this.menu).getProgress();
+        int progress = ((CompressorContainer) this.container).getProgress();
 
         this.blit(matrixStack, rel1X + 76, rel1Y + 34, 189, 0, progress, 3);
     }

@@ -1,5 +1,6 @@
 package turing.mods.polaris.item;
 
+import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.ITextComponent;
@@ -9,14 +10,17 @@ import turing.mods.polaris.material.Material;
 import turing.mods.polaris.material.SubItem;
 
 import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.function.Supplier;
 
+@MethodsReturnNonnullByDefault
+@ParametersAreNonnullByDefault
 public class SubItemGenerated extends Item implements ITintedItem {
     protected final Supplier<Material> materialSupplier;
     protected final SubItem subItem;
 
     public SubItemGenerated(Supplier<Material> materialSupplier, SubItem subItem) {
-        super(new Properties().tab(Polaris.MATERIALS));
+        super(new Properties().group(Polaris.MATERIALS));
         this.materialSupplier = materialSupplier;
         this.subItem = subItem;
     }
@@ -30,9 +34,14 @@ public class SubItemGenerated extends Item implements ITintedItem {
     }
 
     @Override
-    public ITextComponent getName(ItemStack stack) {
+    public ITextComponent getName() {
         //TODO Translation overrides
         return new TranslationTextComponent("item.polaris." + subItem.name().toLowerCase(), new TranslationTextComponent("material.polaris." + getMaterial().getName()));
+    }
+
+    @Override
+    public ITextComponent getDisplayName(ItemStack stack) {
+        return getName();
     }
 
     @Override

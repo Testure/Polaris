@@ -4,6 +4,6 @@ import net.minecraft.client.renderer.RenderType;
 
 public interface IRenderTypedBlock {
     default RenderType getRenderType() {
-        return RenderType.solid();
+        return RenderType.getSolid();
     }
 }

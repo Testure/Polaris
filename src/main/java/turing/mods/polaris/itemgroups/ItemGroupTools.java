@@ -20,7 +20,7 @@ public class ItemGroupTools extends ItemGroup {
     }
 
     @Override
-    public void fillItemList(NonNullList<ItemStack> list) {
+    public void fill(NonNullList<ItemStack> list) {
         for (MaterialRegistryObject material : MaterialRegistry.getMaterials().values()) {
             for (SubItem subItem : SubItem.values()) {
                 if (subItem.isTool() && material.hasSubItem(subItem)) {
@@ -32,7 +32,7 @@ public class ItemGroupTools extends ItemGroup {
     }
 
     @Override
-    public ItemStack makeIcon() {
+    public ItemStack createIcon() {
         return Items.IRON_PICKAXE.getDefaultInstance();
     }
 }

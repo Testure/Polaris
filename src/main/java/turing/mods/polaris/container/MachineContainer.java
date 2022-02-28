@@ -29,7 +29,7 @@ public class MachineContainer extends Container {
 
     public MachineContainer(ContainerType<?> type, int windowId, World world, BlockPos pos, PlayerInventory inventory, PlayerEntity player, SlotInfoProvider slots, Block block) {
         super(type, windowId);
-        this.tile = world.getBlockEntity(pos);
+        this.tile = world.getTileEntity(pos);
         this.player = player;
         this.itemHandler = new InvWrapper(inventory);
         this.block = block;
@@ -46,8 +46,8 @@ public class MachineContainer extends Container {
     }
 
     @Override
-    public boolean stillValid(PlayerEntity player) {
-        return stillValid(IWorldPosCallable.create(this.tile.getLevel(), tile.getBlockPos()), this.player, this.block);
+    public boolean canInteractWith(PlayerEntity player) {
+        return isWithinUsableDistance(IWorldPosCallable.of(this.tile.getWorld(), tile.getPos()), this.player, this.block);
     }
 
     protected int getSlotCount() {
@@ -59,32 +59,32 @@ public class MachineContainer extends Container {
     }
 
     @Override
-    public ItemStack quickMoveStack(PlayerEntity player, int index) {
+    public ItemStack transferStackInSlot(PlayerEntity player, int index) {
         ItemStack itemStack = ItemStack.EMPTY;
-        Slot slot = this.slots.get(index);
+        Slot slot = this.inventorySlots.get(index);
 
-        if (slot != null && slot.hasItem()) {
-            ItemStack stack = slot.getItem();
+        if (slot != null && slot.getHasStack()) {
+            ItemStack stack = slot.getStack();
             itemStack = stack.copy();
 
             if (index <= getSlotCount()) {
-                if (!this.moveItemStackTo(stack, 1, 37, true)) {
+                if (!this.mergeItemStack(stack, 1, 37, true)) {
                     return ItemStack.EMPTY;
                 }
-                slot.setChanged();
+                slot.onSlotChanged();
             } else {
                 if (canInsertStackIntoSlot(stack.getStack(), 0)) {
-                    if (!this.moveItemStackTo(stack, 0, 1, false)) {
+                    if (!this.mergeItemStack(stack, 0, 1, false)) {
                         return ItemStack.EMPTY;
                     }
-                } else if (index < 28 && !this.moveItemStackTo(stack, 28, 37, false)) {
+                } else if (index < 28 && !this.mergeItemStack(stack, 28, 37, false)) {
                     return ItemStack.EMPTY;
-                } else if (index < 37 && !this.moveItemStackTo(stack, 1, 28, false)) return ItemStack.EMPTY;
+                } else if (index < 37 && !this.mergeItemStack(stack, 1, 28, false)) return ItemStack.EMPTY;
             }
 
             if (stack.isEmpty()) {
-                stack.sameItem(ItemStack.EMPTY);
-            } else slot.setChanged();
+                stack.isItemEqual(ItemStack.EMPTY);
+            } else slot.onSlotChanged();
 
             if (stack.getCount() == itemStack.getCount()) return ItemStack.EMPTY;
 

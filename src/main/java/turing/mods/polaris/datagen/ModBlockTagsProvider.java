@@ -20,7 +20,7 @@ public class ModBlockTagsProvider extends BlockTagsProvider {
     }
 
     @Override
-    protected void addTags() {
+    protected void registerTags() {
         addMaterialTags();
     }
 
@@ -32,8 +32,8 @@ public class ModBlockTagsProvider extends BlockTagsProvider {
                         SubBlockGenerated blockGenerated = (SubBlockGenerated) block.get();
                         String parentTag = blockGenerated.getSubItem().name().toLowerCase() + "s";
 
-                        tag(PolarisTags.Blocks.forge(parentTag + "/" + materialRegistryObject.getName())).add(blockGenerated);
-                        tag(PolarisTags.Blocks.forge(parentTag)).add(blockGenerated);
+                        getOrCreateBuilder(PolarisTags.Blocks.forge(parentTag + "/" + materialRegistryObject.getName())).add(blockGenerated);
+                        getOrCreateBuilder(PolarisTags.Blocks.forge(parentTag)).add(blockGenerated);
                     }
                 }
             }
@@ -41,6 +41,6 @@ public class ModBlockTagsProvider extends BlockTagsProvider {
     }
 
     public TagsProvider.Builder<Block> getOrCreateBlockBuilder(ITag.INamedTag<Block> tag) {
-        return tag(tag);
+        return getOrCreateBuilder(tag);
     }
 }
