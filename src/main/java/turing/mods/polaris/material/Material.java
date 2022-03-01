@@ -48,7 +48,7 @@ public class Material implements ITintedItem {
         this.oreStats = oreStats;
         this.textureSet = textureSet;
         this.magnetic = magnetic;
-        createFormulaTooltip();
+        this.formulaTooltip = createFormulaTooltip(this.components);
         if (fluidStats != null) createFluidTooltip();
     }
 
@@ -59,8 +59,8 @@ public class Material implements ITintedItem {
         this.fluidTooltips[2] = new TranslationTextComponent("tooltip.polaris.fluid_temp", TextFormatting.RED + Formatting.formattedNumber(this.fluidStats.temp));
     }
 
-    private void createFormulaTooltip() {
-        Tuple<String, Map<Integer, TranslationTextComponent>> formula = Formatting.createChemicalFormula(this.components);
+    public static ITextComponent createFormulaTooltip(ComponentStack... components) {
+        Tuple<String, Map<Integer, TranslationTextComponent>> formula = Formatting.createChemicalFormula(components);
         if (formula != null) {
             StringTextComponent tooltip = new StringTextComponent("");
             int finalI = 0;
@@ -71,8 +71,8 @@ public class Material implements ITintedItem {
                 } else if (formula.getA().length() >= finalI) tooltip.appendString(TextFormatting.YELLOW + String.valueOf(formula.getA().charAt(finalI)));
                 finalI += 1;
             }
-            this.formulaTooltip = tooltip;
-        } else this.formulaTooltip = new StringTextComponent(TextFormatting.YELLOW + "Oops! something went wrong creating this tooltip!");
+            return tooltip;
+        } else return new StringTextComponent(TextFormatting.YELLOW + "Oops! something went wrong creating this tooltip!");
     }
 
     public Material withExistingItems(Map<SubItem, Item> items) {

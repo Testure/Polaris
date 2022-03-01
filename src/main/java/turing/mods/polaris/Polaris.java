@@ -3,11 +3,19 @@ package turing.mods.polaris;
 import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.resources.ReloadListener;
+import net.minecraft.fluid.Fluids;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.profiler.IProfiler;
 import net.minecraft.resources.IResourceManager;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.Tuple;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.ToolType;
 import net.minecraftforge.event.AddReloadListenerEvent;
@@ -24,21 +32,28 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import turing.mods.polaris.block.SubBlockItemGenerated;
 import turing.mods.polaris.item.SubItemGenerated;
+import turing.mods.polaris.item.ToolItemGenerated;
 import turing.mods.polaris.itemgroups.ItemGroupMaterials;
 import turing.mods.polaris.itemgroups.ItemGroupMisc;
 import turing.mods.polaris.itemgroups.ItemGroupOres;
 import turing.mods.polaris.itemgroups.ItemGroupTools;
+import turing.mods.polaris.material.Components;
+import turing.mods.polaris.material.Material;
+import turing.mods.polaris.material.SubItem;
 import turing.mods.polaris.recipe.DefaultRecipes;
 import turing.mods.polaris.recipe.IPromisedTag;
 import turing.mods.polaris.registry.FluidRegistry;
 import turing.mods.polaris.registry.MaterialRegistry;
 import turing.mods.polaris.registry.MaterialRegistryObject;
 import turing.mods.polaris.registry.Registration;
+import turing.mods.polaris.util.Formatting;
 
+import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Function;
 
 @Mod("polaris")
 @ParametersAreNonnullByDefault
@@ -66,6 +81,16 @@ public class Polaris {
         public static final ToolType MORTAR = ToolType.get("mortar");
         public static final ToolType FILE = ToolType.get("file");
     }
+
+    private static final ITextComponent WATER_FORMULA = Material.createFormulaTooltip(Components.WATER.getMadeOf());
+    private static final ITextComponent UNKNOWN_FORMULA = new StringTextComponent(TextFormatting.YELLOW + "?");
+    private static final ITextComponent LIQUID_STATE = new TranslationTextComponent("tooltip.polaris.fluid_state.liquid");
+    private static final ITextComponent LAVA_TEMP = new TranslationTextComponent("tooltip.polaris.fluid_temp", TextFormatting.RED + Formatting.formattedNumber(1400));
+    private static final ITextComponent NORMAL_FLUID_TEMP = new TranslationTextComponent("tooltip.polaris.fluid_temp", TextFormatting.RED + Formatting.formattedNumber(300));
+    @Nullable
+    private static ItemStack lastTooltipRequestStack = null;
+    @Nullable
+    private static ITextComponent lastTooltipRequestText = null;
 
     public Polaris() {
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
@@ -125,18 +150,69 @@ public class Polaris {
     @SubscribeEvent
     public void onTooltip(ItemTooltipEvent event) {
         ItemStack stack = event.getItemStack();
-        boolean isGenerated = (stack.getItem() instanceof SubItemGenerated) || (stack.getItem() instanceof SubBlockItemGenerated);
-        boolean isMaterialItem = isGenerated || Arrays.stream(MaterialRegistry.IRON_EXISTING).anyMatch(tuple -> stack.isItemEqual(tuple.getB().getDefaultInstance()));
+        if (lastTooltipRequestStack != null && lastTooltipRequestText != null && lastTooltipRequestStack.isItemEqual(stack)) {
+            event.getToolTip().add(lastTooltipRequestText);
+            return;
+        }
 
-        if (isMaterialItem && stack.getToolTypes().isEmpty() && !stack.canHarvestBlock(Blocks.COBWEB.getDefaultState())) {
+        if (stack.isItemEqual(Items.WATER_BUCKET.getDefaultInstance()) || stack.isItemEqual(Items.LAVA_BUCKET.getDefaultInstance()) || stack.isItemEqual(Items.MILK_BUCKET.getDefaultInstance())) {
+            ResourceLocation itemName = stack.getItem().getRegistryName();
+            if (itemName != null) {
+                event.getToolTip().addAll(vanillaLiquidTooltip(itemName.getPath().replace("_bucket", "")));
+            }
+            return;
+        }
+
+        boolean isMaterialItem = isMaterialItem(stack, false);
+
+        if (isMaterialItem) {
             MaterialRegistryObject material = null;
 
             for (MaterialRegistryObject registryObject : MaterialRegistry.getMaterials().values())
                 if (registryObject.hasItem(stack.getItem())) material = registryObject;
 
-            if (material != null && material.get().getComponents() != null)
+            if (material != null && material.get().getComponents() != null) {
                 event.getToolTip().add(material.get().getFormulaTooltip());
-        }
+                lastTooltipRequestStack = stack;
+                lastTooltipRequestText = material.get().getFormulaTooltip();
+            } else { lastTooltipRequestStack = null; lastTooltipRequestText = null; }
+        } else { lastTooltipRequestStack = null; lastTooltipRequestText = null; }
+    }
+
+    public static boolean isMaterialItem(Item item, boolean countTools) {
+        boolean isGenerated = (item instanceof SubItemGenerated || item instanceof SubBlockItemGenerated);
+        if (countTools) isGenerated = isGenerated || (item instanceof ToolItemGenerated);
+        if (isGenerated) return true;
+
+        Function<Tuple<SubItem, Item>[], Boolean> func = (list) -> {
+            for (Tuple<SubItem, Item> tuple : list) {
+                if (tuple.getB().getDefaultInstance().isItemEqual(item.getDefaultInstance())) {
+                    if (countTools || (tuple.getB().getDefaultInstance().getToolTypes().isEmpty() && !tuple.getB().getDefaultInstance().canHarvestBlock(Blocks.COBWEB.getDefaultState()))) return true;
+                }
+            }
+            return false;
+        };
+
+        if (func.apply(MaterialRegistry.IRON_EXISTING)) return true;
+        if (func.apply(MaterialRegistry.GOLD_EXISTING)) return true;
+
+        return false;
+    }
+
+    public static boolean isMaterialItem(ItemStack stack, boolean countTools) {
+        return isMaterialItem(stack.getItem(), countTools);
+    }
+
+    public static List<ITextComponent> vanillaLiquidTooltip(String liquid) {
+        List<ITextComponent> tooltips = new ArrayList<>();
+        if (liquid.equals("water"))
+            tooltips.add(WATER_FORMULA);
+        else tooltips.add(UNKNOWN_FORMULA);
+        tooltips.add(LIQUID_STATE);
+        if (liquid.equals("lava"))
+            tooltips.add(LAVA_TEMP);
+        else tooltips.add(NORMAL_FLUID_TEMP);
+        return tooltips;
     }
 
     @SubscribeEvent
@@ -146,6 +222,7 @@ public class Polaris {
         for (IPromisedTag tag : TAGS) {
             if (tag.isResolved()) tag.unResolve();
         }
+        lastTooltipRequestStack = null; lastTooltipRequestText = null;
     }
 
     public static ResourceLocation modLoc(String loc, String modid) {

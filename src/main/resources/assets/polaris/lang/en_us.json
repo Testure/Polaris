@@ -60,8 +60,6 @@
   "flavor.polaris.compressor": "§8Compact!!",
   "flavor.polaris.creative": "§8Tastes Like Guilt",
 
-  "fluid.polaris.steam": "Steam",
-
   "tooltip.polaris.wood_substrate": "§8A Primitive Substrate",
   "tooltip.polaris.wood_board": "§8A Primitive Circuit Board",
 
@@ -124,6 +122,7 @@
   "material.polaris.electrum": "Electrum",
   "material.polaris.silver": "Silver",
   "material.polaris.lead": "Lead",
+  "material.polaris.steam": "Steam",
   "material.polaris.oxygen": "Oxygen",
   "material.polaris.hydrogen": "Hydrogen"
 }

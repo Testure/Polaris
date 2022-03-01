@@ -81,7 +81,12 @@ public class Formatting {
         for (ComponentStack stack : stacks) {
             String subscript = getSubscript(stack.getCount());
             if (stack.getComponent().isCombination()) builder.append("(");
-            builder.append(stack.getComponent().getChemicalName());
+            if (stack.getComponent().isCombination() && stack.getComponent().getMadeOf() != null && stack.getComponent().getMadeOf().length > 0) {
+                Tuple<String, Map<Integer, TranslationTextComponent>> formula = createChemicalFormula(stack.getComponent().getMadeOf());
+                int add = builder.length();
+                builder.append(formula.getA());
+                formula.getB().forEach((key, value) -> subscripts.put(key + add, value));
+            } else builder.append(stack.getComponent().getChemicalName());
             if (!Objects.equals(subscript, "")) subscripts.put(builder.length(), new TranslationTextComponent(subscript));
             if (stack.getComponent().isCombination()) builder.append(")");
         }

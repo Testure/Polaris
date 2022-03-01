@@ -138,11 +138,19 @@ public class MaterialRegistry {
     public static final MaterialRegistryObject RUBBER = MaterialBuilder.builder("rubber")
             .color(0xFF000000)
             .soft()
-            .fluid(false, 1000)
+            .fluid(false, 1200)
             .mass(32)
             .textureSet(TextureSet.SHINY_METAL)
             .addFlags(GenerationFlags.IS_SOFT, GenerationFlags.NO_VANILLA_TOOLS)
             .toolStats(1200, 2, 3.0F, 1.0F, 3.0F)
+            .buildAndRegister();
+
+    public static final MaterialRegistryObject STEAM = MaterialBuilder.builder("steam")
+            .color(0xFFAAAAAA)
+            .mass(0)
+            .fluid(true, 1300)
+            .component(Components.WATER)
+            .textureSet(TextureSet.METAL)
             .buildAndRegister();
 
     public static final MaterialRegistryObject OXYGEN = MaterialBuilder.builder("oxygen")
@@ -150,7 +158,7 @@ public class MaterialRegistry {
             .mass(0)
             .components(new ComponentStack(Components.OXYGEN))
             .textureSet(TextureSet.METAL)
-            .fluid(true, 1000)
+            .fluid(true, 80)
             .buildAndRegister();
 
     public static final MaterialRegistryObject HYDROGEN = MaterialBuilder.builder("hydrogen")
@@ -158,7 +166,7 @@ public class MaterialRegistry {
             .mass(0)
             .components(new ComponentStack(Components.HYDROGEN))
             .textureSet(TextureSet.METAL)
-            .fluid(true, 1000)
+            .fluid(true, 20)
             .buildAndRegister();
 
     public static MaterialRegistryObject register(String name, MaterialBuilder builder) {
