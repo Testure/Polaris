@@ -136,7 +136,7 @@ public class MaterialRegistry {
             .buildAndRegister();
 
     public static final MaterialRegistryObject RUBBER = MaterialBuilder.builder("rubber")
-            .color(0xFF000000)
+            .color(0xFF161616)
             .soft()
             .fluid(false, 1200)
             .mass(32)
