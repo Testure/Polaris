@@ -142,12 +142,14 @@ public class ToolItemGenerated extends Item implements IMaterialToolItem {
         }
     }
 
-    public boolean hurtEnemy(ItemStack stack, LivingEntity entity, LivingEntity livingEntity) {
+    @Override
+    public boolean hitEntity(ItemStack stack, LivingEntity entity, LivingEntity livingEntity) {
         stack.damageItem(toolType == ToolType.get("sword") ? 1 : 2, livingEntity, (a) -> a.sendBreakAnimation(EquipmentSlotType.MAINHAND));
         return true;
     }
 
-    public boolean mineBlock(ItemStack stack, World world, BlockState state, BlockPos pos, LivingEntity entity) {
+    @Override
+    public boolean onBlockDestroyed(ItemStack stack, World world, BlockState state, BlockPos pos, LivingEntity entity) {
         if (getDestroySpeed(stack, state) != getEfficiency()) stack.damageItem(2, entity, (a) -> a.sendBreakAnimation(EquipmentSlotType.MAINHAND));
         else stack.damageItem(1, entity, (a) -> a.sendBreakAnimation(EquipmentSlotType.MAINHAND));
         return true;
