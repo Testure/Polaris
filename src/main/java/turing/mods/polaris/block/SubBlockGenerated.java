@@ -73,8 +73,7 @@ public class SubBlockGenerated extends Block implements IRenderTypedBlock, ITint
 
     @Override
     public RenderType getRenderType() {
-        if (subItem == SubItem.ORE) return RenderType.getCutoutMipped();
-        return IRenderTypedBlock.super.getRenderType();
+        return RenderType.getCutoutMipped();
     }
 
     public SubItem getSubItem() {

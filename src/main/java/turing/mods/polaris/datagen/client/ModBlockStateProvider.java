@@ -16,6 +16,7 @@ import turing.mods.polaris.block.SubBlockGenerated;
 import turing.mods.polaris.registry.*;
 
 import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.Objects;
 import java.util.function.Function;
 
 @ParametersAreNonnullByDefault
@@ -62,7 +63,11 @@ public class ModBlockStateProvider extends BlockStateProvider {
                 for (RegistryObject<Block> block : materialRegistryObject.getBlocks()) {
                     if (materialRegistryObject.get().existingItems == null || !materialRegistryObject.get().existingItems.containsValue(block.get().asItem())) {
                         SubBlockGenerated subBlockGenerated = (SubBlockGenerated) block.get();
-                        simpleBlock(block.get(), models().getExistingFile(modLoc("block/" + materialRegistryObject.get().textureSet.name().toLowerCase() + "_" + subBlockGenerated.getSubItem().name().toLowerCase())));
+                        simpleBlock(block.get(),
+                                models().withExistingParent(Objects.requireNonNull(block.get().getRegistryName()).getPath(), modLoc("block/" + subBlockGenerated.getSubItem().name().toLowerCase()))
+                                        .texture("all", "block/material_sets/" + materialRegistryObject.get().textureSet.name().toLowerCase() + "/" + subBlockGenerated.getSubItem().name().toLowerCase())
+                                        .texture("overlay", "block/material_sets/" + materialRegistryObject.get().textureSet.name().toLowerCase() + "/" + subBlockGenerated.getSubItem().name().toLowerCase() + "_overlay")
+                        );
                     }
                 }
             }

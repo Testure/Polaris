@@ -32,7 +32,7 @@ public class MachineBlockStates {
                 "block/machines/output_oct",
                 "block/machines/output_sext",
         };
-        ResourceLocation baseModel = provider.modLoc("block/machine_energy_out");
+        ResourceLocation baseModel = provider.modLoc("block/machine");
         ModelFile[] files = new ModelFile[outputs.length];
         ModelFile[] files1 = new ModelFile[outputs.length];
 
@@ -44,16 +44,14 @@ public class MachineBlockStates {
                     .texture("front", txt)
                     .texture("top_overlay", overlay)
                     .texture("bottom_overlay", overlay)
-                    .texture("left_overlay", overlay)
-                    .texture("right_overlay", overlay)
+                    .texture("side_overlay", overlay)
                     .texture("front_overlay", outputs[i])
                     .texture("back_overlay", overlay);
             builder1.texture("all", txt)
                     .texture("front", overlay)
                     .texture("top_overlay", overlay)
                     .texture("bottom_overlay", overlay)
-                    .texture("left_overlay", overlay)
-                    .texture("right_overlay", overlay)
+                    .texture("side_overlay", overlay)
                     .texture("front_overlay", outputs[i])
                     .texture("back_overlay", overlay);
             files[i] = builder;
@@ -68,22 +66,16 @@ public class MachineBlockStates {
         String blockName = Objects.requireNonNull(block.getRegistryName()).getPath();
         String texture = "block/machines/" + (tier == 0 ? "casing" : "machine" + tierString);
         String hullSpot = "block/machines/output_single";
-        ResourceLocation modelBase = provider.modLoc("block/machine_complete");
+        ResourceLocation modelBase = provider.modLoc("block/machine");
 
         BlockModelBuilder builder = provider.models().withExistingParent(blockName, modelBase);
 
         builder.texture("top_overlay", texture)
                 .texture("bottom_overlay", texture)
-                .texture("left_overlay", texture)
-                .texture("right_overlay", texture)
+                .texture("side_overlay", texture)
                 .texture("front_overlay", isHull ? hullSpot : texture)
                 .texture("back_overlay", texture);
-        builder.texture("top", texture)
-                .texture("bottom", texture)
-                .texture("left", texture)
-                .texture("right", texture)
-                .texture("front", texture)
-                .texture("back", texture);
+        builder.texture("all", texture).texture("front", texture);
 
         if (isHull) provider.directionalBlockFixed(block, blockState -> builder);
         else provider.simpleBlock(block, builder);
@@ -103,7 +95,7 @@ public class MachineBlockStates {
             String top = "block/machines/compressor/top";
             String on = "_powered";
             String txt = "block/machines/machine";
-            ResourceLocation modelBase = provider.modLoc("block/machine_energy_out");
+            ResourceLocation modelBase = provider.modLoc("block/machine");
 
             BlockModelBuilder normal = provider.models().withExistingParent(blockName, modelBase);
             BlockModelBuilder powered = provider.models().withExistingParent(blockName + on, modelBase);
@@ -113,16 +105,14 @@ public class MachineBlockStates {
                     .texture("bottom_overlay", "block/blank")
                     .texture("back_overlay", "block/blank")
                     .texture("top_overlay", top)
-                    .texture("right_overlay", side)
-                    .texture("left_overlay", side)
+                    .texture("side_overlay", side)
                     .texture("front_overlay", front);
             powered.texture("all", txt)
                     .texture("front", txt)
                     .texture("bottom_overlay", "block/blank")
                     .texture("back_overlay", "block/blank")
                     .texture("top_overlay", top + on)
-                    .texture("right_overlay", side + on)
-                    .texture("left_overlay", side + on)
+                    .texture("side_overlay", side + on)
                     .texture("front_overlay", front + on);
 
             provider.directionalBlockFixed(block, machineModelProviderFunction(normal, powered));

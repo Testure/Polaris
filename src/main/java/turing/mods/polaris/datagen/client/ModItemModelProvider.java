@@ -123,7 +123,7 @@ public class ModItemModelProvider extends ItemModelProvider {
                 for (RegistryObject<Block> block : materialRegistryObject.getBlocks()) {
                     if (materialRegistryObject.get().existingItems == null || !materialRegistryObject.get().existingItems.containsValue(block.get().asItem())) {
                         SubBlockGenerated subBlockGenerated = (SubBlockGenerated) block.get();
-                        withExistingParent(block.get().getRegistryName().getPath(), modLoc("block/" + materialRegistryObject.get().textureSet.name().toLowerCase() + "_" + subBlockGenerated.getSubItem().name().toLowerCase()));
+                        withExistingParent(block.get().getRegistryName().getPath(), modLoc("block/" + materialRegistryObject.getName() + "_" + subBlockGenerated.getSubItem().name().toLowerCase()));
                     }
                 }
             }
