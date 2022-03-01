@@ -1,8 +1,0 @@
-{
-  "parent": "polaris:block/ore",
-  "textures": {
-    "main": "minecraft:block/iron_ore",
-    "overlay": "polaris:block/material_sets/dull_metal/ore",
-    "overlay2": "#overlay"
-  }
-}
