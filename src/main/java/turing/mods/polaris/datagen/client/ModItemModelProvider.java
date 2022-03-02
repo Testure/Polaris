@@ -11,6 +11,8 @@ import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.fml.RegistryObject;
 import turing.mods.polaris.Polaris;
+import turing.mods.polaris.block.CasingBlock;
+import turing.mods.polaris.block.HullBlock;
 import turing.mods.polaris.block.SubBlockGenerated;
 import turing.mods.polaris.item.IBasicModeledItem;
 import turing.mods.polaris.item.IHandheldItem;
@@ -144,13 +146,13 @@ public class ModItemModelProvider extends ItemModelProvider {
     }
 
     private void hullModels() {
-        for (RegistryObject<Block> hull : BlockRegistry.HULLS) {
+        for (RegistryObject<HullBlock> hull : BlockRegistry.HULLS) {
             withExistingParent(hull.get().getRegistryName().getPath(), modLoc("block/" + hull.get().getRegistryName().getPath()));
         }
     }
 
     private void casingModels() {
-        for (RegistryObject<Block> casing : BlockRegistry.CASINGS) {
+        for (RegistryObject<CasingBlock> casing : BlockRegistry.CASINGS) {
             withExistingParent(casing.get().getRegistryName().getPath(), modLoc("block/" + casing.get().getRegistryName().getPath()));
         }
     }

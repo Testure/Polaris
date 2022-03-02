@@ -18,21 +18,21 @@ public class BlockRegistry {
 
     public static final RegistryObject<Block> CREATIVE_POWER_PROVIDER = register("creative_power_provider", CreativePowerProvider::new);
 
-    public static final RegistryObject<Block>[] CASINGS = new RegistryObject[]{
-            register("casing_ulv", () -> new CasingBlock(0)),
-            register("casing_lv", () -> new CasingBlock(1)),
-            register("casing_mv", () -> new CasingBlock(2)),
-            register("casing_hv", () -> new CasingBlock(3)),
-            register("casing_ev", () -> new CasingBlock(4)),
-            register("casing_iv", () -> new CasingBlock(5)),
+    public static final RegistryObject<CasingBlock>[] CASINGS = new RegistryObject[]{
+            register("casing_ulv", () -> new CasingBlock(0, () -> MaterialRegistry.IRON)),
+            register("casing_lv", () -> new CasingBlock(1, () -> null)),
+            register("casing_mv", () -> new CasingBlock(2, () -> null)),
+            register("casing_hv", () -> new CasingBlock(3, () -> null)),
+            register("casing_ev", () -> new CasingBlock(4, () -> null)),
+            register("casing_iv", () -> new CasingBlock(5, () -> null)),
     };
-    public static final RegistryObject<Block>[] HULLS = new RegistryObject[]{
-            register("hull_ulv", () -> new HullBlock(0)),
-            register("hull_lv", () -> new HullBlock(1)),
-            register("hull_mv", () -> new HullBlock(2)),
-            register("hull_hv", () -> new HullBlock(3)),
-            register("hull_ev", () -> new HullBlock(4)),
-            register("hull_iv", () -> new HullBlock(5)),
+    public static final RegistryObject<HullBlock>[] HULLS = new RegistryObject[]{
+            register("hull_ulv", () -> new HullBlock(0, () -> null)),
+            register("hull_lv", () -> new HullBlock(1, () -> MaterialRegistry.TIN)),
+            register("hull_mv", () -> new HullBlock(2, () -> MaterialRegistry.COPPER)),
+            register("hull_hv", () -> new HullBlock(3, () -> MaterialRegistry.GOLD)),
+            register("hull_ev", () -> new HullBlock(4, () -> null)),
+            register("hull_iv", () -> new HullBlock(5, () -> null)),
     };
 
     public static <T extends Block> RegistryObject<T> registerNoItem(String name, Supplier<T> supplier) {

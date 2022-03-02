@@ -14,18 +14,21 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.ToolType;
 import turing.mods.polaris.Voltages;
+import turing.mods.polaris.registry.MaterialRegistryObject;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.List;
+import java.util.function.Supplier;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public class CasingBlock extends Block {
     private final int tier;
+    private final Supplier<MaterialRegistryObject> casingMaterial;
 
-    public CasingBlock(int tier) {
+    public CasingBlock(int tier, Supplier<MaterialRegistryObject> casingMaterial) {
         super(Properties.create(Material.IRON)
                 .sound(SoundType.NETHERITE)
                 .harvestLevel(1)
@@ -35,6 +38,12 @@ public class CasingBlock extends Block {
                 .setAllowsSpawn((a, b, c, d) -> false)
         );
         this.tier = tier;
+        this.casingMaterial = casingMaterial;
+    }
+
+    @Nullable
+    public MaterialRegistryObject getCasingMaterial() {
+        return casingMaterial.get();
     }
 
     @Override

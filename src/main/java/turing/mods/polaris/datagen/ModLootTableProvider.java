@@ -3,6 +3,8 @@ package turing.mods.polaris.datagen;
 import net.minecraft.block.Block;
 import net.minecraft.data.DataGenerator;
 import net.minecraftforge.fml.RegistryObject;
+import turing.mods.polaris.block.CasingBlock;
+import turing.mods.polaris.block.HullBlock;
 import turing.mods.polaris.registry.*;
 
 public class ModLootTableProvider extends BaseLootTableProvider {
@@ -21,13 +23,13 @@ public class ModLootTableProvider extends BaseLootTableProvider {
     }
 
     private void addHullLootTables() {
-        for (RegistryObject<Block> hull : BlockRegistry.HULLS) {
+        for (RegistryObject<HullBlock> hull : BlockRegistry.HULLS) {
             lootTables.put(hull.get(), createBasicTable(hull.get().getRegistryName().getPath(), hull.get()));
         }
     }
 
     private void addCasingLootTables() {
-        for (RegistryObject<Block> casing : BlockRegistry.CASINGS) {
+        for (RegistryObject<CasingBlock> casing : BlockRegistry.CASINGS) {
             lootTables.put(casing.get(), createBasicTable(casing.get().getRegistryName().getPath(), casing.get()));
         }
     }

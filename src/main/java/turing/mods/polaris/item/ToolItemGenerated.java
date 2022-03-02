@@ -14,6 +14,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.util.math.BlockPos;
@@ -29,10 +30,7 @@ import turing.mods.polaris.util.Formatting;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Supplier;
 
 import static net.minecraft.block.material.Material.*;
@@ -48,7 +46,7 @@ public class ToolItemGenerated extends Item implements IMaterialToolItem {
     private final Multimap<Attribute, AttributeModifier> defaultAttributeModifiers;
 
     public ToolItemGenerated(Supplier<Material> materialSupplier, SubItem subItem, ToolType toolType) {
-        super(new Properties().group(Polaris.TOOLS).maxDamage(1).addToolType(toolType, 2));
+        super(new Properties().group(Polaris.TOOLS).maxDamage(1).addToolType(toolType, 2).containerItem(Items.CHAIN /* chained to this hell */));
         this.materialSupplier = materialSupplier;
         this.subItem = subItem;
         this.toolType = toolType;
@@ -70,6 +68,25 @@ public class ToolItemGenerated extends Item implements IMaterialToolItem {
         if (toolType == ToolType.PICKAXE) speed += 0.2F;
         if (toolType == Polaris.ToolTypes.CROWBAR) speed -= 0.5F;
         return speed;
+    }
+
+    @Override
+    public boolean hasContainerItem(ItemStack stack) {
+        return true;
+    }
+
+    @Override
+    public boolean hasContainerItem() {
+        return true;
+    }
+
+    @Override
+    public ItemStack getContainerItem(ItemStack itemStack) {
+        itemStack = itemStack.copy();
+        itemStack.setCount(1);
+        itemStack.setDamage(itemStack.getDamage() + 1);
+        if (itemStack.getDamage() > itemStack.getMaxDamage()) itemStack.setCount(0);
+        return itemStack;
     }
 
     @Override

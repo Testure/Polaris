@@ -21,19 +21,22 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.ToolType;
 import turing.mods.polaris.Config;
 import turing.mods.polaris.Voltages;
+import turing.mods.polaris.registry.MaterialRegistryObject;
 import turing.mods.polaris.util.Formatting;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.List;
+import java.util.function.Supplier;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public class HullBlock extends Block implements IRenderTypedBlock {
     private final int tier;
+    private final Supplier<MaterialRegistryObject> hullMaterial;
 
-    public HullBlock(int tier) {
+    public HullBlock(int tier, Supplier<MaterialRegistryObject> hullMaterial) {
         super(Properties.create(Material.IRON)
                 .harvestLevel(1)
                 .harvestTool(ToolType.PICKAXE)
@@ -42,6 +45,12 @@ public class HullBlock extends Block implements IRenderTypedBlock {
                 .setAllowsSpawn((a, b, c, d) -> false)
         );
         this.tier = tier;
+        this.hullMaterial = hullMaterial;
+    }
+
+    @Nullable
+    public MaterialRegistryObject getHullMaterial() {
+        return hullMaterial.get();
     }
 
     @Override

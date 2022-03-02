@@ -31,6 +31,15 @@ public class PolarisTags {
         public static final ITag.INamedTag<Item> CIRCUIT_ADVANCED = mod("circuit_advanced");
         public static final ITag.INamedTag<Item> CRAFTING_TOOLS = mod("crafting_tools");
 
+        public static final ITag.INamedTag<Item> CRAFTING_TOOLS_HAMMER = mod("crafting_tools/hammer");
+        public static final ITag.INamedTag<Item> CRAFTING_TOOLS_SOFT_HAMMER = mod("crafting_tools/soft_hammer");
+        public static final ITag.INamedTag<Item> CRAFTING_TOOLS_FILE = mod("crafting_tools/file");
+        public static final ITag.INamedTag<Item> CRAFTING_TOOLS_SAW = mod("crafting_tools/saw");
+        public static final ITag.INamedTag<Item> CRAFTING_TOOLS_WRENCH = mod("crafting_tools/wrench");
+        public static final ITag.INamedTag<Item> CRAFTING_TOOLS_SCREWDRIVER = mod("crafting_tools/screwdriver");
+        public static final ITag.INamedTag<Item> CRAFTING_TOOLS_CROWBAR = mod("crafting_tools/crowbar");
+        public static final ITag.INamedTag<Item> CRAFTING_TOOLS_MORTAR = mod("crafting_tools/mortar");
+
         public static ITag.INamedTag<Item> forge(String path) {
             return ItemTags.makeWrapperTag(Polaris.forgeLoc(path).toString());
         }

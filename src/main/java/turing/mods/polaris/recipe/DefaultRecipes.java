@@ -1,13 +1,6 @@
 package turing.mods.polaris.recipe;
 
-import net.minecraft.item.ItemStack;
-import turing.mods.polaris.Voltages;
-import turing.mods.polaris.material.SubItem;
-import turing.mods.polaris.registry.MaterialRegistry;
-
 import java.util.Map;
-
-import static turing.mods.polaris.Voltages.*;
 
 public class DefaultRecipes {
     public static void clearRecipes() {
@@ -18,11 +11,6 @@ public class DefaultRecipes {
     }
 
     public static void addRecipes() {
-        Recipes.COMPRESSOR.addRecipe("iron_plate_default", MachineRecipeBuilder.builder()
-                .inputs(PromisedTag.of("ingots/iron"))
-                .outputs(new ItemStack(MaterialRegistry.IRON.getItemFromSubItem(SubItem.PLATE), 1))
-                .EUt(Voltages.getLossAdjusted(ULV))
-                .duration(MaterialRegistry.IRON.get().mass)
-        );
+        CompressorRecipes.add();
     }
 }
