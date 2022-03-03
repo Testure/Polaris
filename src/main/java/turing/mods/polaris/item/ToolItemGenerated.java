@@ -224,9 +224,9 @@ public class ToolItemGenerated extends Item implements IMaterialToolItem {
     public float getAttackDamage() {
         Material material = getMaterial();
         float damage = material.getToolStats().getAttackDamage();
-        if (toolType == ToolType.get("sword") || toolType == Polaris.ToolTypes.CROWBAR || toolType == Polaris.ToolTypes.SAW) damage += 1.0F;
+        if (toolType == ToolType.get("sword") || toolType == Polaris.ToolTypes.CROWBAR || toolType == Polaris.ToolTypes.SAW) damage++;
         if (toolType == ToolType.AXE || toolType == Polaris.ToolTypes.HAMMER) damage += 3.0F;
-        if (toolType == Polaris.ToolTypes.SOFT_HAMMER || toolType == Polaris.ToolTypes.MORTAR || toolType == ToolType.HOE) damage -= 1.0F;
+        if (toolType == Polaris.ToolTypes.SOFT_HAMMER || toolType == Polaris.ToolTypes.MORTAR || toolType == ToolType.HOE) damage--;
         return damage;
     }
 

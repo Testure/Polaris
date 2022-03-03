@@ -53,19 +53,6 @@ public class RecipeMap {
     }
 
     @Nullable
-    public IMachineRecipe findRecipeByInputs(IMachineIngredient[] inputIngredients, @Nullable FluidStack[] inputFluids, int voltage, int duration, int circuit, boolean exactVoltage) {
-        for (IMachineRecipe machineRecipe : RECIPES.values())
-            if (duration <= 0 || machineRecipe.getDuration() == duration)
-                if (voltage <= 0 || ((exactVoltage && machineRecipe.getEUt() == voltage) || machineRecipe.getEUt() <= Voltages.roundVoltage(voltage)))
-                    if (circuit <= 0 || machineRecipe.getCircuitConfig() == circuit)
-                        if (!usesFluid || (inputFluids != null && machineRecipe.getFluidInputs().containsAll(Arrays.asList(inputFluids))))
-                            if (machineRecipe.getInputs().containsAll(Arrays.asList(inputIngredients)))
-                                return machineRecipe;
-
-        return null;
-    }
-
-    @Nullable
     public IMachineRecipe findRecipe(ItemStack[] inputs, @Nullable FluidStack[] inputFluids, int voltage, int duration, int circuit, boolean exactVoltage) {
         for (IMachineRecipe machineRecipe : RECIPES.values())
             if (duration <= 0 || machineRecipe.getDuration() == duration)
@@ -73,14 +60,14 @@ public class RecipeMap {
                     if (circuit <= 0 || machineRecipe.getCircuitConfig() == circuit) {
                         boolean matchesFluid = !usesFluid || (inputFluids != null && inputFluids.length >= 1);
                         boolean matchesInputs = inputs.length >= 1;
-                        if (usesFluid && inputFluids != null) {
-                            for (int i = 0; i < inputFluids.length; i++) {
+
+                        if (usesFluid && inputFluids != null)
+                            for (int i = 0; i < inputFluids.length; i++)
                                 if (!machineRecipe.getFluidInputs().get(i).containsFluid(inputFluids[i])) matchesFluid = false;
-                            }
-                        }
-                        for (int i = 0; i < inputs.length; i++) {
+
+                        for (int i = 0; i < inputs.length; i++)
                             if (!machineRecipe.getInputs().get(i).test(inputs[i])) matchesInputs = false;
-                        }
+
                         if (!matchesFluid || !matchesInputs) continue;
                         return machineRecipe;
                     }

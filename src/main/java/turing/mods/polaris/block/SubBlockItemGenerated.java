@@ -1,5 +1,6 @@
 package turing.mods.polaris.block;
 
+import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.ITextComponent;
@@ -11,8 +12,11 @@ import turing.mods.polaris.material.Material;
 import turing.mods.polaris.material.SubItem;
 
 import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.function.Supplier;
 
+@MethodsReturnNonnullByDefault
+@ParametersAreNonnullByDefault
 public class SubBlockItemGenerated extends BlockItem {
     private final Supplier<Material> material;
     private final SubItem subItem;

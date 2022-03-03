@@ -1,13 +1,17 @@
 package turing.mods.polaris.registry;
 
+import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 import net.minecraft.util.Tuple;
 import net.minecraftforge.eventbus.api.IEventBus;
 import turing.mods.polaris.material.*;
 
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Map;
 
+@MethodsReturnNonnullByDefault
+@ParametersAreNonnullByDefault
 public class MaterialRegistry {
     private static final MaterialDeferredRegister MATERIAL_DEFERRED_REGISTER = new MaterialDeferredRegister();
 

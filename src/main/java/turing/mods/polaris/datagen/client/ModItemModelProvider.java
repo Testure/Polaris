@@ -103,7 +103,7 @@ public class ModItemModelProvider extends ItemModelProvider {
             int modelCode = 0;
             if (itemRegistryObject.get() instanceof IBasicModeledItem) modelCode = 1;
             if (itemRegistryObject.get() instanceof IHandheldItem) modelCode = 3;
-            if (itemRegistryObject.get() instanceof ILayeredItem) modelCode += 1;
+            if (itemRegistryObject.get() instanceof ILayeredItem) modelCode++;
 
             switch (modelCode) {
                 case 1:

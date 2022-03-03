@@ -1,5 +1,6 @@
 package turing.mods.polaris.util;
 
+import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.util.Tuple;
 import net.minecraft.util.text.ITextComponent;
@@ -10,12 +11,15 @@ import turing.mods.polaris.Voltages;
 import turing.mods.polaris.material.ComponentStack;
 
 import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 import static net.minecraft.util.text.TextFormatting.*;
 
 import java.text.NumberFormat;
 import java.util.*;
 
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 public class Formatting {
     public static final String[] SUBSCRIPT_NUMBERS = new String[]{ "subscript.0", "subscript.1", "subscript.2", "subscript.3", "subscript.4", "subscript.5", "subscript.6", "subscript.7", "subscript.8", "subscript.9" };
 
@@ -67,7 +71,7 @@ public class Formatting {
         }
     }
 
-    public static Tuple<String, Map<Integer, TranslationTextComponent>> createChemicalFormula(ComponentStack... stacks) {
+    public static Tuple<String, Map<Integer, TranslationTextComponent>> createChemicalFormula(@Nullable ComponentStack... stacks) {
         if (stacks == null || stacks.length <= 0) return null;
         int characterCount = 1;
         for (ComponentStack stack : stacks) {

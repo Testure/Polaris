@@ -1,10 +1,15 @@
 package turing.mods.polaris.recipe;
 
+import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import static turing.mods.polaris.Voltages.*;
 
+@MethodsReturnNonnullByDefault
+@ParametersAreNonnullByDefault
 public class CompressorRecipes {
     public static void add() {
         compressorRecipes();
