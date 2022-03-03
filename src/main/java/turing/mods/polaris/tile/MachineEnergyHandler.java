@@ -1,11 +1,16 @@
 package turing.mods.polaris.tile;
 
+import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.Direction;
 import tesseract.api.gt.GTConsumer;
 import tesseract.api.gt.GTTransaction;
 import tesseract.api.gt.IEnergyHandler;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
+@MethodsReturnNonnullByDefault
+@ParametersAreNonnullByDefault
 public class MachineEnergyHandler implements IEnergyHandler {
     protected long energy;
     protected final long energyCapacity;

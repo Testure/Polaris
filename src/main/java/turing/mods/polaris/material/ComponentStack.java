@@ -1,8 +1,13 @@
 package turing.mods.polaris.material;
 
+import mcp.MethodsReturnNonnullByDefault;
+
 import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Objects;
 
+@MethodsReturnNonnullByDefault
+@ParametersAreNonnullByDefault
 public class ComponentStack {
     protected Component component;
     protected int amount;

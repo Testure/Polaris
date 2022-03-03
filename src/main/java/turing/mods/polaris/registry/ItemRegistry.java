@@ -1,14 +1,18 @@
 package turing.mods.polaris.registry;
 
+import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.item.Item;
 import net.minecraftforge.fml.RegistryObject;
 import turing.mods.polaris.item.CraftingItem;
 import turing.mods.polaris.util.Lists;
 
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
 
+@MethodsReturnNonnullByDefault
+@ParametersAreNonnullByDefault
 public class ItemRegistry {
     public static final List<RegistryObject<Item>> ITEMS = new ArrayList<>();
 

@@ -203,7 +203,7 @@ public class CompressorTile extends MachineTile implements ITickableTileEntity, 
                 time = -3;
                 //TODO handle energy fail
             }
-            time += 1; //TODO overclock
+            time++; //TODO overclock
             markDirty();
         }
     }

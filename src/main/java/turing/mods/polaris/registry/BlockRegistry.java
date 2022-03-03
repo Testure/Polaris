@@ -1,5 +1,6 @@
 package turing.mods.polaris.registry;
 
+import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.block.Block;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
@@ -9,10 +10,13 @@ import turing.mods.polaris.block.CasingBlock;
 import turing.mods.polaris.block.HullBlock;
 import turing.mods.polaris.block.creative_power.CreativePowerProvider;
 
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
 
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 public class BlockRegistry {
     public static final List<RegistryObject<Block>> BLOCKS = new ArrayList<>();
 

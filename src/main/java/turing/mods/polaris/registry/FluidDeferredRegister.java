@@ -1,5 +1,6 @@
 package turing.mods.polaris.registry;
 
+import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.DispenserBlock;
@@ -25,9 +26,12 @@ import turing.mods.polaris.Polaris;
 import turing.mods.polaris.item.BucketItemGenerated;
 
 import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.HashMap;
 import java.util.function.Supplier;
 
+@MethodsReturnNonnullByDefault
+@ParametersAreNonnullByDefault
 public class FluidDeferredRegister {
     private final HashMap<String, FluidRegistryObject<?, ?, ?, ?>> fluids = new HashMap<>();
     private final DeferredRegister<Fluid> fluidDeferredRegister;

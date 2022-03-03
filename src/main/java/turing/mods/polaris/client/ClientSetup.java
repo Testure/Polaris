@@ -1,5 +1,6 @@
 package turing.mods.polaris.client;
 
+import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.client.renderer.color.BlockColors;
@@ -15,8 +16,12 @@ import turing.mods.polaris.block.ITintedBlock;
 import turing.mods.polaris.item.ITintedItem;
 import turing.mods.polaris.registry.*;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 @OnlyIn(Dist.CLIENT)
 @Mod.EventBusSubscriber(modid = Polaris.MODID, value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
+@MethodsReturnNonnullByDefault
+@ParametersAreNonnullByDefault
 public class ClientSetup {
     @SubscribeEvent
     public static void init(FMLClientSetupEvent event) {

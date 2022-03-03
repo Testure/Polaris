@@ -1,8 +1,13 @@
 package turing.mods.polaris.recipe;
 
+import mcp.MethodsReturnNonnullByDefault;
+
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.HashMap;
 import java.util.Map;
 
+@MethodsReturnNonnullByDefault
+@ParametersAreNonnullByDefault
 public class Recipes {
     public static final Map<String, RecipeMap> RECIPE_MAPS = new HashMap<>();
 

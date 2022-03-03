@@ -1,8 +1,13 @@
 package turing.mods.polaris.container;
 
+import mcp.MethodsReturnNonnullByDefault;
+
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.ArrayList;
 import java.util.List;
 
+@MethodsReturnNonnullByDefault
+@ParametersAreNonnullByDefault
 public class SlotInfoProvider {
     private final List<SlotInfo> slots = new ArrayList<>();
 

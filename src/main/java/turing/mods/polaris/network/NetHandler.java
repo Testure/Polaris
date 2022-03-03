@@ -1,11 +1,16 @@
 package turing.mods.polaris.network;
 
+import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraftforge.fml.network.NetworkDirection;
 import net.minecraftforge.fml.network.NetworkRegistry;
 import net.minecraftforge.fml.network.simple.SimpleChannel;
 import turing.mods.polaris.Polaris;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
+@MethodsReturnNonnullByDefault
+@ParametersAreNonnullByDefault
 public class NetHandler {
    private static SimpleChannel INSTANCE;
    private static int ID = 0;

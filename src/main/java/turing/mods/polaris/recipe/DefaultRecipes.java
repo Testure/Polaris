@@ -1,7 +1,12 @@
 package turing.mods.polaris.recipe;
 
+import mcp.MethodsReturnNonnullByDefault;
+
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Map;
 
+@MethodsReturnNonnullByDefault
+@ParametersAreNonnullByDefault
 public class DefaultRecipes {
     public static void clearRecipes() {
         for (RecipeMap recipeMap : Recipes.RECIPE_MAPS.values())

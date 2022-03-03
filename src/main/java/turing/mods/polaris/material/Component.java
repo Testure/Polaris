@@ -1,13 +1,17 @@
 package turing.mods.polaris.material;
 
+import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.fluid.Fluid;
 import turing.mods.polaris.registry.FluidRegistryObject;
 import turing.mods.polaris.registry.MaterialRegistryObject;
 import turing.mods.polaris.util.Either;
 
 import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.function.Supplier;
 
+@MethodsReturnNonnullByDefault
+@ParametersAreNonnullByDefault
 public class Component {
     protected final Supplier<MaterialRegistryObject> baseMaterial;
     protected Either<Supplier<Fluid>, Supplier<FluidRegistryObject<?, ?, ?, ?>>> fluidSupplier;

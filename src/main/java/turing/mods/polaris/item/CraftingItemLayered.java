@@ -1,5 +1,6 @@
 package turing.mods.polaris.item;
 
+import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Rarity;
 import net.minecraft.util.Tuple;
@@ -10,10 +11,13 @@ import turing.mods.polaris.util.Formatting;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+@MethodsReturnNonnullByDefault
+@ParametersAreNonnullByDefault
 public class CraftingItemLayered extends CraftingItem implements ILayeredItem {
     private final String layer0;
     private final String layer1;

@@ -1,11 +1,15 @@
 package turing.mods.polaris.util;
 
+import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Tuple;
 
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.*;
 import java.util.function.Function;
 
+@MethodsReturnNonnullByDefault
+@ParametersAreNonnullByDefault
 public class Lists {
     @SafeVarargs
     public static <T> List<T> listOf(T... objects) {

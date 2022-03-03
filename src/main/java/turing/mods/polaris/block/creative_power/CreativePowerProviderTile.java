@@ -43,7 +43,7 @@ public class CreativePowerProviderTile extends MachineTile implements ITickableT
     }
 
     public void adjustVoltage() {
-        voltageTier += 1;
+        voltageTier++;
         if (voltageTier >= Voltages.VOLTAGES.length) voltageTier = 0;
         updateState(true);
     }

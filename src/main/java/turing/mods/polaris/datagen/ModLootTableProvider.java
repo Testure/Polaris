@@ -1,5 +1,6 @@
 package turing.mods.polaris.datagen;
 
+import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.block.Block;
 import net.minecraft.data.DataGenerator;
 import net.minecraftforge.fml.RegistryObject;
@@ -7,6 +8,10 @@ import turing.mods.polaris.block.CasingBlock;
 import turing.mods.polaris.block.HullBlock;
 import turing.mods.polaris.registry.*;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
+@MethodsReturnNonnullByDefault
+@ParametersAreNonnullByDefault
 public class ModLootTableProvider extends BaseLootTableProvider {
     public ModLootTableProvider(DataGenerator dataGenerator) {
         super(dataGenerator);

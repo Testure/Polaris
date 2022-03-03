@@ -1,9 +1,14 @@
 package turing.mods.polaris;
 
+import mcp.MethodsReturnNonnullByDefault;
+
 import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Arrays;
 import java.util.List;
 
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 public class Voltages {
     public static final Voltage[] VOLTAGES = new Voltage[]{
             new Voltage(8, "ulv", 0xFF555555),

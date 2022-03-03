@@ -47,6 +47,7 @@ public class MachineContainer extends Container {
 
     @Override
     public boolean canInteractWith(PlayerEntity player) {
+        if (this.tile.getWorld() == null) return false;
         return isWithinUsableDistance(IWorldPosCallable.of(this.tile.getWorld(), tile.getPos()), this.player, this.block);
     }
 

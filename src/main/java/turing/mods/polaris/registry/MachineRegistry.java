@@ -1,5 +1,6 @@
 package turing.mods.polaris.registry;
 
+import mcp.MethodsReturnNonnullByDefault;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -9,8 +10,11 @@ import turing.mods.polaris.block.compressor.CompressorTile;
 import turing.mods.polaris.container.compressor.CompressorContainer;
 import turing.mods.polaris.screen.compressor.CompressorScreen;
 
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Map;
 
+@MethodsReturnNonnullByDefault
+@ParametersAreNonnullByDefault
 public class MachineRegistry {
     private static final MachineDeferredRegister MACHINE_DEFERRED_REGISTER = new MachineDeferredRegister();
 

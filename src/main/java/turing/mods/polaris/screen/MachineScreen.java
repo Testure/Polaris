@@ -42,6 +42,7 @@ public class MachineScreen<T extends MachineContainer> extends ContainerScreen<M
 
     @Override
     protected void drawGuiContainerBackgroundLayer(MatrixStack matrixStack, float pt, int x, int y) {
+        if (this.minecraft == null) return;
         RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
         this.minecraft.getTextureManager().bindTexture(gui);
         int rel1X = (this.width - this.getXSize()) / 2;

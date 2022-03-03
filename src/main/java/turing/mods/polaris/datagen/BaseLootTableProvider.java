@@ -2,6 +2,7 @@ package turing.mods.polaris.datagen;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.block.Block;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.DirectoryCache;
@@ -15,11 +16,14 @@ import net.minecraft.util.ResourceLocation;
 import turing.mods.polaris.Polaris;
 
 import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
 
+@MethodsReturnNonnullByDefault
+@ParametersAreNonnullByDefault
 public abstract class BaseLootTableProvider extends LootTableProvider {
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
 
@@ -83,7 +87,6 @@ public abstract class BaseLootTableProvider extends LootTableProvider {
         });
     }
 
-    @Nonnull
     @Override
     public String getName() {
         return "Polaris LootTables";

@@ -1,10 +1,14 @@
 package turing.mods.polaris.material;
 
+import mcp.MethodsReturnNonnullByDefault;
 import net.minecraftforge.common.ToolType;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 
+@MethodsReturnNonnullByDefault
+@ParametersAreNonnullByDefault
 public enum SubItem {
     INGOT,
     DUST,

@@ -1,6 +1,7 @@
 package turing.mods.polaris.registry;
 
 import com.mojang.datafixers.util.Function7;
+import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -21,6 +22,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import turing.mods.polaris.Polaris;
 import turing.mods.polaris.Voltages;
 
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -28,6 +30,8 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
+@MethodsReturnNonnullByDefault
+@ParametersAreNonnullByDefault
 public class MachineDeferredRegister {
     private final Map<String, MachineRegistryObject<?, ?, ?>> machines = new HashMap<>();
     private final DeferredRegister<Item> itemRegister;

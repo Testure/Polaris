@@ -1,5 +1,11 @@
 package turing.mods.polaris.material;
 
+import mcp.MethodsReturnNonnullByDefault;
+
+import javax.annotation.ParametersAreNonnullByDefault;
+
+@MethodsReturnNonnullByDefault
+@ParametersAreNonnullByDefault
 public class ToolStats {
     protected int durability;
     protected int enchantability;

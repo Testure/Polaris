@@ -1,6 +1,7 @@
 package turing.mods.polaris.registry;
 
 import com.mojang.datafixers.util.Function3;
+import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.block.Block;
 import net.minecraft.client.gui.ScreenManager;
 import net.minecraft.client.renderer.RenderType;
@@ -22,9 +23,12 @@ import turing.mods.polaris.block.ITintedBlock;
 import turing.mods.polaris.container.MachineContainer;
 import turing.mods.polaris.screen.MachineScreen;
 
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Collections;
 import java.util.List;
 
+@MethodsReturnNonnullByDefault
+@ParametersAreNonnullByDefault
 public class MachineRegistryObject<T extends TileEntity, B extends Block, I extends BlockItem> {
     public final String name;
     private final List<RegistryObject<B>> blocks;

@@ -1,5 +1,6 @@
 package turing.mods.polaris.registry;
 
+import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.item.Item;
@@ -17,8 +18,11 @@ import turing.mods.polaris.item.ToolItemGenerated;
 import turing.mods.polaris.material.MaterialBuilder;
 import turing.mods.polaris.material.SubItem;
 
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.*;
 
+@MethodsReturnNonnullByDefault
+@ParametersAreNonnullByDefault
 public class MaterialDeferredRegister {
     public static final Map<String, MaterialRegistryObject> materials = new HashMap<>();
     private final DeferredRegister<Item> itemRegister;

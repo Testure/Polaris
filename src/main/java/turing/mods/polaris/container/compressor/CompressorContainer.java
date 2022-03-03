@@ -1,5 +1,6 @@
 package turing.mods.polaris.container.compressor;
 
+import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
@@ -14,7 +15,10 @@ import turing.mods.polaris.container.SlotInfoProvider;
 import turing.mods.polaris.registry.MachineRegistry;
 
 import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 
+@MethodsReturnNonnullByDefault
+@ParametersAreNonnullByDefault
 public class CompressorContainer extends MachineContainer {
     private final int tier;
 

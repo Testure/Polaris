@@ -1,5 +1,6 @@
 package turing.mods.polaris.datagen;
 
+import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.data.DataGenerator;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -9,7 +10,11 @@ import turing.mods.polaris.Polaris;
 import turing.mods.polaris.datagen.client.ModBlockStateProvider;
 import turing.mods.polaris.datagen.client.ModItemModelProvider;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 @Mod.EventBusSubscriber(modid = Polaris.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
+@MethodsReturnNonnullByDefault
+@ParametersAreNonnullByDefault
 public class DataGenerators {
     private DataGenerators() {
 

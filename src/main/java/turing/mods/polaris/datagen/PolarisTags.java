@@ -1,5 +1,6 @@
 package turing.mods.polaris.datagen;
 
+import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.block.Block;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.item.Item;
@@ -9,6 +10,10 @@ import net.minecraft.tags.ITag;
 import net.minecraft.tags.ItemTags;
 import turing.mods.polaris.Polaris;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
+@MethodsReturnNonnullByDefault
+@ParametersAreNonnullByDefault
 public class PolarisTags {
     public static final class Blocks {
         public static ITag.INamedTag<Block> forge(String path) {

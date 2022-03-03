@@ -1,11 +1,16 @@
 package turing.mods.polaris;
 
+import mcp.MethodsReturnNonnullByDefault;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 @Mod.EventBusSubscriber
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 public class Config {
     public static ForgeConfigSpec COMMON_CONFIG;
     public static ForgeConfigSpec SERVER_CONFIG;

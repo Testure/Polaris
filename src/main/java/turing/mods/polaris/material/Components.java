@@ -1,8 +1,13 @@
 package turing.mods.polaris.material;
 
+import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.fluid.Fluids;
 import turing.mods.polaris.registry.MaterialRegistry;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
+@MethodsReturnNonnullByDefault
+@ParametersAreNonnullByDefault
 public class Components {
     public static final Component IRON = new Component("Fe", false, () -> MaterialRegistry.IRON, null);
     public static final Component COPPER = new Component("Cu", false, () -> MaterialRegistry.COPPER, null);
