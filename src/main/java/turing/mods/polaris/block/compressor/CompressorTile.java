@@ -22,6 +22,7 @@ import net.minecraftforge.items.ItemStackHandler;
 import turing.mods.polaris.Polaris;
 import turing.mods.polaris.Voltages;
 import turing.mods.polaris.recipe.IMachineRecipe;
+import turing.mods.polaris.recipe.MachineRecipe;
 import turing.mods.polaris.recipe.Recipes;
 import turing.mods.polaris.registry.MachineRegistry;
 import turing.mods.polaris.tile.IInventoryTile;
@@ -39,13 +40,13 @@ public class CompressorTile extends MachineTile implements ITickableTileEntity, 
     private int time = -2;
     private int timeGoal = -1;
     private int energyUse = 0;
-    private int ticks = 0;
     private boolean canOverclock;
     private final ItemStackHandler itemStackHandler;
     private final LazyOptional<IItemHandler> inventory;
-    private ItemStack currentInput = null;
     private IMachineRecipe currentRecipe = null;
     private CompoundNBT recipeSearchDetails = null;
+    private ItemStack foundRecipeWith = null;
+    private boolean itemsChanged = false;
 
     public CompressorTile(int tier) {
         super(MachineRegistry.COMPRESSOR.getTiles().get(tier).get());
@@ -59,55 +60,47 @@ public class CompressorTile extends MachineTile implements ITickableTileEntity, 
         if (world == null || world.isRemote) return;
         if (recipeSearchDetails != null && !Polaris.tagsResolved) return;
 
-        if (recipeSearchDetails != null) {
+        if (recipeSearchDetails != null && currentRecipe == null) {
             IMachineRecipe recipe = findRecipeFromTag(recipeSearchDetails);
             if (recipe != null) {
                 currentRecipe = recipe;
-                recipeSearchDetails = null;
+                time = 0;
+                timeGoal = currentRecipe.getDuration();
+                energyUse = currentRecipe.getEUt();
+                foundRecipeWith = ItemStack.read(recipeSearchDetails.getCompound("input"));
+                markDirty();
+            }
+            recipeSearchDetails = null;
+        }
+
+        if (itemsChanged) {
+            IMachineRecipe recipe = findRecipe(itemStackHandler.getStackInSlot(0));
+            if (currentRecipe == null && recipe != null) {
+                startRecipe(recipe);
             }
         }
 
-        boolean hasRecipe = currentRecipe != null;
-        boolean isRecipeDone = time >= timeGoal;
+        if (currentRecipe != null && timeGoal > 0 && time < timeGoal) {
+            long currentEnergy = energyHandler.getEnergy();
+            long minEnergy = getMinimumEnergyForRecipeTick();
 
-        if (!hasRecipe && !isRecipeDone && !this.workingDisabled) {
-            ItemStack stack = this.itemStackHandler.getStackInSlot(0);
-            IMachineRecipe recipe = null;
-
-            if (!stack.isEmpty() && currentInput != null && currentInput.isItemEqual(stack)) {
-                recipe = findRecipe(stack);
-
-                if (recipe != null && energyHandler.getEnergy() > (recipe.getEUt() * 4L)) {
-                    startRecipe(recipe);
-                }
-            }
-            if (recipe == null && timeGoal > 0) {
-                timeGoal = -1;
-                time = -2;
-            }
-            hasRecipe = currentRecipe != null;
-            isRecipeDone = time >= timeGoal;
-        }
-
-        if (!isRecipeDone && hasRecipe && !this.workingDisabled) {
-            long energy = energyHandler.getEnergy();
-
-            if (energy > (energyUse * 4L)) {
+            if (currentEnergy >= minEnergy && (!itemsChanged || isSlotFree(1, currentRecipe.getOutputs().get(0)))) {
                 recipeTick();
-                hasRecipe = currentRecipe != null;
-                isRecipeDone = time >= timeGoal;
             }
         }
 
-        if (hasRecipe && isRecipeDone) {
+        if (currentRecipe != null && timeGoal > 0 && time >= timeGoal) {
             finishRecipe();
         }
+
+        itemsChanged = false;
     }
 
     private void readTag(CompoundNBT tag) {
         readProgress(tag);
         this.energyUse = tag.getInt("energyUse");
         this.canOverclock = tag.getBoolean("overclock");
+        this.itemStackHandler.deserializeNBT(tag.getCompound("inv"));
         setDisabled(tag.getBoolean("disabled"));
         if (tag.contains("recipe")) recipeSearchDetails = tag.getCompound("recipe");
     }
@@ -123,7 +116,8 @@ public class CompressorTile extends MachineTile implements ITickableTileEntity, 
         tag.putInt("energyUse", this.energyUse);
         tag.putBoolean("overclock", this.canOverclock);
         tag.putBoolean("disabled", this.workingDisabled);
-        if (currentRecipe != null && currentInput != null) tag.put("recipe", serializeRecipe(currentInput, currentRecipe.getEUt()));
+        tag.put("inv", itemStackHandler.serializeNBT());
+        if (currentRecipe != null && foundRecipeWith != null) tag.put("recipe", serializeRecipe(foundRecipeWith, currentRecipe.getEUt()));
         return tag;
     }
 
@@ -181,54 +175,69 @@ public class CompressorTile extends MachineTile implements ITickableTileEntity, 
 
     @Nullable
     private IMachineRecipe findRecipe(ItemStack stack) {
-        return Recipes.COMPRESSOR.findRecipe(new ItemStack[]{stack}, null, Voltages.VOLTAGES[tier].energy, -1, -1, false);
+        return Recipes.COMPRESSOR.findRecipe(new ItemStack[]{stack}, null, Voltages.VOLTAGES[tier + 1].energy, -1, -1, false);
     }
 
-    private void recipeTick() {
-        int energyToRemove = Math.min(energyUse, Voltages.VOLTAGES[tier].energy);
+    private long getMinimumEnergyForRecipeTick() {
+        long energyUse = this.energyUse > 0 ? this.energyUse : Voltages.VOLTAGES[tier + 1].energy;
+        return energyUse * 5L;
+    }
 
-        if (time >= 0)
-            if (energyHandler.removeEnergy(energyToRemove) < energyToRemove) {
-                time = -3;
-                markDirty();
-                return;
-                //TODO out of energy sound
-            }
-
-        time += 1;
+    private void stopRecipe() {
+        timeGoal = -1;
+        time = -2;
+        energyUse = 0;
+        currentRecipe = null;
+        foundRecipeWith = null;
         markDirty();
     }
 
-    private void finishRecipe() {
-        ItemStack output = currentRecipe.getOutputs().get(0);
-        ItemStack currentOutput = this.itemStackHandler.getStackInSlot(1);
-        int amountAfterOutput = output.getCount() + currentOutput.getCount();
+    private void recipeTick() {
+        long currentEnergy = energyHandler.getEnergy();
+        long minEnergy = getMinimumEnergyForRecipeTick();
 
-        timeGoal = -1;
+        if (currentRecipe != null && currentEnergy >= minEnergy && !workingDisabled) {
+            long amountRemoved = energyHandler.removeEnergy(energyUse);
 
-        if (isSlotFree(1, output)) {
-            time = -2;
-            this.itemStackHandler.setStackInSlot(1, new ItemStack(output.getItem(), amountAfterOutput));
-            if (this.itemStackHandler.getStackInSlot(0).isEmpty()) {
-                currentInput = null;
-                currentRecipe = null;
-                updateState(world.getBlockState(pos), -1);
-            } else if (this.itemStackHandler.getStackInSlot(0).isItemEqual(currentInput)) {
-                startRecipe(currentRecipe);
+            if (time > 0 && amountRemoved < energyUse) {
+                time = -3;
+                //TODO handle energy fail
             }
+            time += 1; //TODO overclock
             markDirty();
         }
     }
 
+    private void finishRecipe() {
+        if (currentRecipe != null && isSlotFree(1, currentRecipe.getOutputs().get(0))) {
+            ItemStack newStack = !itemStackHandler.getStackInSlot(1).isEmpty() ? itemStackHandler.getStackInSlot(1).copy() : currentRecipe.getOutputs().get(0).copy();
+            if (itemStackHandler.getStackInSlot(1).isEmpty()) newStack.setCount(0);
+            newStack.setCount(newStack.getCount() + currentRecipe.getOutputs().get(0).getCount());
+
+            stopRecipe();
+            itemStackHandler.setStackInSlot(1, newStack);
+            if (world != null) updateState(world.getBlockState(pos), -1);
+        }
+    }
+
     private void startRecipe(IMachineRecipe recipe) {
-        ItemStack newStack = this.currentInput.copy();
-        newStack.setCount(newStack.getCount() - 1);
-        this.currentRecipe = recipe;
-        this.time = 0;
-        this.timeGoal = recipe.getDuration();
-        this.energyUse = recipe.getEUt();
-        this.itemStackHandler.setStackInSlot(0, newStack);
-        updateState(world.getBlockState(pos), -1);
+        if (!(currentRecipe != null && recipe == currentRecipe)) stopRecipe();
+        long currentEnergy = energyHandler.getEnergy();
+        long minEnergy = getMinimumEnergyForRecipeTick();
+
+        if (currentEnergy >= minEnergy && isSlotFree(1, recipe.getOutputs().get(0)) && !workingDisabled) {
+            ItemStack input = itemStackHandler.getStackInSlot(0);
+
+            if (!input.isEmpty() && input.getCount() >= recipe.getInputs().get(0).getCount() && recipe.getInputs().get(0).test(input)) {
+                energyUse = recipe.getEUt();
+                timeGoal = recipe.getDuration();
+                time = 0;
+                currentRecipe = recipe;
+                foundRecipeWith = input;
+                itemStackHandler.extractItem(0, recipe.getInputs().get(0).getCount(), false);
+                if (world != null) updateState(world.getBlockState(pos), -1);
+            }
+        }
     }
 
     private void updateState(BlockState blockState, int override) {
@@ -329,12 +338,7 @@ public class CompressorTile extends MachineTile implements ITickableTileEntity, 
 
         @Override
         protected void onContentsChanged(int slot) {
-            ItemStack newStack = this.getStackInSlot(0);
-
-            if (currentInput == null || (!newStack.isItemEqual(currentInput) && !newStack.isEmpty())) {
-                currentInput = newStack;
-            }
-
+            itemsChanged = true;
             markDirty();
         }
 

@@ -71,14 +71,17 @@ public class RecipeMap {
             if (duration <= 0 || machineRecipe.getDuration() == duration)
                 if (voltage <= 0 || ((exactVoltage && machineRecipe.getEUt() == voltage) || machineRecipe.getEUt() <= Voltages.roundVoltage(voltage)))
                     if (circuit <= 0 || machineRecipe.getCircuitConfig() == circuit) {
+                        boolean matchesFluid = !usesFluid || (inputFluids != null && inputFluids.length >= 1);
+                        boolean matchesInputs = inputs.length >= 1;
                         if (usesFluid && inputFluids != null) {
                             for (int i = 0; i < inputFluids.length; i++) {
-                                if (!machineRecipe.getFluidInputs().get(i).containsFluid(inputFluids[i])) return null;
+                                if (!machineRecipe.getFluidInputs().get(i).containsFluid(inputFluids[i])) matchesFluid = false;
                             }
                         }
                         for (int i = 0; i < inputs.length; i++) {
-                            if (!machineRecipe.getInputs().get(i).test(inputs[i])) return null;
+                            if (!machineRecipe.getInputs().get(i).test(inputs[i])) matchesInputs = false;
                         }
+                        if (!matchesFluid || !matchesInputs) continue;
                         return machineRecipe;
                     }
         return null;

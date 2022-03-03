@@ -13,7 +13,7 @@ import static turing.mods.polaris.Voltages.ULV;
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public interface IMachineRecipe {
-    List<IMachineIngredient> getInputs();
+    List<IMachineIngredientStack> getInputs();
 
     List<ItemStack> getOutputs();
 

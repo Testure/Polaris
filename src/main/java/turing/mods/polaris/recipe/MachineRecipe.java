@@ -6,15 +6,19 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.IItemProvider;
 import net.minecraftforge.fluids.FluidStack;
+import turing.mods.polaris.Polaris;
 
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.function.IntFunction;
 
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
 public class MachineRecipe implements IMachineRecipe {
-    private final IMachineIngredient[] inputs;
+    private final IMachineIngredientStack[] inputs;
     private final FluidStack[] fluidInputs;
     private final ItemStack[] outputs;
     private final FluidStack[] fluidOutputs;
@@ -23,7 +27,7 @@ public class MachineRecipe implements IMachineRecipe {
     private final int eut;
     private final int circuitConfig;
 
-    public MachineRecipe(IMachineIngredient[] inputs, FluidStack[] fluidInputs, ItemStack[] outputs, ChancedItemStack[] chancedOutputs, FluidStack[] fluidOutputs, int circuit, int duration, int eut) {
+    public MachineRecipe(IMachineIngredientStack[] inputs, FluidStack[] fluidInputs, ItemStack[] outputs, ChancedItemStack[] chancedOutputs, FluidStack[] fluidOutputs, int circuit, int duration, int eut) {
         this.inputs = inputs;
         this.outputs = outputs;
         this.fluidInputs = fluidInputs;
@@ -35,7 +39,7 @@ public class MachineRecipe implements IMachineRecipe {
     }
 
     @Override
-    public List<IMachineIngredient> getInputs() {
+    public List<IMachineIngredientStack> getInputs() {
         return ImmutableList.copyOf(inputs);
     }
 
@@ -108,11 +112,24 @@ public class MachineRecipe implements IMachineRecipe {
 
             for (ItemStack itemStack : this.items)
                 if (itemStack.isItemEqual(stack)) return true;
-            for (IPromisedTag tag : this.tags) {
+            for (IPromisedTag tag : this.tags)
                 if (tag.toIngredient().test(stack)) return true;
-            }
 
             return false;
+        }
+
+        @Override
+        public ItemStack[] getItems() {
+            if (isEmpty()) return new ItemStack[0];
+            if (!this.isResolved()) throw new IllegalStateException("Attempt to get items on unresolved MachineIngredient");
+
+            List<ItemStack> list = new ArrayList<>(Arrays.asList(this.items));
+            ItemStack[] tagStacks = Arrays.stream(this.tags).map((tag) -> tag.toTag().getAllElements().stream().map(ItemStack::new)).toArray(ItemStack[]::new);
+            list.addAll(Arrays.asList(tagStacks));
+
+            tagStacks = null;
+
+            return list.toArray(new ItemStack[0]);
         }
 
         public static IMachineIngredient of(IItemProvider... providers) {
@@ -133,6 +150,44 @@ public class MachineRecipe implements IMachineRecipe {
 
         public static IMachineIngredient fromIngredient(Ingredient ingredient) {
             return of(ingredient.getMatchingStacks());
+        }
+    }
+
+    public static class MachineIngredientStack implements IMachineIngredientStack {
+        private int count;
+        private IMachineIngredient ingredient;
+
+        public MachineIngredientStack(IMachineIngredient ingredient, int count) {
+            this.ingredient = ingredient;
+            this.count = count;
+        }
+
+        public MachineIngredientStack(IMachineIngredient ingredient) {
+            this(ingredient, 1);
+        }
+
+        public static MachineIngredientStack fromItemStack(ItemStack stack) {
+            return new MachineIngredientStack(MachineIngredient.of(stack), stack.getCount());
+        }
+
+        @Override
+        public IMachineIngredient getIngredient() {
+            return ingredient;
+        }
+
+        @Override
+        public int getCount() {
+            return count;
+        }
+
+        public IMachineIngredientStack setIngredient(IMachineIngredient ingredient) {
+            this.ingredient = ingredient;
+            return this;
+        }
+
+        public IMachineIngredientStack setCount(int count) {
+            this.count = count;
+            return this;
         }
     }
 }

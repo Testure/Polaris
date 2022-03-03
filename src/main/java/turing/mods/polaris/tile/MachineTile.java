@@ -1,5 +1,8 @@
 package turing.mods.polaris.tile;
 
+import mcp.MethodsReturnNonnullByDefault;
+import net.minecraft.block.BlockState;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Direction;
@@ -11,9 +14,12 @@ import turing.mods.polaris.Voltages;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 import static turing.mods.polaris.Voltages.ULV;
 
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 public class MachineTile extends TileEntity {
     protected final MachineEnergyHandler energyHandler;
     protected final LazyOptional<IEnergyHandler> energyOptional;
@@ -48,6 +54,18 @@ public class MachineTile extends TileEntity {
     public void remove() {
         super.remove();
         energyOptional.invalidate();
+    }
+
+    @Override
+    public CompoundNBT write(CompoundNBT compound) {
+        compound.put("energy", energyHandler.serializeNBT());
+        return super.write(compound);
+    }
+
+    @Override
+    public void read(BlockState state, CompoundNBT nbt) {
+        super.read(state, nbt);
+        energyHandler.deserializeNBT(nbt.getCompound("energy"));
     }
 
     @Nonnull

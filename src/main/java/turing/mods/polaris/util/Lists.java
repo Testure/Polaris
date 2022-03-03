@@ -4,6 +4,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.Tuple;
 
 import java.util.*;
+import java.util.function.Function;
 
 public class Lists {
     @SafeVarargs
@@ -11,6 +12,19 @@ public class Lists {
         List<T> list = new ArrayList<>();
         Collections.addAll(list, objects);
         return list;
+    }
+
+    public static <S, T> List<T> mapInto(Function<S, T> map, List<S> list) {
+        List<T> newList = new ArrayList<>();
+        list.forEach(s -> newList.add(map.apply(s)));
+        return newList;
+    }
+
+    @SafeVarargs
+    public static <S, T> T[] mapInto(Function<S, T> map, S... list) {
+        Object[] newArray = new Object[list.length];
+        for (int i = 0; i < list.length; i++) newArray[i] = map.apply(list[i]);
+        return (T[]) newArray;
     }
 
     @SafeVarargs

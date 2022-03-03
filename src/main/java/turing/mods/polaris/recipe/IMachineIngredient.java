@@ -11,6 +11,8 @@ import javax.annotation.ParametersAreNonnullByDefault;
 public interface IMachineIngredient {
     boolean test(@Nullable ItemStack stack);
 
+    ItemStack[] getItems();
+
     boolean isEmpty();
 
     boolean isResolved();

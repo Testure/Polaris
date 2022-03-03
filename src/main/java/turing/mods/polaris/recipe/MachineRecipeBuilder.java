@@ -4,6 +4,7 @@ import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 import turing.mods.polaris.Voltages;
+import turing.mods.polaris.util.Lists;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.function.Consumer;
@@ -16,7 +17,7 @@ public class MachineRecipeBuilder {
     protected int EUt = Voltages.VOLTAGES[ULV].energy;
     protected int duration = 100;
     protected int circuit = -1;
-    protected IMachineIngredient[] inputs = new IMachineIngredient[0];
+    protected IMachineIngredientStack[] inputs = new IMachineIngredientStack[0];
     protected ItemStack[] outputs = new ItemStack[0];
     protected ChancedItemStack[] chanceOutputs = new ChancedItemStack[0];
     protected FluidStack[] fluidInputs = new FluidStack[0];
@@ -45,23 +46,27 @@ public class MachineRecipeBuilder {
         return this;
     }
 
-    public MachineRecipeBuilder inputs(IMachineIngredient... ingredients) {
-        this.inputs = ingredients;
+    public MachineRecipeBuilder inputs(IMachineIngredientStack... ingredientStacks) {
+        this.inputs = ingredientStacks;
         return this;
     }
 
+    public MachineRecipeBuilder inputs(IMachineIngredient... ingredients) {
+        return inputs((IMachineIngredientStack[]) Lists.mapInto(MachineRecipe.MachineIngredientStack::new, ingredients));
+    }
+
     public MachineRecipeBuilder inputs(ItemStack... stacks) {
-        IMachineIngredient[] ingredients = new IMachineIngredient[stacks.length];
+        IMachineIngredientStack[] ingredients = new IMachineIngredientStack[stacks.length];
         for (int i = 0; i < stacks.length; i++) {
-            ingredients[i] = MachineRecipe.MachineIngredient.of(stacks[i]);
+            ingredients[i] = MachineRecipe.MachineIngredientStack.fromItemStack(stacks[i]);
         }
         return inputs(ingredients);
     }
 
     public MachineRecipeBuilder inputs(IPromisedTag... tags) {
-        IMachineIngredient[] ingredients = new IMachineIngredient[tags.length];
+        IMachineIngredientStack[] ingredients = new IMachineIngredientStack[tags.length];
         for (int i = 0; i < tags.length; i++) {
-            ingredients[i] = MachineRecipe.MachineIngredient.of(tags[i]);
+            ingredients[i] = new MachineRecipe.MachineIngredientStack(MachineRecipe.MachineIngredient.of(tags[i]));
         }
         return inputs(ingredients);
     }
