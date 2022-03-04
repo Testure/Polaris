@@ -1,6 +1,7 @@
 package turing.mods.polaris.screen.compressor;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.systems.RenderSystem;
 import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
@@ -16,7 +17,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @MethodsReturnNonnullByDefault
 public class CompressorScreen extends MachineScreen<CompressorContainer> {
     public CompressorScreen(Container container, PlayerInventory inv, ITextComponent name) {
-        super((CompressorContainer) container, inv, name, Polaris.modLoc("textures/gui/compressor.png"), new TranslationTextComponent("screen.polaris.compressor"));
+        super((CompressorContainer) container, inv, name, Polaris.modLoc("textures/gui/modular/base.png"), new TranslationTextComponent("screen.polaris.compressor"));
     }
 
     @Override
@@ -26,12 +27,21 @@ public class CompressorScreen extends MachineScreen<CompressorContainer> {
 
     @Override
     protected void drawGuiContainerBackgroundLayer(MatrixStack matrixStack, float pt, int x, int y) {
-        super.drawGuiContainerBackgroundLayer(matrixStack, pt, x, y);
-
+        if (this.minecraft == null) return;
+        RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
         int rel1X = (this.width - this.getXSize()) / 2;
         int rel1Y = (this.height - this.getYSize()) / 2;
         int progress = ((CompressorContainer) this.container).getProgress();
 
-        this.blit(matrixStack, rel1X + 76, rel1Y + 34, 189, 0, progress, 3);
+        this.minecraft.getTextureManager().bindTexture(Polaris.modLoc("textures/gui/modular/base.png"));
+        this.blit(matrixStack, rel1X, rel1Y, 0, 0, this.getXSize(), this.getYSize() + 12);
+
+        this.minecraft.getTextureManager().bindTexture(Polaris.modLoc("textures/gui/modular/slot.png"));
+        blit(matrixStack, rel1X + 51, rel1Y + 26, 0, 0, 18, 18, 18, 18);
+        blit(matrixStack, rel1X + 101, rel1Y + 26, 0, 0, 18, 18, 18, 18);
+
+        this.minecraft.getTextureManager().bindTexture(Polaris.modLoc("textures/gui/modular/progress/compressor.png"));
+        blit(matrixStack, rel1X + 76, rel1Y + 25, 0, 0, 19, 14, 19, 20);
+        blit(matrixStack, rel1X + 76, rel1Y + 34, 0, 18, progress, 3, 19, 20);
     }
 }

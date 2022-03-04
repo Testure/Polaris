@@ -42,7 +42,7 @@ public class MachineContainer extends Container {
             });
         }
 
-        layoutPlayerInventorySlots(10, 70);
+        layoutPlayerInventorySlots(10, 82);
     }
 
     @Override
