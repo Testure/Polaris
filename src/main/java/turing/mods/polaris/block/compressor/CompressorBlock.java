@@ -19,6 +19,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.Mirror;
 import net.minecraft.util.Rotation;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.IBlockDisplayReader;
@@ -87,7 +88,7 @@ public class CompressorBlock extends MachineBlock implements ITintedBlock {
     }
 
     @Override
-    protected void interactWith(World world, BlockPos pos, PlayerEntity player, Hand hand) {
+    protected void interactWith(World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult result) {
         TileEntity te = world.getTileEntity(pos);
 
         if (te instanceof CompressorTile && player instanceof ServerPlayerEntity) {

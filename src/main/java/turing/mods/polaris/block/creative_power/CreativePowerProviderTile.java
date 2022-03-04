@@ -48,6 +48,12 @@ public class CreativePowerProviderTile extends MachineTile implements ITickableT
         updateState(true);
     }
 
+    @Override
+    public void handleDisabled(boolean previousValue) {
+        super.handleDisabled(previousValue);
+        adjustVoltage();
+    }
+
     private CompoundNBT writeConfig(CompoundNBT tag) {
         tag.putInt("voltageConfig", voltageTier);
         tag.putLong("amperageConfig", amperage);

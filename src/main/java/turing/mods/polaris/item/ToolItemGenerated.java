@@ -14,9 +14,12 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemUseContext;
 import net.minecraft.item.Items;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.tags.ItemTags;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ActionResultType;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
@@ -25,6 +28,7 @@ import net.minecraftforge.common.ToolType;
 import turing.mods.polaris.Polaris;
 import turing.mods.polaris.material.Material;
 import turing.mods.polaris.material.SubItem;
+import turing.mods.polaris.tile.MachineTile;
 import turing.mods.polaris.util.Formatting;
 
 import javax.annotation.Nonnull;
@@ -97,6 +101,26 @@ public class ToolItemGenerated extends Item implements IMaterialToolItem {
         tooltips.add(new TranslationTextComponent("tooltip.polaris.durability", (percent >= 25 && percent <= 70 ? YELLOW : (percent < 25 ? GREEN : RED)) + Formatting.formattedNumber(durability - damage), GREEN + Formatting.formattedNumber(durability)));
         tooltips.add(new TranslationTextComponent("tooltip.polaris.mining_speed", BLUE + Float.toString(getEfficiency())));
         super.addInformation(stack, world, tooltips, flag);
+    }
+
+    private ActionResultType softHammerUse(ItemStack stack, ItemUseContext context) {
+        TileEntity te = context.getWorld().getTileEntity(context.getPos());
+        if (te instanceof MachineTile && context.getPlayer() != null) {
+            MachineTile tile = (MachineTile) te;
+            tile.toggleDisabled();
+            stack.damageItem(1, context.getPlayer(), (a) -> a.sendBreakAnimation(EquipmentSlotType.MAINHAND));
+            return ActionResultType.SUCCESS;
+        }
+        return ActionResultType.PASS;
+    }
+
+    @Override
+    public ActionResultType onItemUseFirst(ItemStack stack, ItemUseContext context) {
+        if (toolType == Polaris.ToolTypes.SOFT_HAMMER) {
+            ActionResultType resultType = softHammerUse(stack, context);
+            if (resultType != ActionResultType.PASS) return resultType;
+        }
+        return super.onItemUseFirst(stack, context);
     }
 
     @Override

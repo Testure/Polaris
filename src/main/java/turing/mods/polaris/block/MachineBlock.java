@@ -7,9 +7,11 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.BlockItemUseContext;
+import net.minecraft.item.ItemStack;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.IntegerProperty;
 import net.minecraft.state.StateContainer;
@@ -20,7 +22,9 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ToolType;
+import turing.mods.polaris.Polaris;
 import turing.mods.polaris.Voltages;
+import turing.mods.polaris.tile.MachineTile;
 
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -78,13 +82,13 @@ public class MachineBlock extends Block {
     @Override
     public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult result) {
         if (world.isRemote) {
-            return ActionResultType.SUCCESS;
+            return ActionResultType.FAIL;
         }
-        this.interactWith(world, pos, player, hand);
+        this.interactWith(world, pos, player, hand, result);
         return ActionResultType.CONSUME;
     }
 
-    protected void interactWith(World world, BlockPos pos, PlayerEntity player, Hand hand) {
+    protected void interactWith(World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult result) {
 
     }
 

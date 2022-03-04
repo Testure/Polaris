@@ -158,7 +158,10 @@ public class CompressorTile extends MachineTile implements ITickableTileEntity, 
     public void handleDisabled(boolean previousValue) {
         if (world == null) return;
         if (!previousValue && this.workingDisabled && currentRecipe != null) updateState(world.getBlockState(getPos()), 0);
-        else if (previousValue && !this.workingDisabled && currentRecipe != null) updateState(world.getBlockState(getPos()), -1);
+        else if (previousValue && !this.workingDisabled && currentRecipe != null) {
+            updateState(world.getBlockState(getPos()), -1);
+            itemsChanged = true;
+        }
     }
 
     private static CompoundNBT serializeRecipe(ItemStack input, int voltage) {
