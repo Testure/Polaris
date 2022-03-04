@@ -17,6 +17,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUseContext;
 import net.minecraft.item.Items;
 import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResultType;
@@ -26,6 +27,7 @@ import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ToolType;
 import turing.mods.polaris.Polaris;
+import turing.mods.polaris.block.MachineBlock;
 import turing.mods.polaris.material.Material;
 import turing.mods.polaris.material.SubItem;
 import turing.mods.polaris.tile.MachineTile;
@@ -34,7 +36,10 @@ import turing.mods.polaris.util.Formatting;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.*;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.function.Supplier;
 
 import static net.minecraft.block.material.Material.*;
@@ -114,10 +119,28 @@ public class ToolItemGenerated extends Item implements IMaterialToolItem {
         return ActionResultType.PASS;
     }
 
+    private ActionResultType wrenchUse(ItemStack stack, ItemUseContext context) {
+        TileEntity te = context.getWorld().getTileEntity(context.getPos());
+        BlockState blockState = context.getWorld().getBlockState(context.getPos());
+        if (te instanceof MachineTile && blockState.getBlock() instanceof MachineBlock) {
+            if (context.getPlayer() != null && context.getPlayer().isCrouching() && blockState.get(BlockStateProperties.FACING) != context.getPlacementHorizontalFacing()) {
+                context.getWorld().setBlockState(context.getPos(), blockState.with(BlockStateProperties.FACING, context.getPlacementHorizontalFacing()));
+                stack.damageItem(1, context.getPlayer(), (a) -> a.sendBreakAnimation(EquipmentSlotType.MAINHAND));
+                return ActionResultType.SUCCESS;
+            }
+        }
+        return ActionResultType.PASS;
+    }
+
     @Override
     public ActionResultType onItemUseFirst(ItemStack stack, ItemUseContext context) {
+        if (context.getWorld().isRemote) return ActionResultType.PASS;
         if (toolType == Polaris.ToolTypes.SOFT_HAMMER) {
             ActionResultType resultType = softHammerUse(stack, context);
+            if (resultType != ActionResultType.PASS) return resultType;
+        }
+        if (toolType == Polaris.ToolTypes.WRENCH) {
+            ActionResultType resultType = wrenchUse(stack, context);
             if (resultType != ActionResultType.PASS) return resultType;
         }
         return super.onItemUseFirst(stack, context);
