@@ -1,4 +1,4 @@
-package turing.mods.polaris.client;
+package turing.mods.polaris.ui;
 
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;

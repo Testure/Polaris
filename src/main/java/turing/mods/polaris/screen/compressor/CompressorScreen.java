@@ -4,7 +4,7 @@ import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.util.text.ITextComponent;
-import turing.mods.polaris.client.ModularUIs;
+import turing.mods.polaris.ui.ModularUIs;
 import turing.mods.polaris.container.compressor.CompressorContainer;
 import turing.mods.polaris.screen.MachineScreen;
 
