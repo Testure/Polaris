@@ -8,6 +8,7 @@ import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IWorldPosCallable;
 import net.minecraft.util.math.BlockPos;
@@ -18,6 +19,8 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.SlotItemHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
+import turing.mods.polaris.block.compressor.CompressorTile;
+import turing.mods.polaris.tile.MachineTile;
 import turing.mods.polaris.ui.ContainerSlots;
 import turing.mods.polaris.ui.SlotInfoProvider;
 import turing.mods.polaris.util.Vector2i;
@@ -49,6 +52,15 @@ public class MachineContainer extends Container {
         }
 
         layoutPlayerInventorySlots(10, 82);
+    }
+
+    public int getProgress(int totalSize) {
+        MachineTile tile = (MachineTile) this.tile;
+        CompoundNBT tag = tile.getUpdateTag();
+        int time = tag.getInt("time");
+        int timeGoal = tag.getInt("timeGoal");
+
+        return timeGoal > 0 ? (time * totalSize) / timeGoal : 0;
     }
 
     @Nullable

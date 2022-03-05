@@ -72,15 +72,6 @@ public class CompressorContainer extends MachineContainer {
         });
     }
 
-    public int getProgress() {
-        CompressorTile tile = (CompressorTile) this.tile;
-        CompoundNBT tag = tile.getUpdateTag();
-        int time = tag.getInt("time");
-        int timeGoal = tag.getInt("timeGoal");
-
-        return timeGoal > 0 ? (time * 20) / timeGoal : 0;
-    }
-
     public int getTier() {
         return tier;
     }

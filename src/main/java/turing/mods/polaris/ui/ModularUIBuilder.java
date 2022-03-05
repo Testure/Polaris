@@ -58,6 +58,18 @@ public class ModularUIBuilder {
         return this;
     }
 
+    public ModularUIBuilder addProgressBar(DualTextureData texture, Vector2i offPos, Vector2i onPos) {
+        return addComponent(new ProgressBarUIComponent(texture, offPos, onPos));
+    }
+
+    public ModularUIBuilder addProgressBar(DualTextureData texture, Vector2i pos) {
+        return addComponent(new ProgressBarUIComponent(texture, pos, pos));
+    }
+
+    public ModularUIBuilder addProgressBar(DualTextureData texture, Vector2i offPos, Vector2i onPos, boolean vertical) {
+        return addComponent(!vertical ? new ProgressBarUIComponent(texture, offPos, onPos) : new VerticalProgressBarComponent(texture, offPos, onPos));
+    }
+
     public ModularUI build(Consumer<ModularUI> consumer) {
         ModularUI ui = new ModularUI(base, new SlotInfoProvider(slots.toArray(new ISlot[0])), components.toArray(new IUIComponent[0]));
         consumer.accept(ui);
