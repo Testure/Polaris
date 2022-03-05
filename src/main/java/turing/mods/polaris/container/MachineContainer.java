@@ -19,10 +19,7 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.SlotItemHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
-import turing.mods.polaris.block.compressor.CompressorTile;
 import turing.mods.polaris.tile.MachineTile;
-import turing.mods.polaris.ui.ContainerSlots;
-import turing.mods.polaris.ui.SlotInfoProvider;
 import turing.mods.polaris.util.Vector2i;
 
 import javax.annotation.Nullable;
@@ -36,7 +33,7 @@ public class MachineContainer extends Container {
     final IItemHandler itemHandler;
     final Block block;
 
-    public MachineContainer(ContainerType<?> type, int windowId, World world, BlockPos pos, PlayerInventory inventory, PlayerEntity player, ContainerSlots slots, Block block) {
+    public MachineContainer(ContainerType<?> type, int windowId, World world, BlockPos pos, PlayerInventory inventory, PlayerEntity player, Vector2i[] slots, Block block) {
         super(type, windowId);
         this.tile = world.getTileEntity(pos);
         this.player = player;
@@ -45,8 +42,8 @@ public class MachineContainer extends Container {
 
         if (this.tile != null) {
             this.tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null).ifPresent(handler -> {
-                for (int i = 0; i < slots.getSlots().length; i++) {
-                    addSlot(new SlotItemHandler(handler, i, slots.getSlots()[i].x, slots.getSlots()[i].y));
+                for (int i = 0; i < slots.length; i++) {
+                    addSlot(new SlotItemHandler(handler, i, slots[i].x, slots[i].y));
                 }
             });
         }
