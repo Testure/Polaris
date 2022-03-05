@@ -12,11 +12,17 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IWorldPosCallable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.SlotItemHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
+import turing.mods.polaris.ui.ContainerSlots;
+import turing.mods.polaris.ui.SlotInfoProvider;
+import turing.mods.polaris.util.Vector2i;
 
+import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
@@ -27,7 +33,7 @@ public class MachineContainer extends Container {
     final IItemHandler itemHandler;
     final Block block;
 
-    public MachineContainer(ContainerType<?> type, int windowId, World world, BlockPos pos, PlayerInventory inventory, PlayerEntity player, SlotInfoProvider slots, Block block) {
+    public MachineContainer(ContainerType<?> type, int windowId, World world, BlockPos pos, PlayerInventory inventory, PlayerEntity player, ContainerSlots slots, Block block) {
         super(type, windowId);
         this.tile = world.getTileEntity(pos);
         this.player = player;
@@ -36,13 +42,27 @@ public class MachineContainer extends Container {
 
         if (this.tile != null) {
             this.tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null).ifPresent(handler -> {
-                for (SlotInfoProvider.SlotInfo slotInfo : slots.getSlots()) {
-                    addSlot(new SlotItemHandler(handler, slotInfo.index, slotInfo.x, slotInfo.y));
+                for (int i = 0; i < slots.getSlots().length; i++) {
+                    addSlot(new SlotItemHandler(handler, i, slots.getSlots()[i].x, slots.getSlots()[i].y));
                 }
             });
         }
 
         layoutPlayerInventorySlots(10, 82);
+    }
+
+    @Nullable
+    public ItemStack getStack(int slot) {
+        if (this.tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null).isPresent())
+            return this.tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null).map((handler) -> handler.getStackInSlot(slot)).orElse(ItemStack.EMPTY);
+        return null;
+    }
+
+    @Nullable
+    public FluidStack getFluidStack(int slot) {
+        if (this.tile.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null).isPresent())
+            return this.tile.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null).map((handler) -> handler.getFluidInTank(slot)).orElse(FluidStack.EMPTY);
+        return null;
     }
 
     @Override

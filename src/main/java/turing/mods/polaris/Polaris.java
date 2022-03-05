@@ -21,6 +21,7 @@ import net.minecraftforge.common.ToolType;
 import net.minecraftforge.event.AddReloadListenerEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
@@ -31,6 +32,7 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import turing.mods.polaris.block.SubBlockItemGenerated;
+import turing.mods.polaris.item.BucketItemGenerated;
 import turing.mods.polaris.item.SubItemGenerated;
 import turing.mods.polaris.item.ToolItemGenerated;
 import turing.mods.polaris.itemgroups.ItemGroupMaterials;
@@ -201,6 +203,10 @@ public class Polaris {
 
     public static boolean isMaterialItem(ItemStack stack, boolean countTools) {
         return isMaterialItem(stack.getItem(), countTools);
+    }
+
+    public static boolean isMaterialItem(FluidStack stack) {
+        return (stack.getFluid().getFilledBucket() instanceof BucketItemGenerated);
     }
 
     public static List<ITextComponent> vanillaLiquidTooltip(String liquid) {

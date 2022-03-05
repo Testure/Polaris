@@ -1,13 +1,10 @@
 package turing.mods.polaris.screen.compressor;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.systems.RenderSystem;
 import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
-import turing.mods.polaris.Polaris;
+import turing.mods.polaris.client.ModularUIs;
 import turing.mods.polaris.container.compressor.CompressorContainer;
 import turing.mods.polaris.screen.MachineScreen;
 
@@ -17,15 +14,11 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @MethodsReturnNonnullByDefault
 public class CompressorScreen extends MachineScreen<CompressorContainer> {
     public CompressorScreen(Container container, PlayerInventory inv, ITextComponent name) {
-        super((CompressorContainer) container, inv, name, Polaris.modLoc("textures/gui/modular/base.png"), new TranslationTextComponent("screen.polaris.compressor"));
+        super((CompressorContainer) container, inv, name, ModularUIs.COMPRESSOR_UI);
     }
+}
 
-    @Override
-    protected void renderHoveredTooltip(MatrixStack matrixStack, int x, int y) {
-        super.renderHoveredTooltip(matrixStack, x, y);
-    }
-
-    @Override
+    /*@Override
     protected void drawGuiContainerBackgroundLayer(MatrixStack matrixStack, float pt, int x, int y) {
         if (this.minecraft == null) return;
         RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
@@ -43,5 +36,5 @@ public class CompressorScreen extends MachineScreen<CompressorContainer> {
         this.minecraft.getTextureManager().bindTexture(Polaris.modLoc("textures/gui/modular/progress/compressor.png"));
         blit(matrixStack, rel1X + 76, rel1Y + 25, 0, 0, 19, 14, 19, 20);
         blit(matrixStack, rel1X + 76, rel1Y + 34, 0, 18, progress, 3, 19, 20);
-    }
-}
+    }*/
+//}
