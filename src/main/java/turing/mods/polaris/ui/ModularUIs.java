@@ -3,7 +3,6 @@ package turing.mods.polaris.ui;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import turing.mods.polaris.Polaris;
-import turing.mods.polaris.ui.*;
 import turing.mods.polaris.util.Vector2i;
 
 import java.util.ArrayList;

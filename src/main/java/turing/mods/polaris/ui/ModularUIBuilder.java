@@ -2,6 +2,10 @@ package turing.mods.polaris.ui;
 
 import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import turing.mods.polaris.util.Vector2i;
@@ -56,6 +60,26 @@ public class ModularUIBuilder {
     public ModularUIBuilder addComponent(IUIComponent component) {
         components.add(component);
         return this;
+    }
+
+    public ModularUIBuilder addText(ITextComponent text, Vector2i pos) {
+        return addComponent(new TextUIComponent(text, pos));
+    }
+
+    public ModularUIBuilder addText(String text, Vector2i pos, int color) {
+        return addComponent(new TextUIComponent(new StringTextComponent(text), pos, color));
+    }
+
+    public ModularUIBuilder addText(String text, Vector2i pos, TextFormatting color) {
+        return addComponent(new TextUIComponent(new StringTextComponent(text), pos, color));
+    }
+
+    public ModularUIBuilder addTranslatedText(String text, Vector2i pos, int color) {
+        return addComponent(new TextUIComponent(new TranslationTextComponent(text), pos, color));
+    }
+
+    public ModularUIBuilder addTranslatedText(String text, Vector2i pos, TextFormatting color) {
+        return addComponent(new TextUIComponent(new TranslationTextComponent(text), pos, color));
     }
 
     public ModularUIBuilder addProgressBar(DualTextureData texture, Vector2i offPos, Vector2i onPos) {
