@@ -13,6 +13,7 @@ import turing.mods.polaris.util.Vector2i;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -59,6 +60,11 @@ public class ModularUIBuilder {
 
     public ModularUIBuilder addComponent(IUIComponent component) {
         components.add(component);
+        return this;
+    }
+
+    public ModularUIBuilder addComponents(IUIComponent... components) {
+        this.components.addAll(Arrays.asList(components));
         return this;
     }
 
