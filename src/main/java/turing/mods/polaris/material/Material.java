@@ -14,6 +14,9 @@ import turing.mods.polaris.util.Formatting;
 import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.function.Consumer;
 
 public class Material implements ITintedItem {
     public int mass;
@@ -48,8 +51,7 @@ public class Material implements ITintedItem {
         this.oreStats = oreStats;
         this.textureSet = textureSet;
         this.magnetic = magnetic;
-        this.formulaTooltip = createFormulaTooltip(this.components);
-        if (fluidStats != null) createFluidTooltip();
+        createFormulaTooltip();
     }
 
     private void createFluidTooltip() {
@@ -59,20 +61,36 @@ public class Material implements ITintedItem {
         this.fluidTooltips[2] = new TranslationTextComponent("tooltip.polaris.fluid_temp", TextFormatting.RED + Formatting.formattedNumber(this.fluidStats.temp));
     }
 
-    public static ITextComponent createFormulaTooltip(ComponentStack... components) {
-        Tuple<String, Map<Integer, TranslationTextComponent>> formula = Formatting.createChemicalFormula(components);
-        if (formula != null) {
-            StringTextComponent tooltip = new StringTextComponent("");
-            int finalI = 0;
-            for (int i = 0; i < formula.getA().length() + formula.getB().size(); i++) {
-                if (formula.getB().get(i) != null) {
-                    tooltip.append(formula.getB().get(i));
-                    finalI--;
-                } else if (formula.getA().length() >= finalI) tooltip.appendString(TextFormatting.YELLOW + String.valueOf(formula.getA().charAt(finalI)));
-                finalI++;
+    public void createFormulaTooltip() {
+        createFormulaTooltip((tooltip) -> {
+            this.formulaTooltip = tooltip;
+            if (this.fluidStats != null) createFluidTooltip();
+        }, this.components);
+    }
+
+    // cursed method
+    public static void createFormulaTooltip(Consumer<ITextComponent> consumer, ComponentStack... stacks) {
+        ExecutorService pool = Executors.newFixedThreadPool(1);
+        pool.submit(() -> {
+            Tuple<String, Map<Integer, TranslationTextComponent>> formula = Formatting.createChemicalFormula(stacks);
+            if (formula != null) {
+                StringTextComponent tooltip1 = new StringTextComponent("");
+                int finalI = 0;
+                for (int i = 0; i < formula.getA().length() + formula.getB().size(); i++) {
+                    if (formula.getB().get(i) != null) {
+                        tooltip1.append(formula.getB().get(i));
+                        finalI--;
+                    } else if (formula.getA().length() >= finalI) tooltip1.appendString(TextFormatting.YELLOW + String.valueOf(formula.getA().charAt(finalI)));
+                    finalI++;
+                }
+                consumer.accept(tooltip1);
+                return tooltip1;
+            } else{
+                StringTextComponent tooltip = new StringTextComponent(TextFormatting.YELLOW + "Oops! something went wrong creating this tooltip!");
+                consumer.accept(tooltip);
+                return tooltip;
             }
-            return tooltip;
-        } else return new StringTextComponent(TextFormatting.YELLOW + "Oops! something went wrong creating this tooltip!");
+        });
     }
 
     public Material withExistingItems(Map<SubItem, Item> items) {

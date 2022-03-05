@@ -40,6 +40,7 @@ public class MaterialDeferredRegister {
 
     public MaterialRegistryObject register(String name, MaterialBuilder builder) {
         if (materials.containsKey(name)) throw new IllegalStateException("Material already exists.");
+        Date date = new Date();
         BasicFluidRegistryObject fluid = null;
         List<RegistryObject<Block>> blocks = new ArrayList<>();
         List<RegistryObject<Item>> items = new ArrayList<>();
@@ -76,7 +77,7 @@ public class MaterialDeferredRegister {
         MaterialRegistryObject newMaterial = new MaterialRegistryObject(name, () -> material, items, blocks.size() > 0 ? blocks : null, fluid);
         materials.put(name, newMaterial);
 
-        Polaris.LOGGER.info(String.format("created material '%s'", name));
+        Polaris.LOGGER.info(String.format("created material '%s' in %dms", name, (new Date()).getTime() - date.getTime()));
         return newMaterial;
     }
 
