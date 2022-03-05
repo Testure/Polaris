@@ -23,7 +23,7 @@ public class ModularUIs {
     public static final ModularUI COMPRESSOR_UI = ModularUIBuilder.builder()
             .itemSlot(51, 26)
             .itemSlot(101, 26)
-            .addComponent(new TitleUIComponent("screen.polaris.compressor"))
+            .addTitle("screen.polaris.compressor")
             .addProgressBar(COMPRESSOR_PROGRESS, new Vector2i(76, 25), new Vector2i(76, 34))
             .build(adder);
 

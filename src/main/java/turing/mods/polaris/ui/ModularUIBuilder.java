@@ -62,6 +62,10 @@ public class ModularUIBuilder {
         return this;
     }
 
+    public ModularUIBuilder addTitle(String key) {
+        return addComponent(new TitleUIComponent(key));
+    }
+
     public ModularUIBuilder addText(ITextComponent text, Vector2i pos) {
         return addComponent(new TextUIComponent(text, pos));
     }
