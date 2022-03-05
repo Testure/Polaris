@@ -1,6 +1,7 @@
 package turing.mods.polaris.ui;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
+import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
@@ -15,9 +16,12 @@ import turing.mods.polaris.registry.MaterialRegistryObject;
 import turing.mods.polaris.screen.MachineScreen;
 import turing.mods.polaris.util.Vector2i;
 
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Arrays;
 import java.util.List;
 
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 @OnlyIn(Dist.CLIENT)
 public class Slot {
     public static final ResourceLocation SLOTS_TEXTURE = Polaris.modLoc("textures/gui/modular/slots.png");

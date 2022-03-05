@@ -1,6 +1,7 @@
 package turing.mods.polaris.ui;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
+import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
@@ -10,8 +11,11 @@ import turing.mods.polaris.container.MachineContainer;
 import turing.mods.polaris.screen.MachineScreen;
 import turing.mods.polaris.util.Vector2i;
 
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.List;
 
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 @OnlyIn(Dist.CLIENT)
 public interface ISlot<C> extends IUIComponent {
     Vector2i getTexturePos();

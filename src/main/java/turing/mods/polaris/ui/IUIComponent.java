@@ -1,13 +1,20 @@
 package turing.mods.polaris.ui;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
+import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import turing.mods.polaris.container.MachineContainer;
 import turing.mods.polaris.screen.MachineScreen;
 import turing.mods.polaris.util.Vector2i;
 
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.List;
 
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
+@OnlyIn(Dist.CLIENT)
 public interface IUIComponent {
     Vector2i getPos();
 
