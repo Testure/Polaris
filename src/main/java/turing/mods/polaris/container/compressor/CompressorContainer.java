@@ -11,8 +11,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import turing.mods.polaris.block.compressor.CompressorTile;
 import turing.mods.polaris.container.MachineContainer;
-import turing.mods.polaris.container.SlotInfoProvider;
 import turing.mods.polaris.registry.MachineRegistry;
+import turing.mods.polaris.util.Vector2i;
 
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -23,10 +23,10 @@ public class CompressorContainer extends MachineContainer {
     private final int tier;
 
     public CompressorContainer(int tier, int windowId, World world, BlockPos pos, PlayerInventory inventory, PlayerEntity player, @Nullable PacketBuffer data) {
-        super(MachineRegistry.COMPRESSOR.getContainers().get(tier).get(), windowId, world, pos, inventory, player, new SlotInfoProvider(
-                new SlotInfoProvider.SlotInfo(0, 52, 27),
-                new SlotInfoProvider.SlotInfo(1, 102, 27)
-        ), MachineRegistry.COMPRESSOR.getBlocks().get(tier).get());
+        super(MachineRegistry.COMPRESSOR.getContainers().get(tier).get(), windowId, world, pos, inventory, player, new Vector2i[]{
+                new Vector2i(52, 27),
+                new Vector2i(102, 27)
+        }, MachineRegistry.COMPRESSOR.getBlocks().get(tier).get());
         this.tier = tier;
         trackProgress();
     }
@@ -68,15 +68,6 @@ public class CompressorContainer extends MachineContainer {
                 tileEntity.readProgress(tag);
             }
         });
-    }
-
-    public int getProgress() {
-        CompressorTile tile = (CompressorTile) this.tile;
-        CompoundNBT tag = tile.getUpdateTag();
-        int time = tag.getInt("time");
-        int timeGoal = tag.getInt("timeGoal");
-
-        return timeGoal > 0 ? (time * 20) / timeGoal : 0;
     }
 
     public int getTier() {

@@ -8,15 +8,21 @@ import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IWorldPosCallable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.SlotItemHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
+import turing.mods.polaris.tile.MachineTile;
+import turing.mods.polaris.util.Vector2i;
 
+import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
@@ -27,7 +33,7 @@ public class MachineContainer extends Container {
     final IItemHandler itemHandler;
     final Block block;
 
-    public MachineContainer(ContainerType<?> type, int windowId, World world, BlockPos pos, PlayerInventory inventory, PlayerEntity player, SlotInfoProvider slots, Block block) {
+    public MachineContainer(ContainerType<?> type, int windowId, World world, BlockPos pos, PlayerInventory inventory, PlayerEntity player, Vector2i[] slots, Block block) {
         super(type, windowId);
         this.tile = world.getTileEntity(pos);
         this.player = player;
@@ -36,13 +42,36 @@ public class MachineContainer extends Container {
 
         if (this.tile != null) {
             this.tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null).ifPresent(handler -> {
-                for (SlotInfoProvider.SlotInfo slotInfo : slots.getSlots()) {
-                    addSlot(new SlotItemHandler(handler, slotInfo.index, slotInfo.x, slotInfo.y));
+                for (int i = 0; i < slots.length; i++) {
+                    addSlot(new SlotItemHandler(handler, i, slots[i].x, slots[i].y));
                 }
             });
         }
 
         layoutPlayerInventorySlots(10, 82);
+    }
+
+    public int getProgress(int totalSize) {
+        MachineTile tile = (MachineTile) this.tile;
+        CompoundNBT tag = tile.getUpdateTag();
+        int time = tag.getInt("time");
+        int timeGoal = tag.getInt("timeGoal");
+
+        return timeGoal > 0 ? (time * totalSize) / timeGoal : 0;
+    }
+
+    @Nullable
+    public ItemStack getStack(int slot) {
+        if (this.tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null).isPresent())
+            return this.tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null).map((handler) -> handler.getStackInSlot(slot)).orElse(ItemStack.EMPTY);
+        return null;
+    }
+
+    @Nullable
+    public FluidStack getFluidStack(int slot) {
+        if (this.tile.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null).isPresent())
+            return this.tile.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null).map((handler) -> handler.getFluidInTank(slot)).orElse(FluidStack.EMPTY);
+        return null;
     }
 
     @Override
