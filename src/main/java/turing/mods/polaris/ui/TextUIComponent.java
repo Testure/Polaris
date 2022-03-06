@@ -19,28 +19,28 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @OnlyIn(Dist.CLIENT)
 public class TextUIComponent implements IUIComponent {
     private final ITextComponent text;
-    private final Vector2i pos;
+    private final UIPos pos;
     private final Vector2i size;
     private final int color;
 
-    public TextUIComponent(ITextComponent text, Vector2i pos, int color) {
+    public TextUIComponent(ITextComponent text, UIPos pos, int color) {
         this.text = text;
         this.pos = pos;
         this.color = color;
         this.size = new Vector2i(Minecraft.getInstance().fontRenderer.getStringWidth(text.getString()), Minecraft.getInstance().fontRenderer.FONT_HEIGHT);
     }
 
-    public TextUIComponent(ITextComponent text, Vector2i pos) {
+    public TextUIComponent(ITextComponent text, UIPos pos) {
         this(text, pos, 0xFFFFFF);
     }
 
-    public TextUIComponent(ITextComponent text, Vector2i pos, TextFormatting color) {
+    public TextUIComponent(ITextComponent text, UIPos pos, TextFormatting color) {
         this(text, pos, color.isColor() && color.getColor() != null ? color.getColor() : 0xFFFFFF);
     }
 
     @Override
     public Vector2i getPos() {
-        return pos;
+        return pos.pos;
     }
 
     @Override
@@ -55,6 +55,7 @@ public class TextUIComponent implements IUIComponent {
     @Override
     public void renderBackground(MachineScreen<? extends MachineContainer> screen, MatrixStack matrixStack, Vector2i screenSize, TextureHelper helper) {
         Vector2i topLeft = new Vector2i((screen.width - screenSize.x) / 2, (screen.height - screenSize.y) / 2);
+        Vector2i pos = this.pos.getPos(screen, screenSize);
         Screen.drawString(matrixStack, Minecraft.getInstance().fontRenderer, text, topLeft.x + pos.x, topLeft.y + pos.y, color);
     }
 }

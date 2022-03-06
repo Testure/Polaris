@@ -28,6 +28,8 @@ public interface ISlot<C> extends IUIComponent {
 
     ResourceLocation getTexture();
 
+    UIPos getUIPos();
+
     <c extends MachineContainer> C getContained(c container);
 
     @Override
@@ -50,7 +52,7 @@ public interface ISlot<C> extends IUIComponent {
     default <T extends MachineScreen<? extends MachineContainer>> void render(T screen, MatrixStack matrixStack, Vector2i screenSize, Vector2i renderSize, TextureHelper helper) {
         if (helper.getCurrentTexture() == null || !helper.getCurrentTexture().equals(getTexture())) screen.getMinecraft().getTextureManager().bindTexture(getTexture());
 
-        Vector2i pos = new Vector2i((screen.width - screenSize.x) / 2, (screen.height - screenSize.y) / 2).add(getPos());
+        Vector2i pos = new Vector2i((screen.width - screenSize.x) / 2, (screen.height - screenSize.y) / 2).add(getUIPos().getPos(screen, screenSize));
         Vector2i texturePos = getTexturePos();
         Vector2i textureSize = getTextureSize();
 

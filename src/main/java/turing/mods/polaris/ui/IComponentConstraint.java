@@ -13,6 +13,8 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @MethodsReturnNonnullByDefault
 @FunctionalInterface
 @OnlyIn(Dist.CLIENT)
-public interface IComponentConstraint {
-    <T extends MachineScreen<? extends MachineContainer>> Vector2i apply(T screen, Vector2i original, Vector2i screenSize);
+public interface IComponentConstraint<T extends MachineScreen<? extends MachineContainer>> {
+    IComponentConstraint<?> NONE = (a, pos, b) -> pos;
+
+    Vector2i apply(T screen, Vector2i original, Vector2i screenSize);
 }

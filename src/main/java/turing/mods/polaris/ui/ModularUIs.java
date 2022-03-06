@@ -1,5 +1,6 @@
 package turing.mods.polaris.ui;
 
+import net.minecraft.util.math.vector.Vector2f;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import turing.mods.polaris.Polaris;
@@ -24,7 +25,7 @@ public class ModularUIs {
             .itemSlot(51, 26)
             .itemSlot(101, 26)
             .addTitle("screen.polaris.compressor")
-            .addProgressBar(COMPRESSOR_PROGRESS, new Vector2i(76, 25), new Vector2i(76, 34))
+            .addProgressBar(COMPRESSOR_PROGRESS, new UIPos(76, 25), new UIPos(76, 34))
             .build(adder);
 
     static {

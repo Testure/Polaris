@@ -27,18 +27,23 @@ public class Slot {
     public static final ResourceLocation SLOTS_TEXTURE = Polaris.modLoc("textures/gui/modular/slots.png");
 
     public static class ItemSlot implements ISlot<ItemStack> {
-        private final Vector2i pos;
+        private final UIPos pos;
         private final Vector2i texturePos = new Vector2i(0, 0);
         private final Vector2i textureSize = new Vector2i(36, 18);
         private final int index;
 
-        public ItemSlot(int index, Vector2i pos) {
+        public ItemSlot(int index, UIPos pos) {
             this.pos = pos;
             this.index = index;
         }
 
         @Override
         public Vector2i getPos() {
+            return pos.pos;
+        }
+
+        @Override
+        public UIPos getUIPos() {
             return pos;
         }
 
@@ -65,18 +70,23 @@ public class Slot {
     }
 
     public static class FluidSlot implements ISlot<FluidStack> {
-        private final Vector2i pos;
+        private final UIPos pos;
         private final int index;
         private final Vector2i texturePos = new Vector2i(18, 0);
         private final Vector2i textureSize = new Vector2i(36, 18);
 
-        public FluidSlot(int index, Vector2i pos) {
+        public FluidSlot(int index, UIPos pos) {
             this.index = index;
             this.pos = pos;
         }
 
         @Override
         public Vector2i getPos() {
+            return pos.pos;
+        }
+
+        @Override
+        public UIPos getUIPos() {
             return pos;
         }
 

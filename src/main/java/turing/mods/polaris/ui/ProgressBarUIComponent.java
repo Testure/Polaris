@@ -15,49 +15,37 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @MethodsReturnNonnullByDefault
 @OnlyIn(Dist.CLIENT)
 public class ProgressBarUIComponent implements IUIComponent {
-    protected final TextureData txt;
-    protected final Vector2i offTxt;
-    protected final Vector2i onTxt;
-    protected final Vector2i offPos;
-    protected final Vector2i onPos;
-    protected final Vector2i txtSize;
-    protected final Vector2i onSize;
+    protected final DualTextureData txt;
+    protected final UIPos offPos;
+    protected final UIPos onPos;
 
-    public ProgressBarUIComponent(TextureData barTexture, Vector2i offPos, Vector2i onPos, Vector2i offTxtPos, Vector2i offTxtSize, Vector2i onTxtPos, Vector2i onSize) {
+    public ProgressBarUIComponent(DualTextureData barTexture, UIPos offPos, UIPos onPos) {
         this.txt = barTexture;
         this.offPos = offPos;
         this.onPos = onPos;
-        this.offTxt = offTxtPos;
-        this.onTxt = onTxtPos;
-        this.txtSize = offTxtSize;
-        this.onSize = onSize;
-    }
-
-    public ProgressBarUIComponent(DualTextureData barTexture, Vector2i offPos, Vector2i onPos) {
-        this(barTexture, offPos, onPos, barTexture.getFirstPos(), barTexture.getFirstSize(), barTexture.getSecondPos(), barTexture.getSecondSize());
     }
 
     @Override
     public Vector2i getPos() {
-        return offPos;
+        return offPos.pos;
     }
 
     @Override
     public Vector2i getSize() {
-        return txtSize;
+        return txt.getSize();
     }
 
     @Override
     public void renderBackground(MachineScreen<? extends MachineContainer> screen, MatrixStack matrixStack, Vector2i screenSize, TextureHelper helper) {
         if (helper.getCurrentTexture() == null || !helper.getCurrentTexture().equals(txt.getTxt())) helper.bindTexture(txt.getTxt());
         Vector2i topLeft = new Vector2i((screen.width - screenSize.x) / 2, (screen.height - screenSize.y) / 2);
-        Vector2i pos = topLeft.copy().add(this.offPos);
-        Vector2i onPos = topLeft.copy().add(this.onPos);
+        Vector2i pos = topLeft.copy().add(this.offPos.getPos(screen, screenSize));
+        Vector2i onPos = topLeft.copy().add(this.onPos.getPos(screen, screenSize));
         Vector2i txtSize = txt.getSize();
-        int progress = screen.getContainer().getProgress(onSize.x);
+        int progress = screen.getContainer().getProgress(txt.getSecondSize().x);
 
-        Screen.blit(matrixStack, pos.x, pos.y, offTxt.x, offTxt.y, this.txtSize.x, this.txtSize.y, txtSize.x, txtSize.y);
-        Screen.blit(matrixStack, onPos.x, onPos.y, onTxt.x, onTxt.y, progress, onSize.y, txtSize.x, txtSize.y);
+        Screen.blit(matrixStack, pos.x, pos.y, txt.getFirstPos().x, txt.getFirstPos().y, txt.getFirstSize().x, txt.getFirstSize().y, txtSize.x, txtSize.y);
+        Screen.blit(matrixStack, onPos.x, onPos.y, txt.getSecondPos().x, txt.getSecondPos().y, progress, txt.getSecondSize().y, txtSize.x, txtSize.y);
     }
 
     @Override

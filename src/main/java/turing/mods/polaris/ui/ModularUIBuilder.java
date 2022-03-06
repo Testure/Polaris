@@ -38,24 +38,24 @@ public class ModularUIBuilder {
         return builder(null);
     }
 
-    public ModularUIBuilder itemSlot(Vector2i pos) {
+    public ModularUIBuilder itemSlot(UIPos pos) {
         if (hasAddedFluid) throw new IllegalStateException("Attempt to add item slot after adding fluid slot. item slots must be created first.");
         slots.add(new Slot.ItemSlot(slots.size(), pos));
         return this;
     }
 
     public ModularUIBuilder itemSlot(int x, int y) {
-        return itemSlot(new Vector2i(x, y));
+        return itemSlot(new UIPos(x, y));
     }
 
-    public ModularUIBuilder fluidSlot(Vector2i pos) {
+    public ModularUIBuilder fluidSlot(UIPos pos) {
         hasAddedFluid = true;
         slots.add(new Slot.FluidSlot(slots.size(), pos));
         return this;
     }
 
     public ModularUIBuilder fluidSlot(int x, int y) {
-        return fluidSlot(new Vector2i(x, y));
+        return fluidSlot(new UIPos(x, y));
     }
 
     public ModularUIBuilder addComponent(IUIComponent component) {
@@ -72,35 +72,35 @@ public class ModularUIBuilder {
         return addComponent(new TitleUIComponent(key));
     }
 
-    public ModularUIBuilder addText(ITextComponent text, Vector2i pos) {
+    public ModularUIBuilder addText(ITextComponent text, UIPos pos) {
         return addComponent(new TextUIComponent(text, pos));
     }
 
-    public ModularUIBuilder addText(String text, Vector2i pos, int color) {
+    public ModularUIBuilder addText(String text, UIPos pos, int color) {
         return addComponent(new TextUIComponent(new StringTextComponent(text), pos, color));
     }
 
-    public ModularUIBuilder addText(String text, Vector2i pos, TextFormatting color) {
+    public ModularUIBuilder addText(String text, UIPos pos, TextFormatting color) {
         return addComponent(new TextUIComponent(new StringTextComponent(text), pos, color));
     }
 
-    public ModularUIBuilder addTranslatedText(String text, Vector2i pos, int color) {
+    public ModularUIBuilder addTranslatedText(String text, UIPos pos, int color) {
         return addComponent(new TextUIComponent(new TranslationTextComponent(text), pos, color));
     }
 
-    public ModularUIBuilder addTranslatedText(String text, Vector2i pos, TextFormatting color) {
+    public ModularUIBuilder addTranslatedText(String text, UIPos pos, TextFormatting color) {
         return addComponent(new TextUIComponent(new TranslationTextComponent(text), pos, color));
     }
 
-    public ModularUIBuilder addProgressBar(DualTextureData texture, Vector2i offPos, Vector2i onPos) {
+    public ModularUIBuilder addProgressBar(DualTextureData texture, UIPos offPos, UIPos onPos) {
         return addComponent(new ProgressBarUIComponent(texture, offPos, onPos));
     }
 
-    public ModularUIBuilder addProgressBar(DualTextureData texture, Vector2i pos) {
+    public ModularUIBuilder addProgressBar(DualTextureData texture, UIPos pos) {
         return addComponent(new ProgressBarUIComponent(texture, pos, pos));
     }
 
-    public ModularUIBuilder addProgressBar(DualTextureData texture, Vector2i offPos, Vector2i onPos, boolean vertical) {
+    public ModularUIBuilder addProgressBar(DualTextureData texture, UIPos offPos, UIPos onPos, boolean vertical) {
         return addComponent(!vertical ? new ProgressBarUIComponent(texture, offPos, onPos) : new VerticalProgressBarComponent(texture, offPos, onPos));
     }
 
