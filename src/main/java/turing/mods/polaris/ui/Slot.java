@@ -106,15 +106,13 @@ public class Slot {
 
         @Override
         public <T extends MachineScreen<? extends MachineContainer>> void addTooltips(List<ITextComponent> tooltips, T screen, Vector2i screenSize, MatrixStack matrixStack, int x, int y) {
-            if (true) {
-                FluidStack stack = getContained(screen.getContainer());
-                if (!stack.isEmpty()) {
-                    tooltips.add(new TranslationTextComponent(stack.getTranslationKey()));
-                    if (Polaris.isMaterialItem(stack)) {
-                        MaterialRegistryObject material = MaterialRegistry.getMaterials().get(stack.getFluid().getRegistryName().getPath());
-                        if (material != null) {
-                            tooltips.addAll(Arrays.asList(material.get().getFluidTooltips()));
-                        }
+            FluidStack stack = getContained(screen.getContainer());
+            if (!stack.isEmpty()) {
+                tooltips.add(new TranslationTextComponent(stack.getTranslationKey()));
+                if (Polaris.isMaterialItem(stack)) {
+                    MaterialRegistryObject material = MaterialRegistry.getMaterials().get(stack.getFluid().getRegistryName().getPath());
+                    if (material != null) {
+                        tooltips.addAll(Arrays.asList(material.get().getFluidTooltips()));
                     }
                 }
             }
