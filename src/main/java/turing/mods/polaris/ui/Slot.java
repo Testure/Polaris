@@ -64,8 +64,7 @@ public class Slot {
 
         @Override
         public <c extends MachineContainer> ItemStack getContained(c container) {
-            ItemStack stack = container.getStack(index);
-            return stack != null ? stack : ItemStack.EMPTY;
+            return container.getStack(index) != null ? container.getStack(index) : ItemStack.EMPTY;
         }
     }
 
@@ -123,8 +122,7 @@ public class Slot {
 
         @Override
         public <c extends MachineContainer> FluidStack getContained(c container) {
-            FluidStack stack = container.getFluidStack(index);
-            return stack != null ? stack : FluidStack.EMPTY;
+            return container.getFluidStack(index) != null ? container.getFluidStack(index) : FluidStack.EMPTY;
         }
     }
 }
