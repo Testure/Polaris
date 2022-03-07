@@ -28,6 +28,13 @@ public class ModularUIs {
             .addProgressBar(COMPRESSOR_PROGRESS, new UIPos(76, 25), new UIPos(76, 34))
             .build(adder);
 
+    public static final ModularUI MACERATOR_UI = ModularUIBuilder.builder()
+            .itemSlot(51, 26)
+            .itemSlot(101, 26)
+            .addTitle("screen.polaris.macerator")
+            .addProgressBar(MACERATOR_PROGRESS, new UIPos(76, 25), new UIPos(76, 25))
+            .build(adder);
+
     static {
         UIS = list.toArray(new ModularUI[0]);
         list.removeIf((a) -> true);
