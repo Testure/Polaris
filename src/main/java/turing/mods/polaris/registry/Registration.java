@@ -7,6 +7,7 @@ import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.SoundEvent;
+import net.minecraft.world.gen.feature.Feature;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
@@ -25,6 +26,7 @@ public class Registration {
     public static final DeferredRegister<ContainerType<?>> CONTAINERS = DeferredRegister.create(ForgeRegistries.CONTAINERS, Polaris.MODID);
     // Entities go here
     public static final DeferredRegister<SoundEvent> SOUNDS = DeferredRegister.create(ForgeRegistries.SOUND_EVENTS, Polaris.MODID);
+    public static final DeferredRegister<Feature<?>> FEATURES = DeferredRegister.create(ForgeRegistries.FEATURES, Polaris.MODID);
 
     public static void register() {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
@@ -36,6 +38,7 @@ public class Registration {
         TILES.register(bus);
         CONTAINERS.register(bus);
         // Entities go here
+        FEATURES.register(bus);
 
         MaterialRegistry.register(bus);
         MachineRegistry.register(bus);
@@ -45,5 +48,6 @@ public class Registration {
 
         TileRegistry.register();
         ContainerRegistry.register();
+        FeatureRegistry.register();
     }
 }
