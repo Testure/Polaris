@@ -34,12 +34,7 @@ public class VeinBuilder {
 
 
     public VeinBuilder withChance(int chance) {
-        this.chance = MathHelper.clamp(chance, 1, 10);
-        return this;
-    }
-
-    public VeinBuilder withChance(float chance) {
-        this.chance = (int)(MathHelper.clamp(chance, 0.1F, 1.0F) * 10);
+        this.chance = Math.max(chance, 1);
         return this;
     }
 

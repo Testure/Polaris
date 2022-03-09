@@ -37,7 +37,7 @@ public class OreGeneration {
     public static void genOre(BiomeGenerationSettingsBuilder builder, VeinFeatureConfig config, int chance) {
         builder.withFeature(GenerationStage.Decoration.UNDERGROUND_ORES,
                 FeatureRegistry.VEIN_FEATURE.get().withConfiguration(config)
-                        .chance(chance)
+                        .chance(chance * 4)
                         .func_242731_b(1)
         );
     }
@@ -49,7 +49,7 @@ public class OreGeneration {
             Polaris.handledOreConfig = true;
         }
         for (VeinConfiguration vein : VEINS.values()) {
-            genOre(event.getGeneration(), vein.toConfig(), vein.getChance());
+            genOre(event.getGeneration(), vein.toConfig(), Math.max(vein.getChance(), 1));
         }
     }
 
