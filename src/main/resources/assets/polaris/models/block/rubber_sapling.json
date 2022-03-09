@@ -1,0 +1,6 @@
+{
+  "parent": "block/cross",
+  "textures": {
+    "cross": "polaris:blocks/rubber_sapling"
+  }
+}

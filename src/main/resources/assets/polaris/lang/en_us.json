@@ -17,6 +17,10 @@
   "block.polaris.block": "%s Block",
   "block.polaris.ore": "%s Ore",
   "block.polaris.creative_power_provider": "Creative Power Source",
+  "block.polaris.rubber_log": "Rubber Wood",
+  "block.polaris.rubber_planks": "Rubber Wood Planks",
+  "block.polaris.rubber_sapling": "Rubber Tree Sapling",
+  "block.polaris.rubber_leaves": "Rubber Wood Leaves",
 
   "tooltip.polaris.voltage_in": "§7Voltage IN:§r %s (%s)",
   "tooltip.polaris.voltage_out": "§7Voltage OUT:§r %s (%s)",
@@ -100,6 +104,7 @@
   "item.polaris.nand": "NAND Chip",
   "item.polaris.wood_substrate": "Wooden Substrate",
   "item.polaris.wood_board": "Wooden Circuit Board",
+  "item.polaris.sticky_resin": "Sticky Resin",
 
   "subscript.0": "§e₀",
   "subscript.1": "§e₁",

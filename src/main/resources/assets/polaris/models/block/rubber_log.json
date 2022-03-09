@@ -1,0 +1,7 @@
+{
+  "parent": "block/cube_column",
+  "textures": {
+    "end": "polaris:blocks/rubber_log_top",
+    "side": "polaris:blocks/rubber_log_side"
+  }
+}
