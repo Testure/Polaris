@@ -2,9 +2,12 @@ package turing.mods.polaris.client;
 
 import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.client.renderer.color.BlockColors;
 import net.minecraft.client.renderer.color.ItemColors;
+import net.minecraft.world.FoliageColors;
+import net.minecraft.world.biome.BiomeColors;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -37,6 +40,7 @@ public class ClientSetup {
         event.enqueueWork(() -> setupItemColors(itemColors));
         materialClientSetup(itemColors, blockColors, event);
         event.enqueueWork(() -> setupBucketColors(itemColors));
+        RenderTypeLookup.setRenderLayer(BlockRegistry.RUBBER_SAPLING.get(), RenderType.getCutout());
     }
 
     private static void machineClientSetup(FMLClientSetupEvent event, BlockColors blockColors, ItemColors itemColors) {
@@ -66,5 +70,7 @@ public class ClientSetup {
             }
             if (block.get() instanceof IRenderTypedBlock) RenderTypeLookup.setRenderLayer(block.get(), ((IRenderTypedBlock) block.get()).getRenderType());
         });
+        itemColors.register((a, b) -> FoliageColors.getDefault(), BlockRegistry.RUBBER_LEAVES.get().asItem());
+        blockColors.register((state, reader, pos, color) -> reader != null && pos != null ? BiomeColors.getFoliageColor(reader, pos) : FoliageColors.getDefault(), BlockRegistry.RUBBER_LEAVES.get());
     }
 }

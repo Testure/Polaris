@@ -1,14 +1,18 @@
 package turing.mods.polaris.registry;
 
 import mcp.MethodsReturnNonnullByDefault;
-import net.minecraft.block.Block;
+import net.minecraft.block.*;
+import net.minecraft.block.material.Material;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
+import net.minecraftforge.common.ToolType;
 import net.minecraftforge.fml.RegistryObject;
 import turing.mods.polaris.Polaris;
 import turing.mods.polaris.block.CasingBlock;
 import turing.mods.polaris.block.HullBlock;
+import turing.mods.polaris.block.RubberLog;
 import turing.mods.polaris.block.creative_power.CreativePowerProvider;
+import turing.mods.polaris.world.RubberTree;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.ArrayList;
@@ -21,6 +25,10 @@ public class BlockRegistry {
     public static final List<RegistryObject<Block>> BLOCKS = new ArrayList<>();
 
     public static final RegistryObject<Block> CREATIVE_POWER_PROVIDER = register("creative_power_provider", CreativePowerProvider::new);
+    public static final RegistryObject<Block> RUBBER_LOG = register("rubber_log", RubberLog::new);
+    public static final RegistryObject<Block> RUBBER_PLANKS = register("rubber_planks", () -> new Block(AbstractBlock.Properties.create(Material.WOOD).harvestTool(ToolType.AXE).sound(SoundType.WOOD).hardnessAndResistance(2F)));
+    public static final RegistryObject<Block> RUBBER_LEAVES = register("rubber_leaves", () -> new LeavesBlock(AbstractBlock.Properties.create(Material.LEAVES).sound(SoundType.PLANT).notSolid().tickRandomly().hardnessAndResistance(0.2F).setBlocksVision((a, b, c) -> false).setSuffocates((a, b, c) -> false)));
+    public static final RegistryObject<Block> RUBBER_SAPLING = register("rubber_sapling", () -> new SaplingBlock(new RubberTree(), AbstractBlock.Properties.create(Material.PLANTS).doesNotBlockMovement().tickRandomly().zeroHardnessAndResistance().sound(SoundType.PLANT)));
 
     public static final RegistryObject<CasingBlock>[] CASINGS = new RegistryObject[]{
             register("casing_ulv", () -> new CasingBlock(0, () -> MaterialRegistry.IRON)),

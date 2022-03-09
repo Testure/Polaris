@@ -88,6 +88,10 @@ public class ModItemModelProvider extends ItemModelProvider {
         ModelFile itemHandheld = getExistingFile(mcLoc("item/handheld"));
 
         withExistingParent("creative_power_provider", modLoc("block/creative_power_provider_1_amps"));
+        withExistingParent("rubber_log", modLoc("block/rubber_log"));
+        withExistingParent("rubber_planks", modLoc("block/rubber_planks"));
+        withExistingParent("rubber_leaves", modLoc("block/rubber_leaves"));
+        getBuilder("rubber_sapling").parent(itemGenerated).texture("layer0", modLoc("block/rubber_sapling"));
 
         casingModels();
         hullModels();

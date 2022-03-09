@@ -3,7 +3,6 @@ package turing.mods.polaris;
 import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.resources.ReloadListener;
-import net.minecraft.fluid.Fluids;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
@@ -52,12 +51,11 @@ import turing.mods.polaris.registry.Registration;
 import turing.mods.polaris.util.Formatting;
 import turing.mods.polaris.world.OreConfig;
 import turing.mods.polaris.world.OreGeneration;
-import turing.mods.polaris.world.OreVeins;
+import turing.mods.polaris.world.TreeGen;
 
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.function.Function;
 
@@ -110,6 +108,7 @@ public class Polaris {
 
         MinecraftForge.EVENT_BUS.register(this);
         MinecraftForge.EVENT_BUS.addListener(EventPriority.HIGH, OreGeneration::oreGeneration);
+        MinecraftForge.EVENT_BUS.addListener(EventPriority.HIGH, TreeGen::genTrees);
     }
 
     private void resolveTags() {

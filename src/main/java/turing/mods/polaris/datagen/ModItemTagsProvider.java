@@ -8,12 +8,15 @@ import net.minecraft.data.ItemTagsProvider;
 import net.minecraft.data.TagsProvider;
 import net.minecraft.item.Item;
 import net.minecraft.tags.ITag;
+import net.minecraft.tags.ItemTags;
+import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.fml.RegistryObject;
 import turing.mods.polaris.Polaris;
 import turing.mods.polaris.block.SubBlockItemGenerated;
 import turing.mods.polaris.item.SubItemGenerated;
 import turing.mods.polaris.item.ToolItemGenerated;
+import turing.mods.polaris.registry.BlockRegistry;
 import turing.mods.polaris.registry.ItemRegistry;
 import turing.mods.polaris.registry.MaterialRegistry;
 import turing.mods.polaris.registry.MaterialRegistryObject;
@@ -32,6 +35,13 @@ public class ModItemTagsProvider extends ItemTagsProvider {
     protected void registerTags() {
         addMaterialTags();
         getOrCreateBuilder(PolarisTags.Items.CIRCUIT_LOGIC).add(ItemRegistry.VACUUM_TUBE.get(), ItemRegistry.NAND.get());
+        getOrCreateItemBuilder(ItemTags.LOGS).add(BlockRegistry.RUBBER_LOG.get().asItem());
+        getOrCreateItemBuilder(ItemTags.LOGS_THAT_BURN).add(BlockRegistry.RUBBER_LOG.get().asItem());
+        getOrCreateItemBuilder(ItemTags.LEAVES).add(BlockRegistry.RUBBER_LEAVES.get().asItem());
+        getOrCreateItemBuilder(ItemTags.SAPLINGS).add(BlockRegistry.RUBBER_SAPLING.get().asItem());
+        getOrCreateItemBuilder(ItemTags.PLANKS).add(BlockRegistry.RUBBER_PLANKS.get().asItem());
+        getOrCreateItemBuilder(PolarisTags.Items.RUBBER_LOGS).add(BlockRegistry.RUBBER_LOG.get().asItem());
+        getOrCreateItemBuilder(PolarisTags.Items.RUBBER_RESIN).add(ItemRegistry.STICKY_RESIN.get());
     }
 
     private void addMaterialTags() {

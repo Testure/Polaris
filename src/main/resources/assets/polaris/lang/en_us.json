@@ -20,7 +20,7 @@
   "block.polaris.rubber_log": "Rubber Wood",
   "block.polaris.rubber_planks": "Rubber Wood Planks",
   "block.polaris.rubber_sapling": "Rubber Tree Sapling",
-  "block.polaris.rubber_leaves": "Rubber Wood Leaves",
+  "block.polaris.rubber_leaves": "Rubber Tree Leaves",
 
   "tooltip.polaris.voltage_in": "§7Voltage IN:§r %s (%s)",
   "tooltip.polaris.voltage_out": "§7Voltage OUT:§r %s (%s)",

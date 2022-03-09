@@ -35,6 +35,10 @@ public class ModBlockStateProvider extends BlockStateProvider {
         MachineBlockStates.createCreativePowerProviderModel(this);
 
         MachineBlockStates.createCompressorModel(this, MachineRegistry.COMPRESSOR);
+        simpleBlock(BlockRegistry.RUBBER_LOG.get(), models().getExistingFile(modLoc("block/rubber_log")));
+        simpleBlock(BlockRegistry.RUBBER_PLANKS.get(), models().getExistingFile(modLoc("block/rubber_planks")));
+        simpleBlock(BlockRegistry.RUBBER_LEAVES.get(), models().getExistingFile(modLoc("block/rubber_leaves")));
+        simpleBlock(BlockRegistry.RUBBER_SAPLING.get(), models().getExistingFile(modLoc("block/rubber_sapling")));
     }
 
     private void hullBlockStates() {

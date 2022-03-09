@@ -5,11 +5,14 @@ import net.minecraft.block.Block;
 import net.minecraft.data.BlockTagsProvider;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.TagsProvider;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ITag;
+import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.fml.RegistryObject;
 import turing.mods.polaris.Polaris;
 import turing.mods.polaris.block.SubBlockGenerated;
+import turing.mods.polaris.registry.BlockRegistry;
 import turing.mods.polaris.registry.MaterialRegistry;
 import turing.mods.polaris.registry.MaterialRegistryObject;
 
@@ -26,6 +29,11 @@ public class ModBlockTagsProvider extends BlockTagsProvider {
     @Override
     protected void registerTags() {
         addMaterialTags();
+        getOrCreateBuilder(BlockTags.LOGS).add(BlockRegistry.RUBBER_LOG.get());
+        getOrCreateBuilder(BlockTags.LOGS_THAT_BURN).add(BlockRegistry.RUBBER_LOG.get());
+        getOrCreateBuilder(BlockTags.LEAVES).add(BlockRegistry.RUBBER_LEAVES.get());
+        getOrCreateBuilder(BlockTags.PLANKS).add(BlockRegistry.RUBBER_PLANKS.get());
+        getOrCreateBuilder(PolarisTags.Blocks.RUBBER_LOGS).add(BlockRegistry.RUBBER_LOG.get());
     }
 
     private void addMaterialTags() {

@@ -16,6 +16,8 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @ParametersAreNonnullByDefault
 public class PolarisTags {
     public static final class Blocks {
+        public static final ITag.INamedTag<Block> RUBBER_LOGS = forge("logs/rubber");
+
         public static ITag.INamedTag<Block> forge(String path) {
             return BlockTags.makeWrapperTag(Polaris.forgeLoc(path).toString());
         }
@@ -44,6 +46,9 @@ public class PolarisTags {
         public static final ITag.INamedTag<Item> CRAFTING_TOOLS_SCREWDRIVER = mod("crafting_tools/screwdriver");
         public static final ITag.INamedTag<Item> CRAFTING_TOOLS_CROWBAR = mod("crafting_tools/crowbar");
         public static final ITag.INamedTag<Item> CRAFTING_TOOLS_MORTAR = mod("crafting_tools/mortar");
+
+        public static final ITag.INamedTag<Item> RUBBER_LOGS = forge("logs/rubber");
+        public static final ITag.INamedTag<Item> RUBBER_RESIN = forge("resins/rubber");
 
         public static ITag.INamedTag<Item> forge(String path) {
             return ItemTags.makeWrapperTag(Polaris.forgeLoc(path).toString());

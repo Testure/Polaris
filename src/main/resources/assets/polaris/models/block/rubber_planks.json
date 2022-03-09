@@ -1,6 +1,6 @@
 {
   "parent": "block/cube_all",
   "textures": {
-    "all": "polaris:blocks/rubber_planks"
+    "all": "polaris:block/rubber_planks"
   }
 }
