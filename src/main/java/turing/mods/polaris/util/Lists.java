@@ -31,6 +31,20 @@ public class Lists {
         return (T[]) newArray;
     }
 
+    public static <T> T[] copyTo(T[] array, T[] array2, int start) {
+        for (int i = start; i < array2.length + start; i++) array[i] = array2[i - start];
+        return array;
+    }
+
+    @SafeVarargs
+    public static <T> T[] combine(T[]... arrays) {
+        int totalSize = 1;
+        for (T[] array : arrays) totalSize += array.length;
+        T[] newArray = (T[]) new Object[totalSize];
+        for (int i = 0; i < arrays.length; i++) copyTo(newArray, arrays[i], i + arrays[i].length);
+        return newArray;
+    }
+
     @SafeVarargs
     public static <K, V> Map<K, V> mapOf(Tuple<K, V>... values) {
         Map<K, V> map = new HashMap<>();

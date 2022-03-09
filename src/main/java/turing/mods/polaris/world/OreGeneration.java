@@ -3,7 +3,6 @@ package turing.mods.polaris.world;
 import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
-import net.minecraft.item.BlockItem;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.GenerationStage;
 import net.minecraft.world.gen.feature.OreFeatureConfig;
@@ -11,23 +10,21 @@ import net.minecraft.world.gen.feature.template.BlockMatchRuleTest;
 import net.minecraft.world.gen.feature.template.RuleTest;
 import net.minecraftforge.common.world.BiomeGenerationSettingsBuilder;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
-import turing.mods.polaris.block.SubBlockItemGenerated;
-import turing.mods.polaris.material.SubItem;
+import turing.mods.polaris.Polaris;
 import turing.mods.polaris.registry.FeatureRegistry;
-import turing.mods.polaris.registry.MaterialRegistry;
 
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public class OreGeneration {
-    private static final List<VeinConfiguration> VEINS = new ArrayList<>();
+    private static final Map<String, VeinConfiguration> VEINS = new HashMap<>();
 
     public static void genOre(BiomeGenerationSettingsBuilder builder, RuleTest filler, BlockState[] ores, int[] weights, int[] range, int chance) {
         builder.withFeature(GenerationStage.Decoration.UNDERGROUND_ORES,
@@ -46,19 +43,23 @@ public class OreGeneration {
     }
 
     public static void oreGeneration(BiomeLoadingEvent event) {
-        OreVeins.register();
-        for (VeinConfiguration vein : VEINS) {
+        if (!Polaris.handledOreConfig) {
+            VEINS.putAll(OreConfig.readVeins());
+            OreVeins.register();
+            Polaris.handledOreConfig = true;
+        }
+        for (VeinConfiguration vein : VEINS.values()) {
             genOre(event.getGeneration(), vein.toConfig(), vein.getChance());
         }
     }
 
-    public static void registerVein(VeinConfiguration vein) {
-        if (VEINS.contains(vein)) throw new IllegalStateException("Ore vein already registered!");
-        VEINS.add(vein);
+    public static void registerVein(String name, VeinConfiguration vein) {
+        if (VEINS.containsKey(name)) throw new IllegalStateException("Ore vein already registered!");
+        VEINS.put(name, vein);
     }
 
-    public static List<VeinConfiguration> getOreVeins() {
-        return Collections.unmodifiableList(VEINS);
+    public static Map<String, VeinConfiguration> getOreVeins() {
+        return Collections.unmodifiableMap(VEINS);
     }
 
     public static Optional<RuleTest> fillerOfBiome(@Nullable Biome.Category biomeCategory) {

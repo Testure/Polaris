@@ -50,6 +50,7 @@ import turing.mods.polaris.registry.MaterialRegistry;
 import turing.mods.polaris.registry.MaterialRegistryObject;
 import turing.mods.polaris.registry.Registration;
 import turing.mods.polaris.util.Formatting;
+import turing.mods.polaris.world.OreConfig;
 import turing.mods.polaris.world.OreGeneration;
 import turing.mods.polaris.world.OreVeins;
 
@@ -75,6 +76,7 @@ public class Polaris {
 
     private static boolean hasResolvedBefore = false;
     public static boolean tagsResolved = false;
+    public static boolean handledOreConfig = false;
 
     public static class ToolTypes {
         public static final ToolType WRENCH = ToolType.get("wrench");
@@ -102,6 +104,7 @@ public class Polaris {
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::enqueueIMC);
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::processIMC);
         Material.createFormulaTooltip((formula) -> WATER_FORMULA = formula, Components.WATER.getMadeOf());
+        OreConfig.init();
 
         Registration.register();
 

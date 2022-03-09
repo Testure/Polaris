@@ -11,6 +11,7 @@ import turing.mods.polaris.material.SubItem;
 import turing.mods.polaris.registry.MaterialRegistryObject;
 import turing.mods.polaris.util.BlockMatchTest;
 import turing.mods.polaris.util.BlockStateMatchTest;
+import turing.mods.polaris.util.Consumer2;
 import turing.mods.polaris.util.Vector2i;
 
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -25,9 +26,10 @@ public class VeinBuilder {
     private int maxY;
     private int topW, bottomW, sporadicW, betweenW;
     private BlockState top, bottom, sporadic, between;
+    private final String name;
 
-    private VeinBuilder() {
-
+    private VeinBuilder(String name) {
+        this.name = name;
     }
 
 
@@ -180,17 +182,17 @@ public class VeinBuilder {
         return this;
     }
 
-    public static VeinBuilder builder() {
-        return new VeinBuilder();
+    public static VeinBuilder builder(String name) {
+        return new VeinBuilder(name);
     }
 
     public VeinConfiguration build() {
         return new VeinConfiguration(filler, new BlockState[]{top, bottom, sporadic, between}, new int[]{topW, bottomW, sporadicW, betweenW}, new int[]{minY, maxY}, chance);
     }
 
-    public VeinConfiguration build(Consumer<VeinConfiguration> consumer) {
+    public VeinConfiguration build(Consumer2<String, VeinConfiguration> consumer) {
         VeinConfiguration built = build();
-        consumer.accept(built);
+        consumer.accept(name, built);
         return built;
     }
 }
