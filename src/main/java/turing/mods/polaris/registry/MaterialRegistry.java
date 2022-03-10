@@ -139,6 +139,35 @@ public class MaterialRegistry {
             .textureSet(TextureSet.SHINY_METAL)
             .buildAndRegister();
 
+    public static final MaterialRegistryObject SILICON = MaterialBuilder.builder("silicon")
+            .color(0xFF3C3C50)
+            .ingot()
+            .fluid(false, 1200)
+            .mass(80)
+            .component(Components.SILICON)
+            .addFlags(GenerationFlags.GENERATE_FOIL)
+            .textureSet(TextureSet.DULL_METAL_HARSH)
+            .buildAndRegister();
+
+    public static final MaterialRegistryObject SULFUR = MaterialBuilder.builder("sulfur")
+            .color(0xFFC8C800)
+            .mass(40)
+            .dust()
+            .ore(0)
+            .component(Components.SULFUR)
+            .addFlags(GenerationFlags.NO_BLOCK)
+            .textureSet(TextureSet.DULL_METAL)
+            .buildAndRegister();
+
+    public static final MaterialRegistryObject RAW_RUBBER = MaterialBuilder.builder("raw_rubber")
+            .color(0xFFCCC789)
+            .dust()
+            .mass(40)
+            .component(Components.RUBBER)
+            .textureSet(TextureSet.DULL_METAL)
+            .addFlags(GenerationFlags.NO_BLOCK)
+            .buildAndRegister();
+
     public static final MaterialRegistryObject RUBBER = MaterialBuilder.builder("rubber")
             .color(0xFF161616)
             .soft()
@@ -146,6 +175,7 @@ public class MaterialRegistry {
             .mass(32)
             .textureSet(TextureSet.SHINY_METAL)
             .addFlags(GenerationFlags.IS_SOFT, GenerationFlags.NO_VANILLA_TOOLS)
+            .component(Components.RUBBER)
             .toolStats(1200, 2, 3.0F, 1.0F, 3.0F)
             .buildAndRegister();
 

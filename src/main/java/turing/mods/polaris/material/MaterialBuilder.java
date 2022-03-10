@@ -87,6 +87,12 @@ public class MaterialBuilder {
                 this.subItems.remove(SubItem.HOE);
                 this.subItems.remove(SubItem.SHOVEL);
                 break;
+            case NO_BLOCK:
+                this.subItems.remove(SubItem.BLOCK);
+                break;
+            case GENERATE_FOIL:
+                this.subItems.add(SubItem.FOIL);
+                break;
             default:
                 break;
         }

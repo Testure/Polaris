@@ -99,6 +99,7 @@
   "item.polaris.rotor": "%s Rotor",
   "item.polaris.fine_wire": "Fine %s Wire",
   "item.polaris.lens": "%s Lens",
+  "item.polaris.foil": "%s Foil",
 
   "item.polaris.vacuum_tube": "Vacuum Tube",
   "item.polaris.nand": "NAND Chip",
@@ -122,12 +123,15 @@
   "material.polaris.magnetic_iron": "Magnetic Iron",
   "material.polaris.copper": "Copper",
   "material.polaris.tin": "Tin",
+  "material.polaris.raw_rubber": "Raw Rubber",
   "material.polaris.rubber": "Rubber",
   "material.polaris.bronze": "Bronze",
   "material.polaris.electrum": "Electrum",
   "material.polaris.silver": "Silver",
   "material.polaris.lead": "Lead",
   "material.polaris.steam": "Steam",
+  "material.polaris.silicon": "Silicon",
+  "material.polaris.sulfur": "Sulfur",
   "material.polaris.oxygen": "Oxygen",
   "material.polaris.hydrogen": "Hydrogen"
 }
