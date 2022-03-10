@@ -338,10 +338,13 @@ public class RecipeUtil {
     }
 
     public static void oreSmeltingRecipe(Consumer<IFinishedRecipe> consumer, MaterialRegistryObject material) {
-        if (!material.hasSubItem(SubItem.ORE) || material.get().getOreStats() == null || (!material.hasSubItem(SubItem.INGOT) && !material.hasSubItem(SubItem.GEM))) return;
+        if (!material.hasSubItem(SubItem.ORE) || material.get().getOreStats() == null) return;
         if (material.get().getOreStats().getSmeltAmount() <= 0) return;
+        SubItem smeltItem = material.get().getOreStats().getCustomSubItem();
+        MaterialRegistryObject customMaterial = material.get().getOreStats().getCustomMaterial();
+        MaterialRegistryObject smeltMaterial = customMaterial != null ? customMaterial : material;
         Item ore = material.getItemFromSubItem(SubItem.ORE);
-        Item ingot = material.getItemFromSubItem(material.hasSubItem(SubItem.INGOT) ? SubItem.INGOT : SubItem.GEM);
+        Item ingot = smeltMaterial.getItemFromSubItem(smeltItem != null && smeltMaterial.hasSubItem(smeltItem) ? smeltItem : (smeltMaterial.hasSubItem(SubItem.INGOT) ? SubItem.INGOT : SubItem.GEM));
         Ingredient oreIngredient = Ingredient.fromItems(ore);
         ItemStack ingotStack = new ItemStack(ingot, Math.min(material.get().getOreStats().getSmeltAmount(), 64));
         ICriterionInstance criterion = InventoryChangeTrigger.Instance.forItems(ore);

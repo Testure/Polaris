@@ -73,6 +73,46 @@ public class MaterialRegistry {
             .textureSet(TextureSet.MAGNETIC)
             .buildAndRegister();
 
+    public static final MaterialRegistryObject BANDED_IRON = MaterialBuilder.builder("banded_iron")
+            .color(0xFF915A5A)
+            .dust()
+            .ore(1, SubItem.INGOT, IRON)
+            .mass(40)
+            .addFlags(GenerationFlags.NO_BLOCK)
+            .components(new ComponentStack(Components.IRON, 2), new ComponentStack(Components.OXYGEN, 3))
+            .textureSet(TextureSet.METAL)
+            .buildAndRegister();
+
+    public static final MaterialRegistryObject BROWN_LIMONITE = MaterialBuilder.builder("brown_limonite")
+            .color(0xFFC86400)
+            .dust()
+            .ore(1, SubItem.INGOT, IRON)
+            .mass(40)
+            .addFlags(GenerationFlags.NO_BLOCK)
+            .components(new ComponentStack(Components.IRON), new ComponentStack(Components.HYDROGEN), new ComponentStack(Components.OXYGEN, 2))
+            .textureSet(TextureSet.METAL)
+            .buildAndRegister();
+
+    public static final MaterialRegistryObject YELLOW_LIMONITE = MaterialBuilder.builder("yellow_limonite")
+            .color(0xFFC8C800)
+            .dust()
+            .ore(1, SubItem.INGOT, IRON)
+            .mass(40)
+            .addFlags(GenerationFlags.NO_BLOCK)
+            .components(new ComponentStack(Components.IRON), new ComponentStack(Components.HYDROGEN), new ComponentStack(Components.OXYGEN, 2))
+            .textureSet(TextureSet.METAL)
+            .buildAndRegister();
+
+    public static final MaterialRegistryObject PYRITE = MaterialBuilder.builder("pyrite")
+            .color(0xFF967828)
+            .dust()
+            .ore(1, SubItem.INGOT, IRON)
+            .mass(40)
+            .addFlags(GenerationFlags.NO_BLOCK)
+            .components(new ComponentStack(Components.IRON), new ComponentStack(Components.SULFUR, 2))
+            .textureSet(TextureSet.METAL)
+            .buildAndRegister();
+
     public static final MaterialRegistryObject COPPER = MaterialBuilder.builder("copper")
             .color(0xFFFF8A23)
             .ingot()
@@ -84,6 +124,25 @@ public class MaterialRegistry {
             .textureSet(TextureSet.SHINY_METAL)
             .buildAndRegister();
 
+    public static final MaterialRegistryObject CHALCOPYRITE = MaterialBuilder.builder("chalcopyrite")
+            .color(0xFFA07828)
+            .dust()
+            .ore(1, SubItem.INGOT, COPPER)
+            .mass(50)
+            .textureSet(TextureSet.METAL)
+            .addFlags(GenerationFlags.NO_BLOCK)
+            .components(new ComponentStack(Components.COPPER), new ComponentStack(Components.IRON), new ComponentStack(Components.SULFUR, 2))
+            .buildAndRegister();
+
+    public static final MaterialRegistryObject MALACHITE = MaterialBuilder.builder("malachite")
+            .color(0xFF055F05)
+            .gem()
+            .ore(1, SubItem.INGOT, COPPER)
+            .mass(60)
+            .textureSet(TextureSet.GEM)
+            .components(new ComponentStack(Components.COPPER, 2), new ComponentStack(Components.CARBON), new ComponentStack(Components.HYDROGEN, 2), new ComponentStack(Components.OXYGEN, 5))
+            .buildAndRegister();
+
     public static final MaterialRegistryObject TIN = MaterialBuilder.builder("tin")
             .color(0xFFDCDCDC)
             .ingot()
@@ -93,6 +152,15 @@ public class MaterialRegistry {
             .component(Components.TIN)
             .addFlags(GenerationFlags.GENERATE_SCREW, GenerationFlags.GENERATE_GEAR)
             .textureSet(TextureSet.METAL)
+            .buildAndRegister();
+
+    public static final MaterialRegistryObject CASSITERITE = MaterialBuilder.builder("cassiterite")
+            .color(0xFFDCDCDC)
+            .dust()
+            .ore(2, SubItem.INGOT, TIN)
+            .textureSet(TextureSet.DULL_METAL)
+            .addFlags(GenerationFlags.NO_BLOCK)
+            .components(new ComponentStack(Components.TIN), new ComponentStack(Components.OXYGEN, 2))
             .buildAndRegister();
 
     public static final MaterialRegistryObject SILVER = MaterialBuilder.builder("silver")
@@ -117,6 +185,16 @@ public class MaterialRegistry {
             .textureSet(TextureSet.DULL_METAL)
             .buildAndRegister();
 
+    public static final MaterialRegistryObject GALENA = MaterialBuilder.builder("galena")
+            .color(0xFF643C64)
+            .dust()
+            .ore(1, SubItem.INGOT, LEAD)
+            .textureSet(TextureSet.DULL_METAL)
+            .mass(50)
+            .addFlags(GenerationFlags.NO_BLOCK)
+            .components(Components.LEAD, Components.SULFUR)
+            .buildAndRegister();
+
     public static final MaterialRegistryObject BRONZE = MaterialBuilder.builder("bronze")
             .color(0xFFFF8000)
             .ingot()
@@ -137,6 +215,27 @@ public class MaterialRegistry {
             .addFlags(GenerationFlags.GENERATE_SCREW, GenerationFlags.GENERATE_GEAR, GenerationFlags.GENERATE_SMALL_GEAR, GenerationFlags.NO_MORTAR)
             .toolStats(64, 8, 6.5F, 2.1F, 3.0F)
             .textureSet(TextureSet.SHINY_METAL)
+            .buildAndRegister();
+
+    public static final MaterialRegistryObject CHROME = MaterialBuilder.builder("chrome")
+            .color(0xFFEAC4D8)
+            .ingot()
+            .fluid(false, 1400)
+            .mass(130)
+            .textureSet(TextureSet.SHINY_METAL)
+            .component(Components.CHROME)
+            .addFlags(GenerationFlags.NO_MORTAR_GRINDING, GenerationFlags.NO_DUST_SMELTING)
+            .toolStats(512, 5, 5.5F, 6.0F, 3.0F)
+            .buildAndRegister();
+
+    public static final MaterialRegistryObject CHROMITE = MaterialBuilder.builder("chromite")
+            .color(0xFF23140F)
+            .dust()
+            .ore(0)
+            .mass(60)
+            .textureSet(TextureSet.METAL)
+            .addFlags(GenerationFlags.NO_BLOCK)
+            .components(new ComponentStack(Components.IRON), new ComponentStack(Components.CHROME, 2), new ComponentStack(Components.OXYGEN, 4))
             .buildAndRegister();
 
     public static final MaterialRegistryObject SILICON = MaterialBuilder.builder("silicon")
@@ -190,7 +289,7 @@ public class MaterialRegistry {
     public static final MaterialRegistryObject OXYGEN = MaterialBuilder.builder("oxygen")
             .color(0xFF4CC3FF)
             .mass(0)
-            .components(new ComponentStack(Components.OXYGEN))
+            .component(Components.OXYGEN)
             .textureSet(TextureSet.METAL)
             .fluid(true, 80)
             .buildAndRegister();
@@ -198,7 +297,7 @@ public class MaterialRegistry {
     public static final MaterialRegistryObject HYDROGEN = MaterialBuilder.builder("hydrogen")
             .color(0xFF0000B5)
             .mass(0)
-            .components(new ComponentStack(Components.HYDROGEN))
+            .component(Components.HYDROGEN)
             .textureSet(TextureSet.METAL)
             .fluid(true, 20)
             .buildAndRegister();

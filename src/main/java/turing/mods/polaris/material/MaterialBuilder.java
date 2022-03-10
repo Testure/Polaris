@@ -172,9 +172,19 @@ public class MaterialBuilder {
     }
 
     public MaterialBuilder ore(@Nullable Integer smeltAmount) {
+        return ore(smeltAmount, null, null);
+    }
+
+    public MaterialBuilder ore(@Nullable Integer smeltAmount, @Nullable SubItem smeltItem) {
+        return ore(smeltAmount, smeltItem, null);
+    }
+
+    public MaterialBuilder ore(@Nullable Integer smeltAmount, @Nullable SubItem smeltItem, @Nullable MaterialRegistryObject smeltMaterial) {
         this.subItems.add(SubItem.ORE);
         this.oreStats = OreStats.Builder.builder()
                 .setSmeltAmount(smeltAmount != null ? smeltAmount : getDefaultSmeltAmount(this.type))
+                .setCustomMaterial(smeltMaterial)
+                .setCustomSubItem(smeltItem)
                 .build();
         return this;
     }
@@ -223,6 +233,11 @@ public class MaterialBuilder {
 
     public MaterialBuilder components(ComponentStack... stacks) {
         this.components = stacks;
+        return this;
+    }
+
+    public MaterialBuilder components(Component... components) {
+        this.components = Arrays.stream(components).map(ComponentStack::new).toArray(ComponentStack[]::new);
         return this;
     }
 

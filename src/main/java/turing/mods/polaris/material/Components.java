@@ -17,6 +17,7 @@ public class Components {
     public static final Component LEAD = new Component("Pb", false, () -> MaterialRegistry.LEAD, null);
     public static final Component CARBON = new Component("C", false, () -> null, null);
     public static final Component SILICON = new Component("Si", false, () -> MaterialRegistry.SILICON, null);
+    public static final Component CHROME = new Component("Cr", false, () -> MaterialRegistry.CHROME, null);
     public static final Component SULFUR = new Component("S", false, () -> MaterialRegistry.SULFUR, null);
     public static final Component OXYGEN = new Component("O", false, () -> MaterialRegistry.OXYGEN, null);
     public static final Component HYDROGEN = new Component("H", false, () -> MaterialRegistry.HYDROGEN, null);

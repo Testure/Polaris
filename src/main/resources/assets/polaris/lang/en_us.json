@@ -83,6 +83,7 @@
 
   "subItem.polaris.bucket": "Bucket of %s",
   "item.polaris.ingot": "%s Ingot",
+  "item.polaris.gem": "%s",
   "item.polaris.plate": "%s Plate",
   "item.polaris.rod": "%s Rod",
   "item.polaris.bolt": "%s Bolt",
@@ -132,6 +133,16 @@
   "material.polaris.steam": "Steam",
   "material.polaris.silicon": "Silicon",
   "material.polaris.sulfur": "Sulfur",
+  "material.polaris.cassiterite": "Cassiterite",
+  "material.polaris.chalcopyrite": "Chalcopyrite",
+  "material.polaris.malachite": "Malachite",
+  "material.polaris.galena": "Galena",
+  "material.polaris.yellow_limonite": "Yellow Limonite",
+  "material.polaris.brown_limonite": "Brown Limonite",
+  "material.polaris.pyrite": "Pyrite",
+  "material.polaris.banded_iron": "Banded Iron",
+  "material.polaris.chrome": "Chrome",
+  "material.polaris.chromite": "Chromite",
   "material.polaris.oxygen": "Oxygen",
   "material.polaris.hydrogen": "Hydrogen"
 }
