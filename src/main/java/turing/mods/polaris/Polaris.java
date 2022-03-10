@@ -180,7 +180,7 @@ public class Polaris {
             for (MaterialRegistryObject registryObject : MaterialRegistry.getMaterials().values())
                 if (registryObject.hasItem(stack.getItem())) material = registryObject;
 
-            if (material != null && material.get().getComponents() != null) {
+            if (material != null && material.get().getComponents() != null && material.get().getFormulaTooltip() != null) {
                 event.getToolTip().add(material.get().getFormulaTooltip());
                 lastTooltipRequestStack = stack;
                 lastTooltipRequestText = material.get().getFormulaTooltip();

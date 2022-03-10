@@ -2,7 +2,6 @@ package turing.mods.polaris.material;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.Tuple;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
@@ -72,16 +71,19 @@ public class Material implements ITintedItem {
     public static void createFormulaTooltip(Consumer<ITextComponent> consumer, ComponentStack... stacks) {
         ExecutorService pool = Executors.newFixedThreadPool(1);
         pool.submit(() -> {
-            Tuple<String, Map<Integer, TranslationTextComponent>> formula = Formatting.createChemicalFormula(stacks);
+            List<String> formula = Formatting.createChemicalFormula(stacks);
             if (formula != null) {
+                StringBuilder builder = new StringBuilder();
+                for (String str : formula) {
+                    for (int i = 0; i < 10; i++) str = str.replaceAll("subscript\\." + i, String.valueOf(i));
+                    builder.append(str);
+                }
                 StringTextComponent tooltip1 = new StringTextComponent("");
-                int finalI = 0;
-                for (int i = 0; i < formula.getA().length() + formula.getB().size(); i++) {
-                    if (formula.getB().get(i) != null) {
-                        tooltip1.append(formula.getB().get(i));
-                        finalI--;
-                    } else if (formula.getA().length() >= finalI) tooltip1.appendString(TextFormatting.YELLOW + String.valueOf(formula.getA().charAt(finalI)));
-                    finalI++;
+                String built = builder.toString();
+                for (int i = 0; i < built.length(); i++) {
+                    String str = built.substring(i, i + 1);
+                    if (str.matches("\\d")) tooltip1.append(new TranslationTextComponent(Formatting.getSubscript(Integer.parseInt(str))));
+                    else tooltip1.appendString(TextFormatting.YELLOW + str);
                 }
                 consumer.accept(tooltip1);
                 return tooltip1;

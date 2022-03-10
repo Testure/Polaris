@@ -71,31 +71,31 @@ public class Formatting {
         }
     }
 
-    public static Tuple<String, Map<Integer, TranslationTextComponent>> createChemicalFormula(@Nullable ComponentStack... stacks) {
+    public static List<String> createChemicalFormula(@Nullable ComponentStack... stacks) {
         if (stacks == null || stacks.length <= 0) return null;
-        int characterCount = 1;
-        for (ComponentStack stack : stacks) {
-            characterCount += (stack.getComponent().getChemicalName().length() + stack.getCount());
-            if (stack.getComponent().isCombination()) characterCount += 2;
-        }
 
-        StringBuilder builder = new StringBuilder(characterCount);
-        Map<Integer, TranslationTextComponent> subscripts = new HashMap<>();
+        List<String> strings = new ArrayList<>();
 
         for (ComponentStack stack : stacks) {
+            StringBuilder builder = new StringBuilder();
             String subscript = getSubscript(stack.getCount());
-            if (stack.getComponent().isCombination()) builder.append("(");
-            if (stack.getComponent().isCombination() && stack.getComponent().getMadeOf() != null && stack.getComponent().getMadeOf().length > 0) {
-                Tuple<String, Map<Integer, TranslationTextComponent>> formula = createChemicalFormula(stack.getComponent().getMadeOf());
-                int add = builder.length();
-                builder.append(formula.getA());
-                formula.getB().forEach((key, value) -> subscripts.put(key + add, value));
+            if (stack.getComponent().isCombination() && stacks.length > 1) builder.append("(");
+            if (stack.getComponent().isCombination() && stack.getComponent().getMadeOf() != null) {
+                for (ComponentStack madeOf : stack.getComponent().getMadeOf()) {
+                    if (madeOf.getComponent().isCombination() && madeOf.getComponent().getMadeOf() != null){
+                        for (String str : createChemicalFormula()) builder.append(str);
+                        builder.append(getSubscript(madeOf.getCount()));
+                    } else {
+                        builder.append(madeOf.getComponent().getChemicalName());
+                        builder.append(getSubscript(madeOf.getCount()));
+                    }
+                }
             } else builder.append(stack.getComponent().getChemicalName());
-            if (!Objects.equals(subscript, "")) subscripts.put(builder.length(), new TranslationTextComponent(subscript));
-            if (stack.getComponent().isCombination()) builder.append(")");
+            if (stack.getComponent().isCombination() && stacks.length > 1) builder.append(")");
+            strings.add(builder.append(subscript).toString());
         }
 
-        return new Tuple<>(builder.toString(), subscripts);
+        return strings;
     }
 
     /**
