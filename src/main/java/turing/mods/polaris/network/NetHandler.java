@@ -22,7 +22,17 @@ public class NetHandler {
    public static void register() {
        INSTANCE = NetworkRegistry.newSimpleChannel(Polaris.modLoc("polaris"), () -> "1.0", s -> true, s -> true);
 
+       INSTANCE.messageBuilder(ProgramCircuitPacket.class, nextID())
+               .encoder((packet, packetBuffer) -> packetBuffer.writeInt(packet.level))
+               .decoder(buffer -> new ProgramCircuitPacket(buffer.readInt()))
+               .consumer(ProgramCircuitPacket::handle)
+               .add();
 
+       INSTANCE.messageBuilder(OpenCircuitGuiPacket.class, nextID())
+               .encoder((packet, packetBuffer) -> packetBuffer.writeInt(packet.start))
+               .decoder(buffer -> new OpenCircuitGuiPacket(buffer.readInt()))
+               .consumer(OpenCircuitGuiPacket::handle)
+               .add();
    }
 
    public static void sendToClient(IPacket packet, ServerPlayerEntity player) {

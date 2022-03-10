@@ -13,6 +13,7 @@
   "voltage.polaris.luv": "§5LuV",
 
   "screen.polaris.compressor": "Compressor",
+  "screen.polaris.circuit": "Programmed Circuit",
 
   "block.polaris.block": "%s Block",
   "block.polaris.ore": "%s Ore",
@@ -36,6 +37,7 @@
   "tooltip.polaris.fluid_state.liquid": "§9State: Liquid",
   "tooltip.polaris.fluid_temp": "§cTemperature:§r %s §cK",
   "tooltip.polaris.fluid_stats": "§7Fluid Stats:",
+  "tooltip.polaris.circuit": "§7Right-Click to program",
 
   "block.polaris.casing.ulv": "Simple Machine Casing",
   "block.polaris.casing.lv": "Basic Machine Casing",
@@ -107,6 +109,7 @@
   "item.polaris.wood_substrate": "Wooden Substrate",
   "item.polaris.wood_board": "Wooden Circuit Board",
   "item.polaris.sticky_resin": "Sticky Resin",
+  "item.polaris.programmed_circuit": "Programmed Circuit",
 
   "subscript.0": "§e₀",
   "subscript.1": "§e₁",

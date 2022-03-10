@@ -2,10 +2,13 @@ package turing.mods.polaris.client;
 
 import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.ScreenManager;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.client.renderer.color.BlockColors;
 import net.minecraft.client.renderer.color.ItemColors;
+import net.minecraft.item.ItemModelsProperties;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.FoliageColors;
 import net.minecraft.world.biome.BiomeColors;
 import net.minecraftforge.api.distmarker.Dist;
@@ -17,6 +20,7 @@ import turing.mods.polaris.Polaris;
 import turing.mods.polaris.block.IRenderTypedBlock;
 import turing.mods.polaris.block.ITintedBlock;
 import turing.mods.polaris.item.ITintedItem;
+import turing.mods.polaris.item.ProgrammedCircuit;
 import turing.mods.polaris.registry.*;
 
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -41,6 +45,7 @@ public class ClientSetup {
         materialClientSetup(itemColors, blockColors, event);
         event.enqueueWork(() -> setupBucketColors(itemColors));
         RenderTypeLookup.setRenderLayer(BlockRegistry.RUBBER_SAPLING.get(), RenderType.getCutout());
+        event.enqueueWork(() -> ItemModelsProperties.registerProperty(ItemRegistry.PROGRAMMED_CIRCUIT.get(), new ResourceLocation("circuit_level"), new ProgrammedCircuit.PropertyGetter()));
     }
 
     private static void machineClientSetup(FMLClientSetupEvent event, BlockColors blockColors, ItemColors itemColors) {

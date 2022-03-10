@@ -4,6 +4,7 @@ import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.item.Item;
 import net.minecraftforge.fml.RegistryObject;
 import turing.mods.polaris.item.CraftingItem;
+import turing.mods.polaris.item.ProgrammedCircuit;
 import turing.mods.polaris.util.Lists;
 
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -19,6 +20,7 @@ public class ItemRegistry {
     public static final RegistryObject<Item> VACUUM_TUBE = addItem(Registration.ITEMS.register("vacuum_tube", () -> new CraftingItem("vacuum_tube")));
     public static final RegistryObject<Item> NAND = addItem(Registration.ITEMS.register("nand", () -> new CraftingItem("nand")));
     public static final RegistryObject<Item> STICKY_RESIN = addItem(register("sticky_resin", () -> new CraftingItem("sticky_resin")));
+    public static final RegistryObject<Item> PROGRAMMED_CIRCUIT = addItem(register("programmed_circuit", ProgrammedCircuit::new));
 
     public static final RegistryObject<Item> WOOD_SUBSTRATE = addItem(Registration.ITEMS.register("wood_substrate", () ->
             new CraftingItem("wood_substrate", Lists.listOf("tooltip.polaris.wood_substrate"), null, null, null)

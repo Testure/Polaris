@@ -4,6 +4,7 @@ import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.block.Block;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.item.Item;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Tuple;
 import net.minecraftforge.client.model.generators.ItemModelBuilder;
 import net.minecraftforge.client.model.generators.ItemModelProvider;
@@ -87,6 +88,8 @@ public class ModItemModelProvider extends ItemModelProvider {
         ModelFile itemGenerated = getExistingFile(mcLoc("item/generated"));
         ModelFile itemHandheld = getExistingFile(mcLoc("item/handheld"));
 
+        createProgrammedCircuitModels(itemGenerated);
+
         withExistingParent("creative_power_provider", modLoc("block/creative_power_provider_1_amps"));
         withExistingParent("rubber_log", modLoc("block/rubber_log"));
         withExistingParent("rubber_planks", modLoc("block/rubber_planks"));
@@ -159,6 +162,13 @@ public class ModItemModelProvider extends ItemModelProvider {
         for (RegistryObject<CasingBlock> casing : BlockRegistry.CASINGS) {
             withExistingParent(casing.get().getRegistryName().getPath(), modLoc("block/" + casing.get().getRegistryName().getPath()));
         }
+    }
+
+    private void createProgrammedCircuitModels(ModelFile generated) {
+        ItemModelBuilder[] models = new ItemModelBuilder[33];
+        for (int i = 0; i < 33; i++) models[i] = basicBuilder(generated, "programmed_circuit_" + i, "item/circuit/" + (i + 1), null);
+        ItemModelBuilder realModel = basicBuilder(generated, "programmed_circuit", "item/circuit/1", null);
+        for (int i = 0; i < 33; i++) realModel.override().predicate(new ResourceLocation("circuit_level"), Float.parseFloat("0." + (i > 9 ? i : ("0" + i)))).model(models[i]).end();
     }
 
     public ItemModelBuilder builder(ModelFile modelFile, String name, String subName, String textureSetName, @Nullable Boolean overlay) {

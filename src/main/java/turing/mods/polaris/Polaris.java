@@ -42,6 +42,7 @@ import turing.mods.polaris.itemgroups.ItemGroupTools;
 import turing.mods.polaris.material.Components;
 import turing.mods.polaris.material.Material;
 import turing.mods.polaris.material.SubItem;
+import turing.mods.polaris.network.NetHandler;
 import turing.mods.polaris.recipe.DefaultRecipes;
 import turing.mods.polaris.recipe.IPromisedTag;
 import turing.mods.polaris.registry.FluidRegistry;
@@ -120,6 +121,7 @@ public class Polaris {
     }
 
     private void setup(final FMLCommonSetupEvent event) {
+        NetHandler.register();
         FluidRegistry.registerDispenseBehavior();
     }
 
