@@ -44,8 +44,8 @@ public class OreGeneration {
 
     public static void oreGeneration(BiomeLoadingEvent event) {
         if (!Polaris.handledOreConfig) {
-            VEINS.putAll(OreConfig.readVeins());
             OreVeins.register();
+            VEINS.putAll(OreConfig.readVeins());
             Polaris.handledOreConfig = true;
         }
         for (VeinConfiguration vein : VEINS.values()) {
