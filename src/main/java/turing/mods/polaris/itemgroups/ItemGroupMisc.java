@@ -3,9 +3,9 @@ package turing.mods.polaris.itemgroups;
 import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.util.NonNullList;
 import turing.mods.polaris.item.ProgrammedCircuit;
+import turing.mods.polaris.registry.BlockRegistry;
 import turing.mods.polaris.registry.ItemRegistry;
 
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -33,6 +33,6 @@ public class ItemGroupMisc extends ItemGroup {
 
     @Override
     public ItemStack createIcon() {
-        return Items.ACACIA_BOAT.getDefaultInstance();
+        return BlockRegistry.CREATIVE_POWER_PROVIDER.get().asItem().getDefaultInstance();
     }
 }

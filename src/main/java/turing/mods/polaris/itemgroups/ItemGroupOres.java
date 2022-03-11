@@ -4,7 +4,6 @@ import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.util.NonNullList;
 import turing.mods.polaris.material.SubItem;
 import turing.mods.polaris.registry.MaterialRegistry;
@@ -31,6 +30,6 @@ public class ItemGroupOres extends ItemGroup {
 
     @Override
     public ItemStack createIcon() {
-        return Items.IRON_ORE.getDefaultInstance();
+        return MaterialRegistry.SULFUR.getItemFromSubItem(SubItem.ORE).getDefaultInstance();
     }
 }
