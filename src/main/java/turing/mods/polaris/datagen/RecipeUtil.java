@@ -40,7 +40,7 @@ public class RecipeUtil {
         Item magneticItem = material.getItemFromSubItem(subItem);
         Item normalItem = material.get().getMagneticOf().getItemFromSubItem(subItem);
 
-        CookingRecipeBuilder.blastingRecipe(Ingredient.fromItems(magneticItem), normalItem, 0.0F, 200)
+        CookingRecipeBuilder.blastingRecipe(Ingredient.fromTag(PolarisTags.Items.forge(subItem.name().toLowerCase() + "s/" + material.getName())), normalItem, 0.0F, 200)
                 .addCriterion("obtain", InventoryChangeTrigger.Instance.forItems(magneticItem))
                 .build(consumer, Polaris.modLoc(name + "_undo"));
     }
@@ -55,7 +55,7 @@ public class RecipeUtil {
                 .patternLine(" ii")
                 .patternLine("sii")
                 .patternLine(" ii")
-                .key('i', ingot)
+                .key('i', PolarisTags.Items.forge((Objects.equals(material.get().getType(), "gem") ? "plate" : "ingot") + "s/" + material.getName()))
                 .key('s', Tags.Items.RODS_WOODEN)
                 .addCriterion("material", InventoryChangeTrigger.Instance.forItems(ingot))
                 .build(consumer, Polaris.modLoc(material.getName() + "_hammer"));
@@ -70,7 +70,7 @@ public class RecipeUtil {
                 .patternLine("i")
                 .patternLine("i")
                 .patternLine("s")
-                .key('i', plate)
+                .key('i', PolarisTags.Items.forge("plates/" + material.getName()))
                 .key('s', Tags.Items.RODS_WOODEN)
                 .addCriterion("material", InventoryChangeTrigger.Instance.forItems(plate))
                 .addCriterion("tool", InventoryChangeTrigger.Instance.forItems(HAMMER_PREDICATE))
@@ -87,7 +87,7 @@ public class RecipeUtil {
                 .patternLine("ihi")
                 .patternLine("iii")
                 .patternLine(" i ")
-                .key('i', ingot)
+                .key('i', PolarisTags.Items.forge("ingots/" + material.getName()))
                 .key('h', PolarisTags.Items.CRAFTING_TOOLS_HAMMER)
                 .addCriterion("material", InventoryChangeTrigger.Instance.forItems(ingot))
                 .addCriterion("tool", InventoryChangeTrigger.Instance.forItems(HAMMER_PREDICATE))
@@ -107,7 +107,7 @@ public class RecipeUtil {
                 .key('s', Tags.Items.RODS_WOODEN)
                 .key('h', PolarisTags.Items.CRAFTING_TOOLS_HAMMER)
                 .key('f', PolarisTags.Items.CRAFTING_TOOLS_FILE)
-                .key('r', rod)
+                .key('r', PolarisTags.Items.forge("rods/" + material.getName()))
                 .addCriterion("material", InventoryChangeTrigger.Instance.forItems(rod))
                 .addCriterion("tool", InventoryChangeTrigger.Instance.forItems(HAMMER_PREDICATE))
                 .build(consumer, Polaris.modLoc(material.getName() + "_screwdriver"));
@@ -123,7 +123,7 @@ public class RecipeUtil {
                 .patternLine("hbr")
                 .patternLine("brb")
                 .patternLine("rbf")
-                .key('r', rod)
+                .key('r', PolarisTags.Items.forge("rods/" + material.getName()))
                 .key('h', PolarisTags.Items.CRAFTING_TOOLS_HAMMER)
                 .key('f', PolarisTags.Items.CRAFTING_TOOLS_FILE)
                 .key('b', Tags.Items.DYES_BLUE)
@@ -142,7 +142,7 @@ public class RecipeUtil {
                 .patternLine(" i ")
                 .patternLine("sis")
                 .patternLine("sss")
-                .key('i', ingot)
+                .key('i', PolarisTags.Items.forge("ingots/" + material.getName()))
                 .key('s', Tags.Items.STONE)
                 .addCriterion("material", InventoryChangeTrigger.Instance.forItems(ingot))
                 .build(consumer, Polaris.modLoc(material.getName() + "_mortar"));
@@ -152,13 +152,12 @@ public class RecipeUtil {
         if (!material.hasSubItem(SubItem.SWORD) || !material.hasSubItem(SubItem.INGOT)) return;
         if (material.get().existingItems != null && (material.get().existingItems.containsValue(material.getItemFromSubItem(SubItem.SWORD)))) return;
         Item sword = material.getItemFromSubItem(SubItem.SWORD);
-        Item ingot = material.getItemFromSubItem(SubItem.INGOT);
 
         ShapedRecipeBuilder.shapedRecipe(sword)
                 .patternLine("i")
                 .patternLine("i")
                 .patternLine("s")
-                .key('i', ingot)
+                .key('i', PolarisTags.Items.forge("ingots/" + material.getName()))
                 .key('s', Tags.Items.RODS_WOODEN)
                 .addCriterion("hammer", InventoryChangeTrigger.Instance.forItems(HAMMER_PREDICATE))
                 .addCriterion("file", InventoryChangeTrigger.Instance.forItems(FILE_PREDICATE))
@@ -169,13 +168,12 @@ public class RecipeUtil {
         if (!material.hasSubItem(SubItem.SHOVEL) || !material.hasSubItem(SubItem.INGOT)) return;
         if (material.get().existingItems != null && (material.get().existingItems.containsValue(material.getItemFromSubItem(SubItem.SHOVEL)))) return;
         Item shovel = material.getItemFromSubItem(SubItem.SHOVEL);
-        Item ingot = material.getItemFromSubItem(SubItem.INGOT);
 
         ShapedRecipeBuilder.shapedRecipe(shovel)
                 .patternLine("i")
                 .patternLine("s")
                 .patternLine("s")
-                .key('i', ingot)
+                .key('i', PolarisTags.Items.forge("ingots/" + material.getName()))
                 .key('s', Tags.Items.RODS_WOODEN)
                 .addCriterion("hammer", InventoryChangeTrigger.Instance.forItems(HAMMER_PREDICATE))
                 .addCriterion("file", InventoryChangeTrigger.Instance.forItems(FILE_PREDICATE))
@@ -186,13 +184,12 @@ public class RecipeUtil {
         if (!material.hasSubItem(SubItem.HOE) || !material.hasSubItem(SubItem.INGOT)) return;
         if (material.get().existingItems != null && (material.get().existingItems.containsValue(material.getItemFromSubItem(SubItem.HOE)))) return;
         Item hoe = material.getItemFromSubItem(SubItem.HOE);
-        Item ingot = material.getItemFromSubItem(SubItem.INGOT);
 
         ShapedRecipeBuilder.shapedRecipe(hoe)
                 .patternLine("ii")
                 .patternLine(" s")
                 .patternLine(" s")
-                .key('i', ingot)
+                .key('i', PolarisTags.Items.forge("ingots/" + material.getName()))
                 .key('s', Tags.Items.RODS_WOODEN)
                 .addCriterion("hammer", InventoryChangeTrigger.Instance.forItems(HAMMER_PREDICATE))
                 .addCriterion("file", InventoryChangeTrigger.Instance.forItems(FILE_PREDICATE))
@@ -203,13 +200,12 @@ public class RecipeUtil {
         if (!material.hasSubItem(SubItem.PICKAXE) || !material.hasSubItem(SubItem.INGOT)) return;
         if (material.get().existingItems != null && (material.get().existingItems.containsValue(material.getItemFromSubItem(SubItem.PICKAXE)))) return;
         Item pickaxe = material.getItemFromSubItem(SubItem.PICKAXE);
-        Item ingot = material.getItemFromSubItem(SubItem.INGOT);
 
         ShapedRecipeBuilder.shapedRecipe(pickaxe)
                 .patternLine("iii")
                 .patternLine(" s ")
                 .patternLine(" s ")
-                .key('i', ingot)
+                .key('i', PolarisTags.Items.forge("ingots/" + material.getName()))
                 .key('s', Tags.Items.RODS_WOODEN)
                 .addCriterion("hammer", InventoryChangeTrigger.Instance.forItems(HAMMER_PREDICATE))
                 .addCriterion("file", InventoryChangeTrigger.Instance.forItems(FILE_PREDICATE))
@@ -220,13 +216,12 @@ public class RecipeUtil {
         if (!material.hasSubItem(SubItem.AXE) || !material.hasSubItem(SubItem.INGOT)) return;
         if (material.get().existingItems != null && (material.get().existingItems.containsValue(material.getItemFromSubItem(SubItem.AXE)))) return;
         Item axe = material.getItemFromSubItem(SubItem.AXE);
-        Item ingot = material.getItemFromSubItem(SubItem.INGOT);
 
         ShapedRecipeBuilder.shapedRecipe(axe)
                 .patternLine("ii ")
                 .patternLine("is ")
                 .patternLine(" s ")
-                .key('i', ingot)
+                .key('i', PolarisTags.Items.forge("ingots/" + material.getName()))
                 .key('s', Tags.Items.RODS_WOODEN)
                 .addCriterion("hammer", InventoryChangeTrigger.Instance.forItems(HAMMER_PREDICATE))
                 .addCriterion("file", InventoryChangeTrigger.Instance.forItems(FILE_PREDICATE))
@@ -243,7 +238,7 @@ public class RecipeUtil {
                 .patternLine("i")
                 .patternLine("i")
                 .key('h', PolarisTags.Items.CRAFTING_TOOLS_HAMMER)
-                .key('i', ingot)
+                .key('i', PolarisTags.Items.forge("ingots/" + material.getName()))
                 .addCriterion("material", InventoryChangeTrigger.Instance.forItems(ingot))
                 .addCriterion("tool", InventoryChangeTrigger.Instance.forItems(HAMMER_PREDICATE))
                 .build(consumer, Polaris.modLoc(material.getName() + "_plate"));
@@ -258,7 +253,7 @@ public class RecipeUtil {
                 .patternLine("f ")
                 .patternLine(" i")
                 .key('f', PolarisTags.Items.CRAFTING_TOOLS_FILE)
-                .key('i', ingot)
+                .key('i', PolarisTags.Items.forge("ingots/" + material.getName()))
                 .addCriterion("material", InventoryChangeTrigger.Instance.forItems(ingot))
                 .addCriterion("tool", InventoryChangeTrigger.Instance.forItems(FILE_PREDICATE))
                 .build(consumer, Polaris.modLoc(material.getName() + "_rod"));
@@ -274,8 +269,8 @@ public class RecipeUtil {
                 .patternLine("rpr")
                 .patternLine("pwp")
                 .patternLine("rpr")
-                .key('r', rod)
-                .key('p', plate)
+                .key('r', PolarisTags.Items.forge("rods/" + material.getName()))
+                .key('p', PolarisTags.Items.forge("plates/" + material.getName()))
                 .key('w', PolarisTags.Items.CRAFTING_TOOLS_WRENCH)
                 .addCriterion("materials", InventoryChangeTrigger.Instance.forItems(plate, rod))
                 .addCriterion("tool", InventoryChangeTrigger.Instance.forItems(WRENCH_PREDICATE))
@@ -290,7 +285,7 @@ public class RecipeUtil {
         ShapedRecipeBuilder.shapedRecipe(bolt, 2)
                 .patternLine("s ")
                 .patternLine(" r")
-                .key('r', rod)
+                .key('r', PolarisTags.Items.forge("rods/" + material.getName()))
                 .key('s', PolarisTags.Items.CRAFTING_TOOLS_SAW)
                 .addCriterion("material", InventoryChangeTrigger.Instance.forItems(rod))
                 .addCriterion("tool", InventoryChangeTrigger.Instance.forItems(SAW_PREDICATE))
@@ -306,7 +301,7 @@ public class RecipeUtil {
                 .patternLine("fb")
                 .patternLine("b ")
                 .key('f', PolarisTags.Items.CRAFTING_TOOLS_FILE)
-                .key('b', bolt)
+                .key('b', PolarisTags.Items.forge("bolts/" + material.getName()))
                 .addCriterion("material", InventoryChangeTrigger.Instance.forItems(bolt))
                 .addCriterion("tool", InventoryChangeTrigger.Instance.forItems(FILE_PREDICATE))
                 .build(consumer, Polaris.modLoc(material.getName() + "_screw"));
@@ -320,7 +315,7 @@ public class RecipeUtil {
         ShapedRecipeBuilder.shapedRecipe(dust)
                 .patternLine("i")
                 .patternLine("m")
-                .key('i', ingot)
+                .key('i', PolarisTags.Items.forge((material.hasSubItem(SubItem.INGOT) ? "ingot" : "gem") + "s/" + material.getName()))
                 .key('m', PolarisTags.Items.CRAFTING_TOOLS_MORTAR)
                 .addCriterion("material", InventoryChangeTrigger.Instance.forItems(ingot))
                 .addCriterion("tool", InventoryChangeTrigger.Instance.forItems(MORTAR_PREDICATE))
@@ -332,7 +327,7 @@ public class RecipeUtil {
         Item dust = material.getItemFromSubItem(SubItem.DUST);
         Item ingot = material.getItemFromSubItem(SubItem.INGOT);
 
-        CookingRecipeBuilder.smeltingRecipe(Ingredient.fromItems(dust), ingot, 0.0F, 200)
+        CookingRecipeBuilder.smeltingRecipe(Ingredient.fromTag(PolarisTags.Items.forge("dusts/" + material.getName())), ingot, 0.0F, 200)
                 .addCriterion("material", InventoryChangeTrigger.Instance.forItems(dust))
                 .build(consumer, Polaris.modLoc(material.getName() + "_dust_smelting"));
     }
@@ -345,7 +340,7 @@ public class RecipeUtil {
         MaterialRegistryObject smeltMaterial = customMaterial != null ? customMaterial : material;
         Item ore = material.getItemFromSubItem(SubItem.ORE);
         Item ingot = smeltMaterial.getItemFromSubItem(smeltItem != null && smeltMaterial.hasSubItem(smeltItem) ? smeltItem : (smeltMaterial.hasSubItem(SubItem.INGOT) ? SubItem.INGOT : SubItem.GEM));
-        Ingredient oreIngredient = Ingredient.fromItems(ore);
+        Ingredient oreIngredient = Ingredient.fromTag(PolarisTags.Items.forge("ores/" + material.getName()));
         ItemStack ingotStack = new ItemStack(ingot, Math.min(material.get().getOreStats().getSmeltAmount(), 64));
         ICriterionInstance criterion = InventoryChangeTrigger.Instance.forItems(ore);
 
@@ -360,12 +355,11 @@ public class RecipeUtil {
 
     public static void manualPolarizingRecipe(Consumer<IFinishedRecipe> consumer, MaterialRegistryObject material, SubItem subItem) {
         if (material.get().getMagneticOf() == null || !material.hasSubItem(subItem) || !material.get().getMagneticOf().hasSubItem(subItem)) return;
-        Item stable = material.get().getMagneticOf().getItemFromSubItem(subItem);
         Item magnetic = material.getItemFromSubItem(subItem);
 
         ShapelessRecipeBuilder.shapelessRecipe(magnetic)
                 .addIngredient(Items.REDSTONE, 4)
-                .addIngredient(stable)
+                .addIngredient(Ingredient.fromTag(PolarisTags.Items.forge(subItem.name().toLowerCase() + "s/" + material.get().getMagneticOf().getName())))
                 .addCriterion("redstone", InventoryChangeTrigger.Instance.forItems(Items.REDSTONE))
                 .build(consumer, material.getName() + "_" + subItem.name().toLowerCase() + "_polarizing");
     }
@@ -418,14 +412,13 @@ public class RecipeUtil {
     public static void casingRecipe(Consumer<IFinishedRecipe> consumer, Block casing, MaterialRegistryObject casingMaterial) {
         if (!casingMaterial.hasSubItem(SubItem.PLATE)) return;
         Item casingItem = casing.asItem();
-        Item plate = casingMaterial.getItemFromSubItem(SubItem.PLATE);
 
         ShapedRecipeBuilder.shapedRecipe(casingItem)
                 .patternLine("iii")
                 .patternLine("iwi")
                 .patternLine("iii")
                 .key('w', PolarisTags.Items.CRAFTING_TOOLS_WRENCH)
-                .key('i', plate)
+                .key('i', PolarisTags.Items.forge("plates/" + casingMaterial.getName()))
                 .addCriterion("tool", InventoryChangeTrigger.Instance.forItems(WRENCH_PREDICATE))
                 .build(consumer, Polaris.modLoc(casingItem.getRegistryName().getPath()));
     }
