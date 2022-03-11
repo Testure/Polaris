@@ -93,6 +93,12 @@ public class MaterialBuilder {
             case GENERATE_FOIL:
                 this.subItems.add(SubItem.FOIL);
                 break;
+            case NO_PLATE:
+                this.subItems.remove(SubItem.PLATE);
+                break;
+            case NO_ROD:
+                this.subItems.remove(SubItem.ROD);
+                break;
             default:
                 break;
         }

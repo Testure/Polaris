@@ -14,6 +14,8 @@ public enum GenerationFlags {
     GENERATE_LENS,
     GENERATE_SPRING,
     GENERATE_FOIL,
+    NO_ROD,
+    NO_PLATE,
     NO_BLOCK,
     NO_COMPRESSION,
     NO_MORTAR_GRINDING,

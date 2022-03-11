@@ -140,6 +140,7 @@ public class MaterialRegistry {
             .ore(1, SubItem.INGOT, COPPER)
             .mass(60)
             .textureSet(TextureSet.GEM)
+            .addFlags(GenerationFlags.NO_PLATE, GenerationFlags.NO_ROD)
             .components(new ComponentStack(Components.COPPER, 2), new ComponentStack(Components.CARBON), new ComponentStack(Components.HYDROGEN, 2), new ComponentStack(Components.OXYGEN, 5))
             .buildAndRegister();
 
