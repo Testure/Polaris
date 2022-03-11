@@ -58,6 +58,8 @@ import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.function.Function;
 
 @Mod("polaris")
@@ -116,8 +118,12 @@ public class Polaris {
         LOGGER.fatal("Resolving tags");
         hasResolvedBefore = true;
         tagsResolved = true;
-        for (IPromisedTag tag : TAGS)
-            if (!tag.isResolved()) tag.resolve();
+        if (TAGS.size() <= 0) {
+            Polaris.LOGGER.fatal("No tags to resolve!");
+            return;
+        }
+        ExecutorService pool = Executors.newFixedThreadPool(TAGS.size());
+        for (IPromisedTag tag : TAGS) if (!tag.isResolved()) pool.submit(tag::resolve);
     }
 
     private void setup(final FMLCommonSetupEvent event) {

@@ -20,6 +20,7 @@ import turing.mods.polaris.material.SubItem;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
@@ -59,18 +60,11 @@ public class MaterialDeferredRegister {
             blocks.add(BlockRegistry.registerCustomItem(name + "_block", () -> block, () -> new SubBlockItemGenerated(block, () -> material)));
         }
 
-        for (int i = 0; i < material.getSubItems().size(); i++) {
-            int finalI = i;
-            if (builder.existingItems == null || !builder.existingItems.containsKey(material.getSubItems().get(i))) {
-                switch (material.getSubItems().get(i)) {
-                    case ORE:
-                    case BLOCK:
-                        break;
-                    default:
-                        if (!material.getSubItems().get(i).isTool()) items.add(ItemRegistry.register(name + "_" + material.getSubItems().get(i).name().toLowerCase(), () -> new SubItemGenerated(() -> material, material.getSubItems().get(finalI))));
-                        else if (SubItem.getToolType(material.getSubItems().get(i)) != null) items.add(ItemRegistry.register(name + "_" + material.getSubItems().get(i).name().toLowerCase(), () -> new ToolItemGenerated(() -> material, material.getSubItems().get(finalI), Objects.requireNonNull(SubItem.getToolType(material.getSubItems().get(finalI))))));
-                        break;
-                }
+        List<SubItem> subsToCreate = material.existingItems == null ? material.getSubItems() : material.getSubItems().stream().filter((sub) -> !material.existingItems.containsKey(sub)).collect(Collectors.toList());
+        for (SubItem sub : subsToCreate) {
+            if (!sub.isBlock()) {
+                if (sub.isTool()) items.add(ItemRegistry.register(name + "_" + sub.name().toLowerCase(), () -> new ToolItemGenerated(() -> material, sub, SubItem.getToolType(sub))));
+                else items.add(ItemRegistry.register(name + "_" + sub.name().toLowerCase(), () -> new SubItemGenerated(() -> material, sub)));
             }
         }
 

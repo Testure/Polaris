@@ -23,22 +23,22 @@ public enum SubItem {
     PLATE,
     FOIL,
     NUGGET,
-    BLOCK,
+    BLOCK(true, false, false, true),
     SPRING,
     SMALL_SPRING,
     RING,
-    WIRE_SINGLE,
-    WIRE_DOUBLE,
-    WIRE_QUAD,
-    WIRE_OCT,
-    WIRE_SEXT,
+    WIRE_SINGLE(true, false, false, true),
+    WIRE_DOUBLE(true, false, false, true),
+    WIRE_QUAD(true, false, false, true),
+    WIRE_OCT(true, false, false, true),
+    WIRE_SEXT(true, false, false, true),
     FINE_WIRE,
-    CABLE_SINGLE,
-    CABLE_DOUBLE,
-    CABLE_QUAD,
-    CABLE_OCT,
-    CABLE_SEXT,
-    ORE(false, true),
+    CABLE_SINGLE(true, false, false, true),
+    CABLE_DOUBLE(true, false, false, true),
+    CABLE_QUAD(true, false, false, true),
+    CABLE_OCT(true, false, false, true),
+    CABLE_SEXT(true, false, false, true),
+    ORE(false, true, false, true),
     CRUSHED_ORE(false, true),
     LENS,
     SWORD(false, true, true),
@@ -59,19 +59,25 @@ public enum SubItem {
     private final boolean layer0Color;
     private final boolean layer1Color;
     private final boolean tool;
+    private final boolean block;
 
-    SubItem(boolean layer0Color, boolean layer1Color, boolean tool) {
+    SubItem(boolean layer0Color, boolean layer1Color, boolean tool, boolean block) {
         this.layer0Color = layer0Color;
         this.layer1Color = layer1Color;
         this.tool = tool;
+        this.block = block;
+    }
+
+    SubItem(boolean layer0Color, boolean layer1Color, boolean tool) {
+        this(layer0Color, layer1Color, tool, false);
     }
 
     SubItem(boolean layer0Color, boolean layer1Color) {
-        this(layer0Color, layer1Color, false);
+        this(layer0Color, layer1Color, false, false);
     }
 
     SubItem() {
-        this(true, false, false);
+        this(true, false, false, false);
     }
 
     public boolean isLayer0Color() {
@@ -84,6 +90,10 @@ public enum SubItem {
 
     public boolean isTool() {
         return tool;
+    }
+
+    public boolean isBlock() {
+        return block;
     }
 
     @Nullable

@@ -10,6 +10,6 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 @FunctionalInterface
-public interface Runner {
+public interface Runner extends Runnable {
     void run();
 }

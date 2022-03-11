@@ -9,12 +9,11 @@ import net.minecraft.util.text.TranslationTextComponent;
 import turing.mods.polaris.item.ITintedItem;
 import turing.mods.polaris.registry.MaterialRegistryObject;
 import turing.mods.polaris.util.Formatting;
+import turing.mods.polaris.util.Threading;
 
 import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.function.Consumer;
 
 public class Material implements ITintedItem {
@@ -69,8 +68,7 @@ public class Material implements ITintedItem {
 
     // cursed method
     public static void createFormulaTooltip(Consumer<ITextComponent> consumer, ComponentStack... stacks) {
-        ExecutorService pool = Executors.newFixedThreadPool(1);
-        pool.submit(() -> {
+        Threading.parallelGetter(null, consumer, (n) -> {
             List<String> formula = Formatting.createChemicalFormula(stacks);
             if (formula != null) {
                 StringBuilder builder = new StringBuilder();
@@ -85,14 +83,11 @@ public class Material implements ITintedItem {
                     if (str.matches("\\d")) tooltip1.append(new TranslationTextComponent(Formatting.getSubscript(Integer.parseInt(str))));
                     else tooltip1.appendString(TextFormatting.YELLOW + str);
                 }
-                consumer.accept(tooltip1);
                 return tooltip1;
             } else{
-                StringTextComponent tooltip = new StringTextComponent(TextFormatting.YELLOW + "Oops! something went wrong creating this tooltip!");
-                consumer.accept(tooltip);
-                return tooltip;
+                return new StringTextComponent(TextFormatting.YELLOW + "Oops! something went wrong creating this tooltip!");
             }
-        });
+        }, null);
     }
 
     public Material withExistingItems(Map<SubItem, Item> items) {

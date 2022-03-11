@@ -23,12 +23,8 @@ import turing.mods.polaris.Polaris;
 import turing.mods.polaris.Voltages;
 
 import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Function;
-import java.util.function.Supplier;
 
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
@@ -52,6 +48,7 @@ public class MachineDeferredRegister {
 
     public <T extends TileEntity, B extends Block, I extends BlockItem> MachineRegistryObject<T, B, I> register(String name, Function<Integer, T> tileSupplier, Function<Integer, B> blockSupplier, Function<Integer, I> itemSupplier, Function7<Integer, Integer, World, BlockPos, PlayerInventory, PlayerEntity, PacketBuffer, Container> containerSupplier) {
         if (machines.containsKey(name)) throw new IllegalStateException("Machine already exists.");
+        Date date = new Date();
         List<RegistryObject<B>> blocks = new ArrayList<>();
         List<RegistryObject<I>> items = new ArrayList<>();
         List<RegistryObject<TileEntityType<T>>> tiles = new ArrayList<>();
@@ -60,16 +57,11 @@ public class MachineDeferredRegister {
         for (int i = 1; i < Voltages.VOLTAGES.length; i++) {
             int finalI = i - 1;
             String tieredName = name + "_" + Voltages.VOLTAGES[i].name;
-            Supplier<T> TSupplier = () -> tileSupplier.apply(finalI);
-            Supplier<B> BSupplier = () -> blockSupplier.apply(finalI);
-            Supplier<I> ISupplier = () -> itemSupplier.apply(finalI);
 
-            RegistryObject<B> block = blockRegister.register(tieredName, BSupplier);
-            RegistryObject<I> item = itemRegister.register(tieredName, ISupplier);
-            RegistryObject<TileEntityType<T>> tile = tileRegister.register(tieredName, () -> TileEntityType.Builder.create(TSupplier, block.get()).build(null));
+            RegistryObject<B> block = blockRegister.register(tieredName, () -> blockSupplier.apply(finalI));
+            items.add(itemRegister.register(tieredName, () -> itemSupplier.apply(finalI)));
+            tiles.add(tileRegister.register(tieredName, () -> TileEntityType.Builder.create(() -> tileSupplier.apply(finalI), block.get()).build(null)));
             blocks.add(block);
-            items.add(item);
-            tiles.add(tile);
 
             RegistryObject<ContainerType<?>> container = containerRegister.register(tieredName, () -> IForgeContainerType.create((((windowId, inv, data) -> {
                 BlockPos pos = data.readBlockPos();
@@ -83,7 +75,7 @@ public class MachineDeferredRegister {
         MachineRegistryObject<T, B, I> machine = new MachineRegistryObject<>(name, blocks, items, tiles, containers);
         machines.put(name, machine);
 
-        Polaris.LOGGER.info(String.format("created machine '%s'", name));
+        Polaris.LOGGER.info(String.format("created machine '%s' in %dms", name, (new Date()).getTime() - date.getTime()));
         return machine;
     }
 
