@@ -50,6 +50,7 @@ import turing.mods.polaris.registry.MaterialRegistry;
 import turing.mods.polaris.registry.MaterialRegistryObject;
 import turing.mods.polaris.registry.Registration;
 import turing.mods.polaris.util.Formatting;
+import turing.mods.polaris.util.ThreadPool;
 import turing.mods.polaris.world.OreConfig;
 import turing.mods.polaris.world.OreGeneration;
 import turing.mods.polaris.world.TreeGen;
@@ -122,7 +123,7 @@ public class Polaris {
             Polaris.LOGGER.fatal("No tags to resolve!");
             return;
         }
-        ExecutorService pool = Executors.newFixedThreadPool(TAGS.size());
+        ThreadPool pool = ThreadPool.newPoolOfSize(TAGS.size());
         for (IPromisedTag tag : TAGS) if (!tag.isResolved()) pool.submit(tag::resolve);
     }
 

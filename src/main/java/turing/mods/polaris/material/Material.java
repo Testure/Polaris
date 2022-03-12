@@ -9,7 +9,7 @@ import net.minecraft.util.text.TranslationTextComponent;
 import turing.mods.polaris.item.ITintedItem;
 import turing.mods.polaris.registry.MaterialRegistryObject;
 import turing.mods.polaris.util.Formatting;
-import turing.mods.polaris.util.Threading;
+import turing.mods.polaris.util.ThreadPool;
 
 import javax.annotation.Nonnull;
 import java.util.List;
@@ -67,8 +67,9 @@ public class Material implements ITintedItem {
     }
 
     // cursed method
-    public static void createFormulaTooltip(Consumer<ITextComponent> consumer, ComponentStack... stacks) {
-        Threading.parallelGetter(null, consumer, (n) -> {
+    public static void createFormulaTooltip(Consumer<StringTextComponent> consumer, ComponentStack... stacks) {
+        ThreadPool pool = ThreadPool.newPoolOfSize(1);
+        pool.submit(() -> {
             List<String> formula = Formatting.createChemicalFormula(stacks);
             if (formula != null) {
                 StringBuilder builder = new StringBuilder();
@@ -87,7 +88,7 @@ public class Material implements ITintedItem {
             } else{
                 return new StringTextComponent(TextFormatting.YELLOW + "Oops! something went wrong creating this tooltip!");
             }
-        }, null);
+        }).connect(consumer);
     }
 
     public Material withExistingItems(Map<SubItem, Item> items) {
