@@ -91,7 +91,7 @@ public class Polaris {
         public static final ToolType FILE = ToolType.get("file");
     }
 
-    private static ITextComponent WATER_FORMULA = new StringTextComponent("");
+    private static ITextComponent WATER_FORMULA = StringTextComponent.EMPTY;
     private static final ITextComponent UNKNOWN_FORMULA = new StringTextComponent(TextFormatting.YELLOW + "?");
     private static final ITextComponent LIQUID_STATE = new TranslationTextComponent("tooltip.polaris.fluid_state.liquid");
     private static final ITextComponent LAVA_TEMP = new TranslationTextComponent("tooltip.polaris.fluid_temp", TextFormatting.RED + Formatting.formattedNumber(1400));
