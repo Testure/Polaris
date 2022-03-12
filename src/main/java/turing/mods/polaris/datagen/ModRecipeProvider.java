@@ -144,7 +144,7 @@ public class ModRecipeProvider extends RecipeProvider {
         MaterialRegistry.getMaterials().values().forEach(material -> {
             if (!material.get().getFlags().contains(GenerationFlags.NO_COMPRESSION)) {
                 if (material.hasSubItem(SubItem.BLOCK) && (material.hasSubItem(SubItem.INGOT) || material.hasSubItem(SubItem.GEM))) {
-                    RecipeUtil.compressingRecipe(consumer, material, SubItem.INGOT, SubItem.BLOCK, material.getName() + "_ingot_compacting");
+                    RecipeUtil.compressingRecipe(consumer, material, material.hasSubItem(SubItem.INGOT) ? SubItem.INGOT : SubItem.GEM, SubItem.BLOCK, material.getName() + "_ingot_compacting");
                     RecipeUtil.decompressingRecipe(consumer, material, SubItem.BLOCK, material.hasSubItem(SubItem.INGOT) ? SubItem.INGOT : SubItem.GEM, 9, false, material.getName() + "_block_decompacting");
                 }
                 if (material.hasSubItem(SubItem.NUGGET) && material.hasSubItem(SubItem.INGOT)) {
