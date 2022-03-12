@@ -6,6 +6,7 @@ import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 import turing.mods.polaris.Polaris;
+import turing.mods.polaris.material.Materials;
 import turing.mods.polaris.material.SubItem;
 import turing.mods.polaris.registry.MaterialRegistry;
 import turing.mods.polaris.registry.MaterialRegistryObject;
@@ -34,6 +35,6 @@ public class ItemGroupMaterials extends ItemGroup {
 
     @Override
     public ItemStack createIcon() {
-        return MaterialRegistry.SILVER.getItemFromSubItem(SubItem.INGOT).getDefaultInstance();
+        return Materials.SILVER.getItemFromSubItem(SubItem.INGOT).getDefaultInstance();
     }
 }

@@ -12,6 +12,7 @@ import turing.mods.polaris.block.CasingBlock;
 import turing.mods.polaris.block.HullBlock;
 import turing.mods.polaris.block.RubberLog;
 import turing.mods.polaris.block.creative_power.CreativePowerProvider;
+import turing.mods.polaris.material.Materials;
 import turing.mods.polaris.world.RubberTree;
 
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -31,7 +32,7 @@ public class BlockRegistry {
     public static final RegistryObject<Block> RUBBER_SAPLING = register("rubber_sapling", () -> new SaplingBlock(new RubberTree(), AbstractBlock.Properties.create(Material.PLANTS).doesNotBlockMovement().tickRandomly().zeroHardnessAndResistance().sound(SoundType.PLANT)));
 
     public static final RegistryObject<CasingBlock>[] CASINGS = new RegistryObject[]{
-            register("casing_ulv", () -> new CasingBlock(0, () -> MaterialRegistry.IRON)),
+            register("casing_ulv", () -> new CasingBlock(0, () -> Materials.IRON)),
             register("casing_lv", () -> new CasingBlock(1, () -> null)),
             register("casing_mv", () -> new CasingBlock(2, () -> null)),
             register("casing_hv", () -> new CasingBlock(3, () -> null)),
@@ -40,9 +41,9 @@ public class BlockRegistry {
     };
     public static final RegistryObject<HullBlock>[] HULLS = new RegistryObject[]{
             register("hull_ulv", () -> new HullBlock(0, () -> null)),
-            register("hull_lv", () -> new HullBlock(1, () -> MaterialRegistry.TIN)),
-            register("hull_mv", () -> new HullBlock(2, () -> MaterialRegistry.COPPER)),
-            register("hull_hv", () -> new HullBlock(3, () -> MaterialRegistry.GOLD)),
+            register("hull_lv", () -> new HullBlock(1, () -> Materials.TIN)),
+            register("hull_mv", () -> new HullBlock(2, () -> Materials.COPPER)),
+            register("hull_hv", () -> new HullBlock(3, () -> Materials.GOLD)),
             register("hull_ev", () -> new HullBlock(4, () -> null)),
             register("hull_iv", () -> new HullBlock(5, () -> null)),
     };

@@ -1,6 +1,6 @@
 package turing.mods.polaris.world;
 
-import turing.mods.polaris.registry.MaterialRegistry;
+import turing.mods.polaris.material.Materials;
 import turing.mods.polaris.util.Vector2i;
 
 public class OreVeins {
@@ -9,7 +9,7 @@ public class OreVeins {
             .inDimension(0)
             .atYLevel(new Vector2i(10, 40))
             .defaultChances(4)
-            .withOres(MaterialRegistry.BROWN_LIMONITE, MaterialRegistry.YELLOW_LIMONITE, MaterialRegistry.MALACHITE, MaterialRegistry.BANDED_IRON)
+            .withOres(Materials.BROWN_LIMONITE, Materials.YELLOW_LIMONITE, Materials.MALACHITE, Materials.BANDED_IRON)
             .build(OreGeneration::registerVein);
 
     public static final VeinConfiguration TIN_VEIN = VeinBuilder.builder("tin_vein")
@@ -17,7 +17,7 @@ public class OreVeins {
             .inDimension(0)
             .atYLevel(new Vector2i(40, 60))
             .defaultChances(4)
-            .withOres(MaterialRegistry.TIN, MaterialRegistry.TIN, MaterialRegistry.TIN, MaterialRegistry.CASSITERITE)
+            .withOres(Materials.TIN, Materials.TIN, Materials.TIN, Materials.CASSITERITE)
             .build(OreGeneration::registerVein);
 
     public static final VeinConfiguration COPPER_VEIN = VeinBuilder.builder("copper_vein")
@@ -25,7 +25,7 @@ public class OreVeins {
             .inDimension(0)
             .atYLevel(new Vector2i(5, 60))
             .defaultChances(4)
-            .withOres(MaterialRegistry.CHALCOPYRITE, MaterialRegistry.IRON, MaterialRegistry.COPPER, MaterialRegistry.PYRITE)
+            .withOres(Materials.CHALCOPYRITE, Materials.IRON, Materials.COPPER, Materials.PYRITE)
             .build(OreGeneration::registerVein);
 
     public static void register() {

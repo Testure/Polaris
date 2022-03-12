@@ -12,6 +12,7 @@ import turing.mods.polaris.Polaris;
 import turing.mods.polaris.block.CasingBlock;
 import turing.mods.polaris.block.HullBlock;
 import turing.mods.polaris.material.GenerationFlags;
+import turing.mods.polaris.material.Materials;
 import turing.mods.polaris.material.SubItem;
 import turing.mods.polaris.registry.BlockRegistry;
 import turing.mods.polaris.registry.MaterialRegistry;
@@ -76,17 +77,17 @@ public class ModRecipeProvider extends RecipeProvider {
 
     private void manualDustMixing(Consumer<IFinishedRecipe> consumer) {
         //bronze dust
-        ShapelessRecipeBuilder.shapelessRecipe(MaterialRegistry.BRONZE.getItemFromSubItem(SubItem.DUST))
-                .addIngredient(MaterialRegistry.COPPER.getItemFromSubItem(SubItem.DUST), 3)
-                .addIngredient(MaterialRegistry.TIN.getItemFromSubItem(SubItem.DUST))
+        ShapelessRecipeBuilder.shapelessRecipe(Materials.BRONZE.getItemFromSubItem(SubItem.DUST))
+                .addIngredient(Materials.COPPER.getItemFromSubItem(SubItem.DUST), 3)
+                .addIngredient(Materials.TIN.getItemFromSubItem(SubItem.DUST))
                 .addCriterion("copper", InventoryChangeTrigger.Instance.forItems(ItemPredicate.Builder.create().tag(PolarisTags.Items.forge("dusts/copper")).build()))
                 .addCriterion("tin", InventoryChangeTrigger.Instance.forItems(ItemPredicate.Builder.create().tag(PolarisTags.Items.forge("dusts/tin")).build()))
                 .build(consumer, Polaris.modLoc("bronze_dust_mixing"));
 
         //electrum dust
-        ShapelessRecipeBuilder.shapelessRecipe(MaterialRegistry.ELECTRUM.getItemFromSubItem(SubItem.DUST))
-                .addIngredient(MaterialRegistry.GOLD.getItemFromSubItem(SubItem.DUST))
-                .addIngredient(MaterialRegistry.SILVER.getItemFromSubItem(SubItem.DUST))
+        ShapelessRecipeBuilder.shapelessRecipe(Materials.ELECTRUM.getItemFromSubItem(SubItem.DUST))
+                .addIngredient(Materials.GOLD.getItemFromSubItem(SubItem.DUST))
+                .addIngredient(Materials.SILVER.getItemFromSubItem(SubItem.DUST))
                 .addCriterion("gold", InventoryChangeTrigger.Instance.forItems(ItemPredicate.Builder.create().tag(PolarisTags.Items.forge("dusts/gold")).build()))
                 .addCriterion("silver", InventoryChangeTrigger.Instance.forItems(ItemPredicate.Builder.create().tag(PolarisTags.Items.forge("dusts/silver")).build()))
                 .build(consumer, Polaris.modLoc("electrum_dust_mixing"));
