@@ -63,7 +63,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.function.Function;
 
-@Mod("polaris")
+@Mod(Polaris.MODID)
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public class Polaris {
