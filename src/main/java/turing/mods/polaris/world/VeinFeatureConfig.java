@@ -18,7 +18,8 @@ public class VeinFeatureConfig implements IFeatureConfig {
                     Codec.intRange(0, 10).fieldOf("topWeight").forGetter((config) -> config.topWeight),
                     Codec.intRange(0, 10).fieldOf("bottomWeight").forGetter((config) -> config.bottomWeight),
                     Codec.intRange(0, 10).fieldOf("sporadicWeight").forGetter((config) -> config.sporadicWeight),
-                    Codec.intRange(0, 10).fieldOf("betweenWeight").forGetter((config) -> config.betweenWeight)
+                    Codec.intRange(0, 10).fieldOf("betweenWeight").forGetter((config) -> config.betweenWeight),
+                    Codec.floatRange(0F, 1F).fieldOf("density").forGetter((config) -> config.density)
             ).apply(i, VeinFeatureConfig::new));
 
     public final RuleTest target;
@@ -32,8 +33,9 @@ public class VeinFeatureConfig implements IFeatureConfig {
     public final int bottomWeight;
     public final int sporadicWeight;
     public final int betweenWeight;
+    public final float density;
 
-    public VeinFeatureConfig(RuleTest target, BlockState top, BlockState bottom, BlockState sporadic, BlockState between, int topWeight, int bottomWeight, int sporadicWeight, int betweenWeight, int minY, int maxY) {
+    public VeinFeatureConfig(RuleTest target, BlockState top, BlockState bottom, BlockState sporadic, BlockState between, int topWeight, int bottomWeight, int sporadicWeight, int betweenWeight, int minY, int maxY, float density) {
         this.target = target;
         this.top = top;
         this.bottom = bottom;
@@ -45,5 +47,6 @@ public class VeinFeatureConfig implements IFeatureConfig {
         this.betweenWeight = betweenWeight;
         this.minY = minY;
         this.maxY = maxY;
+        this.density = density;
     }
 }

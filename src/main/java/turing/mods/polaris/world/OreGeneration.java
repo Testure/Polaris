@@ -26,9 +26,9 @@ import java.util.function.Function;
 public class OreGeneration {
     private static final Map<String, VeinConfiguration> VEINS = new HashMap<>();
 
-    public static void genOre(BiomeGenerationSettingsBuilder builder, RuleTest filler, BlockState[] ores, int[] weights, int[] range, int chance) {
+    public static void genOre(BiomeGenerationSettingsBuilder builder, RuleTest filler, BlockState[] ores, int[] weights, int[] range, int chance, float density) {
         builder.withFeature(GenerationStage.Decoration.UNDERGROUND_ORES,
-                FeatureRegistry.VEIN_FEATURE.get().withConfiguration(new VeinFeatureConfig(filler, ores[0], ores[1], ores[2], ores[3], weights[0], weights[1], weights[2], weights[3], range[0], range[1]))
+                FeatureRegistry.VEIN_FEATURE.get().withConfiguration(new VeinFeatureConfig(filler, ores[0], ores[1], ores[2], ores[3], weights[0], weights[1], weights[2], weights[3], range[0], range[1], density))
                         .chance(chance)
                         .func_242731_b(1)
         );

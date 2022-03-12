@@ -28,14 +28,16 @@ public class VeinConfiguration {
     public final int minY;
     public final int maxY;
     public final int chance;
+    public final float density;
 
-    public VeinConfiguration(RuleTest filler, BlockState[] states, int[] weights, int[] level, int chance) {
+    public VeinConfiguration(RuleTest filler, BlockState[] states, int[] weights, int[] level, int chance, float density) {
         this.filler = filler;
         this.states = states;
         this.weights = weights;
         this.minY = level[0];
         this.maxY = level[1];
         this.chance = chance;
+        this.density = density;
     }
 
     public RuleTest getFiller() {
@@ -86,9 +88,12 @@ public class VeinConfiguration {
         return chance;
     }
 
+    public float getDensity() {
+        return density;
+    }
 
     public VeinFeatureConfig toConfig() {
-        return new VeinFeatureConfig(getFiller(), getTopState(), getBottomState(), getSporadicState(), getBetweenState(), getTopWeight(), getBottomWeight(), getSporadicWeight(), getBetweenWeight(), getMinY(), getMaxY());
+        return new VeinFeatureConfig(getFiller(), getTopState(), getBottomState(), getSporadicState(), getBetweenState(), getTopWeight(), getBottomWeight(), getSporadicWeight(), getBetweenWeight(), getMinY(), getMaxY(), getDensity());
     }
 
     public JsonObject write() {
@@ -121,6 +126,7 @@ public class VeinConfiguration {
         json.addProperty("minimumY", getMinY());
         json.addProperty("maximumY", getMaxY());
         json.addProperty("chance", getChance());
+        if (density < 1F) json.addProperty("density", getDensity());
 
         return json;
     }
@@ -140,6 +146,7 @@ public class VeinConfiguration {
         int bottom = 4;
         int sporadic = 1;
         int between = 2;
+        float density = jsonGetAsOptional(json, "density").map(JsonElement::getAsFloat).orElse(1F);
         JsonObject weights = json.getAsJsonObject("weights");
         JsonObject ores = Objects.requireNonNull(json.getAsJsonObject("ores"));
 
@@ -155,6 +162,6 @@ public class VeinConfiguration {
         Block sporadicBlock = Objects.requireNonNull(ForgeRegistries.BLOCKS.getValue(new ResourceLocation(ores.get("sporadic").getAsString())));
         Block betweenBlock = Objects.requireNonNull(ForgeRegistries.BLOCKS.getValue(new ResourceLocation(ores.get("between").getAsString())));
 
-        return new VeinConfiguration(ruleTest, new BlockState[]{topBlock.getDefaultState(), bottomBlock.getDefaultState(), sporadicBlock.getDefaultState(), betweenBlock.getDefaultState()}, new int[]{top, bottom, sporadic, between}, new int[]{minY, maxY}, chance);
+        return new VeinConfiguration(ruleTest, new BlockState[]{topBlock.getDefaultState(), bottomBlock.getDefaultState(), sporadicBlock.getDefaultState(), betweenBlock.getDefaultState()}, new int[]{top, bottom, sporadic, between}, new int[]{minY, maxY}, chance, density);
     }
 }

@@ -26,6 +26,7 @@ public class VeinBuilder {
     private int maxY;
     private int topW, bottomW, sporadicW, betweenW;
     private BlockState top, bottom, sporadic, between;
+    private float density;
     private final String name;
 
     private VeinBuilder(String name) {
@@ -35,6 +36,11 @@ public class VeinBuilder {
 
     public VeinBuilder withChance(int chance) {
         this.chance = Math.max(chance, 1);
+        return this;
+    }
+
+    public VeinBuilder withDensity(float density) {
+        this.density = MathHelper.clamp(density, 0F, 1F);
         return this;
     }
 
@@ -182,7 +188,7 @@ public class VeinBuilder {
     }
 
     public VeinConfiguration build() {
-        return new VeinConfiguration(filler, new BlockState[]{top, bottom, sporadic, between}, new int[]{topW, bottomW, sporadicW, betweenW}, new int[]{minY, maxY}, chance);
+        return new VeinConfiguration(filler, new BlockState[]{top, bottom, sporadic, between}, new int[]{topW, bottomW, sporadicW, betweenW}, new int[]{minY, maxY}, chance, density);
     }
 
     public VeinConfiguration build(Consumer2<String, VeinConfiguration> consumer) {

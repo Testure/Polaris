@@ -34,7 +34,7 @@ public class VeinFeature extends Feature<VeinFeatureConfig> {
                     BlockPos.Mutable thisPos = new BlockPos.Mutable(chunk.getPos().getXStart() + x, y, chunk.getPos().getZStart() + z);
                     if (!config.target.test(reader.getBlockState(thisPos), rand)) continue;
 
-                    int chance = rand.nextInt(10) + 1;
+                    int chance = (int) ((rand.nextInt(10) + 1) * config.density);
 
                     if (chance <= config.betweenWeight) reader.setBlockState(thisPos, config.between, 2);
 
