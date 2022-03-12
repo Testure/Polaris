@@ -265,7 +265,7 @@ public class Materials {
             .mass(0)
             .component(Components.OXYGEN)
             .textureSet(TextureSet.METAL)
-            .fluid(true, 80)
+            .fluid(true, 290)
             .buildAndRegister();
 
     public static final MaterialRegistryObject HYDROGEN = MaterialBuilder.builder("hydrogen")
@@ -273,7 +273,7 @@ public class Materials {
             .mass(0)
             .component(Components.HYDROGEN)
             .textureSet(TextureSet.METAL)
-            .fluid(true, 20)
+            .fluid(true, 290)
             .buildAndRegister();
 
     public static void register() {}
