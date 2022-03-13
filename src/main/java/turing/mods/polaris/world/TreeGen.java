@@ -10,6 +10,7 @@ import net.minecraft.world.gen.feature.MultipleRandomFeatureConfig;
 import net.minecraft.world.gen.placement.AtSurfaceWithExtraConfig;
 import net.minecraft.world.gen.placement.Placement;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
+import turing.mods.polaris.Config;
 import turing.mods.polaris.registry.FeatureRegistry;
 import turing.mods.polaris.util.MathUtil;
 
@@ -21,7 +22,7 @@ public class TreeGen {
     public static final ConfiguredFeature<?, ?> RUBBER_BIRCH = Feature.RANDOM_SELECTOR.withConfiguration(new MultipleRandomFeatureConfig(ImmutableList.of(RUBBER_TREE_TALL.withChance(0.1F)), RUBBER_TREE)).withPlacement(Features.Placements.HEIGHTMAP_PLACEMENT).withPlacement(Placement.COUNT_EXTRA.configure(new AtSurfaceWithExtraConfig(10, 0.1F, 1)));
 
     public static void genTrees(BiomeLoadingEvent event) {
-        generateRubberTrees(event);
+        if (Config.RUBBER_TREES.get()) generateRubberTrees(event);
     }
 
     private static void generateRubberTrees(BiomeLoadingEvent event) {

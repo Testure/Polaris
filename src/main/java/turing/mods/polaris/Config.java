@@ -19,6 +19,7 @@ public class Config {
     public static ForgeConfigSpec.BooleanValue SHOW_MACHINE_FLAVOR_TEXT;
     public static ForgeConfigSpec.IntValue MACHINE_BASE_COLOR;
     public static ForgeConfigSpec.BooleanValue MACHINE_TIER_COLORS;
+    public static ForgeConfigSpec.BooleanValue RUBBER_TREES;
 
     static {
         ForgeConfigSpec.Builder COMMON_BUILDER = new ForgeConfigSpec.Builder();
@@ -42,7 +43,12 @@ public class Config {
     }
 
     private static void setServerConfig(ForgeConfigSpec.Builder builder) {
+        builder.comment("General Settings").push("general");
 
+        builder.pop();
+        builder.comment("World Generation").push("world_gen");
+            RUBBER_TREES = builder.comment("If true, rubber trees will generate in the world.").comment("default: true").define("rubber_trees", true);
+        builder.pop();
     }
 
     private static void setClientConfig(ForgeConfigSpec.Builder builder) {
