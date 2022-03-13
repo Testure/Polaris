@@ -107,6 +107,7 @@ public class Polaris {
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::processIMC);
         Material.createFormulaTooltip((formula) -> WATER_FORMULA = formula, Components.WATER.getMadeOf());
         OreConfig.init();
+        Config.register();
 
         Registration.register();
 
