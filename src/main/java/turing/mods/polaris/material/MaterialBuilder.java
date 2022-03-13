@@ -61,6 +61,12 @@ public class MaterialBuilder {
                 this.subItems.add(SubItem.SPRING);
                 this.subItems.add(SubItem.SMALL_SPRING);
                 break;
+            case GENERATE_PLATE:
+                this.subItems.add(SubItem.PLATE);
+                break;
+            case GENERATE_LENS:
+                this.subItems.add(SubItem.LENS);
+                break;
             case NO_COMPRESSION:
                 this.subItems.remove(SubItem.BLOCK);
                 this.subItems.remove(SubItem.SMALL_DUST);
@@ -75,10 +81,14 @@ public class MaterialBuilder {
                 this.subItems.remove(SubItem.HAMMER);
                 this.subItems.remove(SubItem.WRENCH);
                 this.subItems.remove(SubItem.CROWBAR);
-                this.subItems.add(SubItem.SOFT_HAMMER);
+                if (!this.subItems.contains(SubItem.SOFT_HAMMER)) this.subItems.add(SubItem.SOFT_HAMMER);
                 break;
             case NO_MORTAR:
                 this.subItems.remove(SubItem.MORTAR);
+                break;
+            case NO_HAMMER:
+                this.subItems.remove(SubItem.HAMMER);
+                this.subItems.remove(SubItem.SOFT_HAMMER);
                 break;
             case NO_VANILLA_TOOLS:
                 this.subItems.remove(SubItem.SWORD);
@@ -98,6 +108,31 @@ public class MaterialBuilder {
                 break;
             case NO_ROD:
                 this.subItems.remove(SubItem.ROD);
+                break;
+            case NO_CROWBAR:
+                this.subItems.remove(SubItem.CROWBAR);
+                break;
+            case NO_WRENCH:
+                this.subItems.remove(SubItem.WRENCH);
+                break;
+            case NO_FILE:
+                this.subItems.remove(SubItem.FILE);
+                break;
+            case NO_SCREWDRIVER:
+                this.subItems.remove(SubItem.SCREWDRIVER);
+                break;
+            case NO_SAW:
+                this.subItems.remove(SubItem.SAW);
+                break;
+            case ONLY_MORTAR:
+                this.subItems.remove(SubItem.SOFT_HAMMER);
+                this.subItems.remove(SubItem.HAMMER);
+                this.subItems.remove(SubItem.FILE);
+                this.subItems.remove(SubItem.WRENCH);
+                this.subItems.remove(SubItem.SCREWDRIVER);
+                this.subItems.remove(SubItem.CROWBAR);
+                this.subItems.remove(SubItem.SAW);
+                if (!this.subItems.contains(SubItem.MORTAR)) this.subItems.add(SubItem.MORTAR);
                 break;
             default:
                 break;

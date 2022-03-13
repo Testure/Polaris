@@ -13,6 +13,7 @@ import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.fml.RegistryObject;
 import turing.mods.polaris.Polaris;
 import turing.mods.polaris.block.SubBlockGenerated;
+import turing.mods.polaris.material.SubItem;
 import turing.mods.polaris.registry.*;
 
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -67,11 +68,20 @@ public class ModBlockStateProvider extends BlockStateProvider {
                 for (RegistryObject<Block> block : materialRegistryObject.getBlocks()) {
                     if (materialRegistryObject.get().existingItems == null || !materialRegistryObject.get().existingItems.containsValue(block.get().asItem())) {
                         SubBlockGenerated subBlockGenerated = (SubBlockGenerated) block.get();
-                        simpleBlock(block.get(),
-                                models().withExistingParent(Objects.requireNonNull(block.get().getRegistryName()).getPath(), modLoc("block/" + subBlockGenerated.getSubItem().name().toLowerCase()))
-                                        .texture("all", "block/material_sets/" + materialRegistryObject.get().textureSet.name().toLowerCase() + "/" + subBlockGenerated.getSubItem().name().toLowerCase())
-                                        .texture("overlay", "block/material_sets/" + materialRegistryObject.get().textureSet.name().toLowerCase() + "/" + subBlockGenerated.getSubItem().name().toLowerCase() + "_overlay")
-                        );
+                        if (subBlockGenerated.getSubItem() != SubItem.ORE) {
+                            simpleBlock(block.get(),
+                                    models().withExistingParent(Objects.requireNonNull(block.get().getRegistryName()).getPath(), modLoc("block/" + subBlockGenerated.getSubItem().name().toLowerCase()))
+                                            .texture("all", "block/material_sets/" + materialRegistryObject.get().textureSet.name().toLowerCase() + "/" + subBlockGenerated.getSubItem().name().toLowerCase())
+                                            .texture("overlay", "block/material_sets/" + materialRegistryObject.get().textureSet.name().toLowerCase() + "/" + subBlockGenerated.getSubItem().name().toLowerCase() + "_overlay")
+                            );
+                        } else {
+                            simpleBlock(block.get(),
+                                    models().withExistingParent(Objects.requireNonNull(block.get().getRegistryName()).getPath(), modLoc("block/" + subBlockGenerated.getSubItem().name().toLowerCase()))
+                                            .texture("background", materialRegistryObject.get().textureSet.getOreBackground())
+                                            .texture("all", "block/material_sets/" + materialRegistryObject.get().textureSet.name().toLowerCase() + "/" + subBlockGenerated.getSubItem().name().toLowerCase())
+                                            .texture("overlay", "block/material_sets/" + materialRegistryObject.get().textureSet.name().toLowerCase() + "/" + subBlockGenerated.getSubItem().name().toLowerCase() + "_overlay")
+                            );
+                        }
                     }
                 }
             }

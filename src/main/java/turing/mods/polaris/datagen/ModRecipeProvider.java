@@ -16,6 +16,7 @@ import turing.mods.polaris.material.Materials;
 import turing.mods.polaris.material.SubItem;
 import turing.mods.polaris.registry.BlockRegistry;
 import turing.mods.polaris.registry.MaterialRegistry;
+import turing.mods.polaris.registry.MaterialRegistryObject;
 import turing.mods.polaris.util.Consumer4;
 
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -109,6 +110,11 @@ public class ModRecipeProvider extends RecipeProvider {
                 if (material.hasSubItem(SubItem.HOE)) RecipeUtil.hoeRecipe(consumer, material);
             }
         });
+        RecipeUtil.hoeRecipe(consumer, Materials.FLINT);
+        RecipeUtil.axeRecipe(consumer, Materials.FLINT);
+        RecipeUtil.pickaxeRecipe(consumer, Materials.FLINT);
+        RecipeUtil.swordRecipe(consumer, Materials.FLINT);
+        RecipeUtil.shovelRecipe(consumer, Materials.FLINT);
     }
 
     private void smeltingRecipes(Consumer<IFinishedRecipe> consumer) {
@@ -145,8 +151,12 @@ public class ModRecipeProvider extends RecipeProvider {
         MaterialRegistry.getMaterials().values().forEach(material -> {
             if (!material.get().getFlags().contains(GenerationFlags.NO_COMPRESSION)) {
                 if (material.hasSubItem(SubItem.BLOCK) && (material.hasSubItem(SubItem.INGOT) || material.hasSubItem(SubItem.GEM))) {
-                    RecipeUtil.compressingRecipe(consumer, material, material.hasSubItem(SubItem.INGOT) ? SubItem.INGOT : SubItem.GEM, SubItem.BLOCK, material.getName() + "_ingot_compacting");
+                    RecipeUtil.compressingRecipe(consumer, material, material.hasSubItem(SubItem.INGOT) ? SubItem.INGOT : SubItem.GEM, SubItem.BLOCK, material.get().getFlags().contains(GenerationFlags.QUAD_COMPACTING), material.getName() + "_ingot_compacting");
                     RecipeUtil.decompressingRecipe(consumer, material, SubItem.BLOCK, material.hasSubItem(SubItem.INGOT) ? SubItem.INGOT : SubItem.GEM, 9, false, material.getName() + "_block_decompacting");
+                } else if (material.hasSubItem(SubItem.BLOCK) && material.hasSubItem(SubItem.DUST)) {
+                    int amount = material.get().getFlags().contains(GenerationFlags.QUAD_COMPACTING) ? 4 : 9;
+                    RecipeUtil.compressingRecipe(consumer, material, SubItem.DUST, SubItem.BLOCK, material.get().getFlags().contains(GenerationFlags.QUAD_COMPACTING), material.getName() + "_dust_block_compacting");
+                    RecipeUtil.decompressingRecipe(consumer, material, SubItem.BLOCK, SubItem.DUST, amount, false, material.getName() + "_block_decompacting");
                 }
                 if (material.hasSubItem(SubItem.NUGGET) && material.hasSubItem(SubItem.INGOT)) {
                     RecipeUtil.compressingRecipe(consumer, material, SubItem.NUGGET, SubItem.INGOT, material.getName() + "_nugget_compacting");
@@ -154,11 +164,11 @@ public class ModRecipeProvider extends RecipeProvider {
                 }
                 if (material.hasSubItem(SubItem.DUST)) {
                     if (material.hasSubItem(SubItem.TINY_DUST)) {
-                        RecipeUtil.compressingRecipe(consumer, material, SubItem.TINY_DUST, SubItem.DUST, material.getName() + "_dust_compacting");
+                        RecipeUtil.compressingRecipe(consumer, material, SubItem.TINY_DUST, SubItem.DUST, material.getName() + "_dust_compacting", false);
                         RecipeUtil.decompressingRecipe(consumer, material, SubItem.DUST, SubItem.TINY_DUST, 9, false, material.getName() + "_dust_decompacting");
                     }
                     if (material.hasSubItem(SubItem.SMALL_DUST)) {
-                        RecipeUtil.compressingRecipe(consumer, material, SubItem.SMALL_DUST, SubItem.DUST, true, material.getName() + "_dust_compacting_secondary");
+                        RecipeUtil.compressingRecipe(consumer, material, SubItem.SMALL_DUST, SubItem.DUST, true, material.getName() + "_dust_compacting_secondary", false);
                         RecipeUtil.decompressingRecipe(consumer, material, SubItem.DUST, SubItem.SMALL_DUST, 4, true, material.getName() + "_dust_decompacting");
                     }
                 }

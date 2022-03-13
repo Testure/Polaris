@@ -133,16 +133,16 @@ public class RecipeUtil {
     }
 
     public static void mortarRecipe(Consumer<IFinishedRecipe> consumer, MaterialRegistryObject material) {
-        if (!material.hasSubItem(SubItem.MORTAR) || !material.hasSubItem(SubItem.INGOT)) return;
+        if (!material.hasSubItem(SubItem.MORTAR) || (!material.hasSubItem(SubItem.INGOT) && !material.hasSubItem(SubItem.GEM))) return;
         if (material.get().getFlags().contains(GenerationFlags.NO_MORTAR)) return;
         Item mortar = material.getItemFromSubItem(SubItem.MORTAR);
-        Item ingot = material.getItemFromSubItem(SubItem.INGOT);
+        Item ingot = material.hasSubItem(SubItem.INGOT) ? material.getItemFromSubItem(SubItem.INGOT) : material.getItemFromSubItem(SubItem.GEM);
 
         ShapedRecipeBuilder.shapedRecipe(mortar)
                 .patternLine(" i ")
                 .patternLine("sis")
                 .patternLine("sss")
-                .key('i', PolarisTags.Items.forge("ingots/" + material.getName()))
+                .key('i', PolarisTags.Items.forge((material.hasSubItem(SubItem.GEM) ? "gem" : "ingot") + "s/" + material.getName()))
                 .key('s', Tags.Items.STONE)
                 .addCriterion("material", InventoryChangeTrigger.Instance.forItems(ingot))
                 .build(consumer, Polaris.modLoc(material.getName() + "_mortar"));
@@ -364,9 +364,9 @@ public class RecipeUtil {
                 .build(consumer, material.getName() + "_" + subItem.name().toLowerCase() + "_polarizing");
     }
 
-    public static void compressingRecipe(Consumer<IFinishedRecipe> consumer, MaterialRegistryObject material, SubItem from, SubItem to, String name) {
+    public static void compressingRecipe(Consumer<IFinishedRecipe> consumer, MaterialRegistryObject material, SubItem from, SubItem to, String name, boolean checkForExisting) {
         if (!material.hasSubItem(from) || !material.hasSubItem(to)) return;
-        if (material.get().existingItems != null && (material.get().existingItems.containsValue(material.getItemFromSubItem(to)))) return;
+        if (checkForExisting && (material.get().existingItems != null && (material.get().existingItems.containsValue(material.getItemFromSubItem(to))))) return;
         Item fromItem = material.getItemFromSubItem(from);
         Item toItem = material.getItemFromSubItem(to);
 
@@ -380,8 +380,13 @@ public class RecipeUtil {
                 .build(consumer, Polaris.modLoc(name));
     }
 
-    public static void compressingRecipe(Consumer<IFinishedRecipe> consumer, MaterialRegistryObject material, SubItem from, SubItem to, boolean useFour, String name) {
-        if (!useFour) { compressingRecipe(consumer, material, from, to, name); return; }
+    public static void compressingRecipe(Consumer<IFinishedRecipe> consumer, MaterialRegistryObject material, SubItem from, SubItem to, String name) {
+        compressingRecipe(consumer, material, from, to, name, true);
+    }
+
+    public static void compressingRecipe(Consumer<IFinishedRecipe> consumer, MaterialRegistryObject material, SubItem from, SubItem to, boolean useFour, String name, boolean checkForExisting) {
+        if (!useFour) { compressingRecipe(consumer, material, from, to, name, checkForExisting); return; }
+        if (checkForExisting && (material.get().existingItems != null && material.get().existingItems.containsValue(material.getItemFromSubItem(to)))) return;
         Item fromItem = material.getItemFromSubItem(from);
         Item toItem = material.getItemFromSubItem(to);
 
@@ -392,6 +397,10 @@ public class RecipeUtil {
                 .addCriterion("from", InventoryChangeTrigger.Instance.forItems(fromItem))
                 .addCriterion("to", InventoryChangeTrigger.Instance.forItems(toItem))
                 .build(consumer, Polaris.modLoc(name));
+    }
+
+    public static void compressingRecipe(Consumer<IFinishedRecipe> consumer, MaterialRegistryObject material, SubItem from, SubItem to, boolean useFour, String name) {
+        compressingRecipe(consumer, material, from, to, useFour, name, true);
     }
 
     public static void decompressingRecipe(Consumer<IFinishedRecipe> consumer, MaterialRegistryObject material, SubItem from, SubItem to, int amount, boolean isSecondary, String name) {

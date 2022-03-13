@@ -7,6 +7,7 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
+import turing.mods.polaris.Polaris;
 import turing.mods.polaris.Voltages;
 import turing.mods.polaris.material.ComponentStack;
 
@@ -64,7 +65,7 @@ public class Formatting {
             StringBuilder builder = new StringBuilder(toString.length());
 
             for (int i = 0; i < toString.length(); i++) {
-                builder.append(SUBSCRIPT_NUMBERS[Integer.getInteger(toString.substring(i, i))]);
+                builder.append(SUBSCRIPT_NUMBERS[Integer.parseInt(toString.substring(i, i + 1))]);
             }
 
             return builder.toString();

@@ -7,6 +7,7 @@ import net.minecraft.data.DataGenerator;
 import net.minecraft.data.ItemTagsProvider;
 import net.minecraft.data.TagsProvider;
 import net.minecraft.item.Item;
+import net.minecraft.item.Items;
 import net.minecraft.tags.ITag;
 import net.minecraft.tags.ItemTags;
 import net.minecraftforge.common.Tags;
@@ -42,6 +43,8 @@ public class ModItemTagsProvider extends ItemTagsProvider {
         getOrCreateItemBuilder(ItemTags.PLANKS).add(BlockRegistry.RUBBER_PLANKS.get().asItem());
         getOrCreateItemBuilder(PolarisTags.Items.RUBBER_LOGS).add(BlockRegistry.RUBBER_LOG.get().asItem());
         getOrCreateItemBuilder(PolarisTags.Items.RUBBER_RESIN).add(ItemRegistry.STICKY_RESIN.get());
+
+        getOrCreateItemBuilder(PolarisTags.Items.forge("gems/flint")).add(Items.FLINT);
     }
 
     private void addMaterialTags() {

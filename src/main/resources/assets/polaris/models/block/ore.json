@@ -2,7 +2,7 @@
   "parent": "minecraft:block/cube_all",
   "textures": {
     "particle": "minecraft:block/stone",
-    "stone": "minecraft:block/iron_ore",
+    "stone": "#background",
     "ore": "#all",
     "overlay": "#overlay"
   },

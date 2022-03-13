@@ -36,6 +36,95 @@ public class Materials {
             .withExistingItems(GOLD_EXISTING)
             .buildAndRegister();
 
+    public static final MaterialRegistryObject GLASS = MaterialBuilder.builder("glass")
+            .color(0xFFEFEFEF)
+            .dust()
+            .fluid(false, 1200)
+            .mass(80)
+            .component(Components.SILICON_DIOXIDE)
+            .addFlags(GenerationFlags.GENERATE_LENS, GenerationFlags.GENERATE_PLATE)
+            .textureSet(TextureSet.GEM)
+            .withExistingItems(GLASS_EXISTING)
+            .buildAndRegister();
+
+    public static final MaterialRegistryObject DIAMOND = MaterialBuilder.builder("diamond")
+            .color(0xFFC8FFFF)
+            .gem()
+            .mass(140)
+            .ore(1, SubItem.GEM)
+            .component(Components.CARBON)
+            .addFlags(GenerationFlags.GENERATE_LENS, GenerationFlags.NO_MORTAR, GenerationFlags.NO_MORTAR_GRINDING)
+            .textureSet(TextureSet.EMERALD)
+            .withExistingItems(DIAMOND_EXISTING)
+            .toolStats(1300, 2, 6.5F, 5.0F, 3.0F)
+            .buildAndRegister();
+
+    public static final MaterialRegistryObject EMERALD = MaterialBuilder.builder("emerald")
+            .color(0xFF50FF50)
+            .gem()
+            .mass(100)
+            .ore(1, SubItem.GEM)
+            .components(new ComponentStack(Components.BERYLLIUM, 3), new ComponentStack(Components.ALUMINIUM, 2), new ComponentStack(Components.SILICON, 6), new ComponentStack(Components.OXYGEN, 18))
+            .addFlags(GenerationFlags.GENERATE_LENS, GenerationFlags.NO_MORTAR, GenerationFlags.NO_MORTAR_GRINDING)
+            .textureSet(TextureSet.EMERALD)
+            .withExistingItems(EMERALD_EXISTING)
+            .toolStats(650, 4, 5.0F, 4.0F, 3.0F)
+            .buildAndRegister();
+
+    public static final MaterialRegistryObject FLINT = MaterialBuilder.builder("flint")
+            .color(0xFF262424)
+            .gem()
+            .mass(40)
+            .component(Components.SILICON_DIOXIDE)
+            .addFlags(GenerationFlags.QUAD_COMPACTING, GenerationFlags.NO_ROD, GenerationFlags.ONLY_MORTAR)
+            .textureSet(TextureSet.DULL_METAL_HARSH)
+            .withExistingItems(FLINT_EXISTING)
+            .toolStats(30, 1, 2.0F, 2.0F, 3.0F)
+            .buildAndRegister();
+
+    public static final MaterialRegistryObject NETHERITE = MaterialBuilder.builder("netherite")
+            .color(0xFF4E4A4E)
+            .ingot()
+            .fluid(false, 2400)
+            .mass(145)
+            .components(new ComponentStack(Components.GOLD), new ComponentStack(Components.ANCIENT_DEBRIS, 4))
+            .addFlags(GenerationFlags.NO_MORTAR, GenerationFlags.NO_MORTAR_GRINDING, GenerationFlags.NO_DUST_SMELTING)
+            .textureSet(TextureSet.METAL)
+            .withExistingItems(NETHERITE_EXISTING)
+            .toolStats(1650, 5, 7.0F, 6.0F, 3.0F)
+            .buildAndRegister();
+
+    public static final MaterialRegistryObject REDSTONE = MaterialBuilder.builder("redstone")
+            .color(0xFFC80000)
+            .dust()
+            .fluid(false, 500)
+            .mass(40)
+            .ore(6, SubItem.DUST)
+            .components(new ComponentStack(Components.SILICON), new ComponentStack(Components.PYRITE, 5))
+            .textureSet(TextureSet.SHINY_METAL)
+            .withExistingItems(REDSTONE_EXISTING)
+            .buildAndRegister();
+
+    public static final MaterialRegistryObject GLOWSTONE = MaterialBuilder.builder("glowstone")
+            .color(0xFFFFCD70)
+            .dust()
+            .fluid(false, 1200)
+            .mass(40)
+            .component(Components.UNKNOWN)
+            .addFlags(GenerationFlags.QUAD_COMPACTING)
+            .textureSet(TextureSet.SHINY_METAL)
+            .withExistingItems(GLOWSTONE_EXISTING)
+            .buildAndRegister();
+
+    public static final MaterialRegistryObject SILICON_DIOXIDE = MaterialBuilder.builder("silicon_dioxide")
+            .color(0xFFC8C8C8)
+            .dust()
+            .mass(40)
+            .component(Components.SILICON_DIOXIDE)
+            .addFlags(GenerationFlags.NO_COMPRESSION)
+            .textureSet(TextureSet.DULL_METAL)
+            .buildAndRegister();
+
     public static final MaterialRegistryObject MAGNETIC_IRON = MaterialBuilder.builder("magnetic_iron")
             .color(0xFFC8C8C8)
             .ingot()
@@ -82,7 +171,7 @@ public class Materials {
             .ore(1, SubItem.INGOT, IRON)
             .mass(40)
             .addFlags(GenerationFlags.NO_BLOCK)
-            .components(new ComponentStack(Components.IRON), new ComponentStack(Components.SULFUR, 2))
+            .component(Components.PYRITE)
             .textureSet(TextureSet.METAL)
             .buildAndRegister();
 

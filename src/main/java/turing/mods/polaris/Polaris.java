@@ -213,6 +213,13 @@ public class Polaris {
 
         if (func.apply(MaterialRegistry.IRON_EXISTING)) return true;
         if (func.apply(MaterialRegistry.GOLD_EXISTING)) return true;
+        if (func.apply(MaterialRegistry.DIAMOND_EXISTING)) return true;
+        if (func.apply(MaterialRegistry.EMERALD_EXISTING)) return true;
+        if (func.apply(MaterialRegistry.GLASS_EXISTING)) return true;
+        if (func.apply(MaterialRegistry.GLOWSTONE_EXISTING)) return true;
+        if (func.apply(MaterialRegistry.REDSTONE_EXISTING)) return true;
+        if (func.apply(MaterialRegistry.NETHERITE_EXISTING)) return true;
+        if (func.apply(MaterialRegistry.FLINT_EXISTING)) return true;
 
         return false;
     }
