@@ -10,6 +10,7 @@ import net.minecraft.world.gen.feature.template.BlockMatchRuleTest;
 import net.minecraft.world.gen.feature.template.RuleTest;
 import net.minecraftforge.common.world.BiomeGenerationSettingsBuilder;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
+import turing.mods.polaris.Config;
 import turing.mods.polaris.Polaris;
 import turing.mods.polaris.registry.FeatureRegistry;
 
@@ -43,6 +44,7 @@ public class OreGeneration {
     }
 
     public static void oreGeneration(BiomeLoadingEvent event) {
+        if (!Config.ORE_VEINS.get()) return;
         if (!Polaris.handledOreConfig) {
             OreVeins.register();
             VEINS.putAll(OreConfig.readVeins());

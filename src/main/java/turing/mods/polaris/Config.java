@@ -23,6 +23,7 @@ public class Config {
     public static Supplier<Integer> MACHINE_BASE_COLOR;
     public static ForgeConfigSpec.BooleanValue MACHINE_TIER_COLORS;
     public static ForgeConfigSpec.BooleanValue RUBBER_TREES;
+    public static ForgeConfigSpec.BooleanValue ORE_VEINS;
 
     static {
         ForgeConfigSpec.Builder COMMON_BUILDER = new ForgeConfigSpec.Builder();
@@ -52,6 +53,7 @@ public class Config {
         builder.pop();
         builder.comment("World Generation").push("world_gen");
             RUBBER_TREES = builder.comment("If true, rubber trees will generate in the world.", "default: true").define("rubber_trees", true);
+            ORE_VEINS = builder.comment("Catch-all option to enable/disable all ore veins.", "true: ore veins defined via json will be generated", "false: no ore veins will be generated at all", "default: true").define("ore_veins", true);
         builder.pop();
     }
 
