@@ -20,20 +20,17 @@ public class ConfigSerializer {
     public static final File CONFIG_DIR = new File("config");
     protected static final Gson GSON = new GsonBuilder().disableHtmlEscaping().setPrettyPrinting().create();
 
-    public static JsonObject serialize(ConfigBuilder.Config config) {
+    public static JsonObject serialize(Object config) {
         JsonObject json = new JsonObject();
 
         return json;
     }
 
-    public static void writeConfig(ConfigBuilder.Config config) {
-        JsonObject json = serialize(config);
-        File parentFolder = new File(config.type.getFolder(CONFIG_DIR.getPath() + "/" + config.parentFolder));
-
-        if (!initFolder(parentFolder)) throw new NullPointerException("Could not write config!");
+    public static void writeConfig(JsonObject json, String name, File folder) {
+        if (!initFolder(folder)) throw new NullPointerException("Could not write config!");
 
         String jsonString = GSON.toJson(json);
-        String fileName = parentFolder.getPath() + "/" + config.name + ".json";
+        String fileName = folder.getPath() + "/" + name;
         Path path = Paths.get(fileName);
 
         if (path.toFile().exists()) throw new IllegalStateException(String.format("Config %s already exists!", fileName));
