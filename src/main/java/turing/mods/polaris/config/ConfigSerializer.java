@@ -34,7 +34,7 @@ public class ConfigSerializer {
         JsonObject categoryJSON = new JsonObject();
 
         for (ConfigValue<?> value : category.getValues()) {
-            if (value instanceof IntegerConfigValue || value instanceof FloatConfigValue) categoryJSON.addProperty(value.name, (Number) value.get());
+            if (value instanceof IntegerConfigValue || value instanceof FloatConfigValue || value instanceof DoubleConfigValue || value instanceof LongConfigValue || value instanceof ShortConfigValue || value instanceof ByteConfigValue) categoryJSON.addProperty(value.name, (Number) value.get());
             else if (value instanceof BooleanConfigValue) categoryJSON.addProperty(value.name, (Boolean) value.get());
             else categoryJSON.addProperty(value.name, (String) value.get());
         }
@@ -64,6 +64,10 @@ public class ConfigSerializer {
         for (ConfigValue<?> value : category.getValues()) {
             if (value instanceof IntegerConfigValue) ((IntegerConfigValue) value).set(categoryJSON.get(value.name).getAsInt());
             else if (value instanceof FloatConfigValue) ((FloatConfigValue) value).set(categoryJSON.get(value.name).getAsFloat());
+            else if (value instanceof DoubleConfigValue) ((DoubleConfigValue) value).set(categoryJSON.get(value.name).getAsDouble());
+            else if (value instanceof LongConfigValue) ((LongConfigValue) value).set(categoryJSON.get(value.name).getAsLong());
+            else if (value instanceof ShortConfigValue) ((ShortConfigValue) value).set(categoryJSON.get(value.name).getAsShort());
+            else if (value instanceof ByteConfigValue) ((ByteConfigValue) value).set(categoryJSON.get(value.name).getAsByte());
             else if (value instanceof BooleanConfigValue) ((BooleanConfigValue) value).set(categoryJSON.get(value.name).getAsBoolean());
             else ((ConfigValue<String>) value).set(categoryJSON.get(value.name).getAsString());
         }

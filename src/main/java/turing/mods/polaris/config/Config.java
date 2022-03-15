@@ -108,6 +108,38 @@ public class Config {
             return value;
         }
 
+        public DoubleConfigValue define(String name, double defaultValue) {
+            checkCurrentEdit();
+            DoubleConfigValue value = new DoubleConfigValue(name, currentEdit);
+            currentEdit.addValue(value);
+            value.set(defaultValue);
+            return value;
+        }
+
+        public LongConfigValue define(String name, long defaultValue) {
+            checkCurrentEdit();
+            LongConfigValue value = new LongConfigValue(name, currentEdit);
+            currentEdit.addValue(value);
+            value.set(defaultValue);
+            return value;
+        }
+
+        public ShortConfigValue define(String name, short defaultValue) {
+            checkCurrentEdit();
+            ShortConfigValue value = new ShortConfigValue(name, currentEdit);
+            currentEdit.addValue(value);
+            value.set(defaultValue);
+            return value;
+        }
+
+        public ByteConfigValue define(String name, byte defaultValue) {
+            checkCurrentEdit();
+            ByteConfigValue value = new ByteConfigValue(name, currentEdit);
+            currentEdit.addValue(value);
+            value.set(defaultValue);
+            return value;
+        }
+
         public FloatConfigValue define(String name, float defaultValue) {
             checkCurrentEdit();
             FloatConfigValue value = new FloatConfigValue(name, currentEdit);
