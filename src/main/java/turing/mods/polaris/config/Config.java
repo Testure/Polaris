@@ -1,6 +1,7 @@
 package turing.mods.polaris.config;
 
 import mcp.MethodsReturnNonnullByDefault;
+import net.minecraft.item.Item;
 
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -145,6 +146,14 @@ public class Config {
             FloatConfigValue value = new FloatConfigValue(name, currentEdit);
             currentEdit.addValue(value);
             value.set(defaultValue);
+            return value;
+        }
+
+        public ItemConfigValue defineItem(String name, Item defaultValue) {
+            checkCurrentEdit();
+            ItemConfigValue value = new ItemConfigValue(name, currentEdit);
+            currentEdit.addValue(value);
+            value.set(value.serialize(defaultValue));
             return value;
         }
 
