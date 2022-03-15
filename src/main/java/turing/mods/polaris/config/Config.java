@@ -77,6 +77,14 @@ public class Config {
             return value;
         }
 
+        public <T, C extends SerializedConfigValue<T>> C defineCustomSerialized(String name, Class<C> configValueClass, @Nullable T defaultValue) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+            checkCurrentEdit();
+            C value = configValueClass.getConstructor(String.class, ConfigCategory.class).newInstance(name, currentEdit);
+            currentEdit.addValue(value);
+            value.set(value.serialize(defaultValue));
+            return value;
+        }
+
         public <T> ConfigValue<T> define(String name, @Nullable T defaultValue) {
             checkCurrentEdit();
             ConfigValue<T> value = new ConfigValue<>(name, currentEdit);
