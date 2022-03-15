@@ -32,6 +32,7 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import turing.mods.polaris.block.SubBlockItemGenerated;
+import turing.mods.polaris.config.Configuration;
 import turing.mods.polaris.item.BucketItemGenerated;
 import turing.mods.polaris.item.SubItemGenerated;
 import turing.mods.polaris.item.ToolItemGenerated;
@@ -59,8 +60,6 @@ import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.function.Function;
 
 @Mod(Polaris.MODID)
@@ -108,6 +107,7 @@ public class Polaris {
         Material.createFormulaTooltip((formula) -> WATER_FORMULA = formula, Components.WATER.getMadeOf());
         OreConfig.init();
         Config.register();
+        Configuration.register();
 
         Registration.register();
 
