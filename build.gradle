@@ -106,6 +106,12 @@ repositories {
         // location of the maven that hosts CT files
         url = "https://maven.blamejared.com"
     }
+    maven {
+        url "https://cursemaven.com"
+        content {
+            includeGroup "curse.maven"
+        }
+    }
 }
 
 sourceSets.main.resources { srcDir 'src/generated/resources' }
@@ -115,6 +121,7 @@ dependencies {
 
     implementation fg.deobf("com.github.GregTech-Intergalactical:TesseractAPI:${tesseract_version}")
     implementation fg.deobf("com.blamejared.crafttweaker:CraftTweaker-${ct_version}")
+    implementation fg.deobf("curse.maven:configurator-594414:${configurator_version}")
 
     compileOnly fg.deobf("mezz.jei:jei-${jei_version}:api")
     runtimeOnly fg.deobf("mezz.jei:jei-${jei_version}")
