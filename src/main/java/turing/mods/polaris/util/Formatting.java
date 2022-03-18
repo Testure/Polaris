@@ -35,7 +35,7 @@ public class Formatting {
     public static List<ITextComponent> stringsToTranslatedComponents(List<String> strings) {
         List<ITextComponent> list = new ArrayList<>();
 
-        strings.forEach(string -> list.add(new TranslationTextComponent(string)));;
+        strings.forEach(string -> list.add(new TranslationTextComponent(string)));
 
         return list;
     }
@@ -44,7 +44,6 @@ public class Formatting {
         List<ITextComponent> list = new ArrayList<>();
 
         map.forEach((key, values) -> list.add(new TranslationTextComponent(key, values)));
-        map.clear();
 
         return list;
     }
