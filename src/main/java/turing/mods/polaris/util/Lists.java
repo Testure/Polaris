@@ -3,6 +3,7 @@ package turing.mods.polaris.util;
 import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Tuple;
+import org.codehaus.plexus.util.FastMap;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.*;
@@ -11,15 +12,8 @@ import java.util.function.Function;
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
 public class Lists {
-    @SafeVarargs
-    public static <T> List<T> listOf(T... objects) {
-        List<T> list = new ArrayList<>();
-        Collections.addAll(list, objects);
-        return list;
-    }
-
     public static <S, T> List<T> mapInto(Function<S, T> map, List<S> list) {
-        List<T> newList = new ArrayList<>();
+        List<T> newList = new ArrayList<>(list.size());
         list.forEach(s -> newList.add(map.apply(s)));
         return newList;
     }
@@ -29,6 +23,22 @@ public class Lists {
         Object[] newArray = new Object[list.length];
         for (int i = 0; i < list.length; i++) newArray[i] = map.apply(list[i]);
         return (T[]) newArray;
+    }
+
+    public static <K, V, K2, V2> FastMap<K2, V2> mapInto(Function2<K, V, V2> mapper, Function2<K, V, K2> keyMapper, Map<K, V> map) {
+        FastMap<K2, V2> newMap = new FastMap<>(map.size());
+        map.forEach((k, v) -> newMap.put(keyMapper.apply(k, v), mapper.apply(k, v)));
+        return newMap;
+    }
+
+    /**
+     * mapInto but it uses {@link HashMap} instead of {@link FastMap}.
+     * this method will be slower than {@link Lists#mapInto(Function2, Function2, Map)}.
+     */
+    public static <K, V, K2, V2> Map<K2, V2> mapIntoSlow(Function2<K, V, V2> mapper, Function2<K, V, K2> keyMapper, Map<K, V> map) {
+        Map<K2, V2> newMap = new HashMap<>(map.size());
+        map.forEach((k, v) -> newMap.put(keyMapper.apply(k, v), mapper.apply(k, v)));
+        return newMap;
     }
 
     public static <T> T[] copyTo(T[] array, T[] array2, int start) {

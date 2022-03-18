@@ -5,10 +5,10 @@ import net.minecraft.item.Item;
 import net.minecraftforge.fml.RegistryObject;
 import turing.mods.polaris.item.CraftingItem;
 import turing.mods.polaris.item.ProgrammedCircuit;
-import turing.mods.polaris.util.Lists;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.function.Supplier;
 
@@ -23,10 +23,10 @@ public class ItemRegistry {
     public static final RegistryObject<Item> PROGRAMMED_CIRCUIT = addItem(register("programmed_circuit", ProgrammedCircuit::new));
 
     public static final RegistryObject<Item> WOOD_SUBSTRATE = addItem(Registration.ITEMS.register("wood_substrate", () ->
-            new CraftingItem("wood_substrate", Lists.listOf("tooltip.polaris.wood_substrate"), null, null, null)
+            new CraftingItem("wood_substrate", Collections.singletonList("tooltip.polaris.wood_substrate"), null, null, null)
     ));
     public static final RegistryObject<Item> WOOD_BOARD = addItem(Registration.ITEMS.register("wood_board", () ->
-            new CraftingItem("wood_board", Lists.listOf("tooltip.polaris.wood_board"), null, null, null)
+            new CraftingItem("wood_board", Collections.singletonList("tooltip.polaris.wood_board"), null, null, null)
     ));
 
     public static void register() {
