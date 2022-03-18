@@ -28,7 +28,6 @@ public class Formatting {
         List<ITextComponent> list = new ArrayList<>();
 
         strings.forEach(string -> list.add(new StringTextComponent(string)));
-        strings.removeIf(s -> true);
 
         return list;
     }
