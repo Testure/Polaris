@@ -25,6 +25,7 @@ import turing.mods.polaris.util.Lists;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Map;
+import java.util.function.Function;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
@@ -63,6 +64,7 @@ public class ModItemModelProvider extends ItemModelProvider {
             saw = provider.toolBuilder("saw", "item/material_sets/tools/handle_saw", "item/material_sets/tools/saw");
             screwdriver = provider.toolBuilder("screwdriver", "item/material_sets/tools/handle_screwdriver", "item/material_sets/tools/screwdriver");
             mortar = provider.toolBuilder("mortar", "item/material_sets/tools/mortar_base", "item/material_sets/tools/mortar");
+            Function<String, ItemModelBuilder> headBuilder = (name) -> provider.basicBuilder(provider.getExistingFile(provider.mcLoc("item/generated")), name + "_head", "item/material_sets/tools/" + name, null);
 
             toolModels = Lists.mapOf(
                     new Tuple<>(SubItem.CROWBAR, crowbar),
@@ -77,7 +79,16 @@ public class ModItemModelProvider extends ItemModelProvider {
                     new Tuple<>(SubItem.AXE, axe),
                     new Tuple<>(SubItem.SHOVEL, shovel),
                     new Tuple<>(SubItem.PICKAXE, pickaxe),
-                    new Tuple<>(SubItem.HOE, hoe)
+                    new Tuple<>(SubItem.HOE, hoe),
+                    new Tuple<>(SubItem.SWORD_HEAD, headBuilder.apply("sword")),
+                    new Tuple<>(SubItem.AXE_HEAD, headBuilder.apply("axe")),
+                    new Tuple<>(SubItem.PICKAXE_HEAD, headBuilder.apply("pickaxe")),
+                    new Tuple<>(SubItem.SHOVEL_HEAD, headBuilder.apply("shovel")),
+                    new Tuple<>(SubItem.HOE_HEAD, headBuilder.apply("hoe")),
+                    new Tuple<>(SubItem.FILE_HEAD, headBuilder.apply("file")),
+                    new Tuple<>(SubItem.SCREWDRIVER_HEAD, headBuilder.apply("screwdriver")),
+                    new Tuple<>(SubItem.HAMMER_HEAD, headBuilder.apply("hammer")),
+                    new Tuple<>(SubItem.SAW_HEAD, headBuilder.apply("saw"))
             );
         }
     }
@@ -140,7 +151,7 @@ public class ModItemModelProvider extends ItemModelProvider {
                 if (materialRegistryObject.get().existingItems == null || !materialRegistryObject.get().existingItems.containsValue(item.get())) {
                     String itemName = item.get().getRegistryName().getPath();
                     SubItem subItem = SubItem.valueOf(itemName.replaceFirst(materialRegistryObject.getName() + "_", "").toUpperCase());
-                    if (!subItem.isTool())
+                    if (!subItem.isTool() && !subItem.name().contains("_HEAD"))
                         builder(itemGenerated, itemName, subItem.name().toLowerCase(), materialRegistryObject.get().textureSet.name(), true);
                     else getBuilder(itemName).parent(models.toolModels.get(subItem));
                 }
