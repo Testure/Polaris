@@ -14,20 +14,30 @@ import java.util.function.Function;
 public class Lists {
     public static <S, T> List<T> mapInto(Function<S, T> map, List<S> list) {
         List<T> newList = new ArrayList<>(list.size());
-        list.forEach(s -> newList.add(map.apply(s)));
+        list.forEach(s -> {
+            T v = map.apply(s);
+            if (v != null) newList.add(v);
+        });
         return newList;
     }
 
     @SafeVarargs
     public static <S, T> T[] mapInto(Function<S, T> map, S... list) {
         Object[] newArray = new Object[list.length];
-        for (int i = 0; i < list.length; i++) newArray[i] = map.apply(list[i]);
+        for (int i = 0; i < list.length; i++) {
+            T v = map.apply(list[i]);
+            if (v != null) newArray[i] = v;
+        }
         return (T[]) newArray;
     }
 
     public static <K, V, K2, V2> FastMap<K2, V2> mapInto(Function2<K, V, V2> mapper, Function2<K, V, K2> keyMapper, Map<K, V> map) {
         FastMap<K2, V2> newMap = new FastMap<>(map.size());
-        map.forEach((k, v) -> newMap.put(keyMapper.apply(k, v), mapper.apply(k, v)));
+        map.forEach((k, v) -> {
+            K2 key = keyMapper.apply(k, v);
+            V2 value = mapper.apply(k, v);
+            if (key != null && value != null) newMap.put(key, value);
+        });
         return newMap;
     }
 
@@ -37,7 +47,11 @@ public class Lists {
      */
     public static <K, V, K2, V2> Map<K2, V2> mapIntoSlow(Function2<K, V, V2> mapper, Function2<K, V, K2> keyMapper, Map<K, V> map) {
         Map<K2, V2> newMap = new HashMap<>(map.size());
-        map.forEach((k, v) -> newMap.put(keyMapper.apply(k, v), mapper.apply(k, v)));
+        map.forEach((k, v) -> {
+            K2 key = keyMapper.apply(k, v);
+            V2 value = mapper.apply(k, v);
+            if (key != null && value != null) newMap.put(key, value);
+        });
         return newMap;
     }
 
