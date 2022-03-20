@@ -19,7 +19,7 @@ public class Materials {
             .component(Components.IRON)
             .addFlags(GenerationFlags.GENERATE_GEAR, GenerationFlags.GENERATE_SMALL_GEAR, GenerationFlags.GENERATE_SCREW, GenerationFlags.GENERATE_SPRING)
             .mass(90)
-            .toolStats(250, 1, 5.0F, 5.0F, 3.0F)
+            .toolStats(250, 1, 5.0F, 4.0F, 3.0F)
             .ore(1)
             .textureSet(TextureSet.METAL)
             .withExistingItems(IRON_EXISTING)
