@@ -4,13 +4,16 @@ import net.minecraft.advancements.criterion.InventoryChangeTrigger;
 import net.minecraft.advancements.criterion.ItemPredicate;
 import net.minecraft.data.IFinishedRecipe;
 import net.minecraft.data.ShapedRecipeBuilder;
+import net.minecraft.enchantment.EnchantmentData;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tags.ITag;
 import turing.mods.polaris.Polaris;
 import turing.mods.polaris.material.SubItem;
 import turing.mods.polaris.registry.MaterialRegistryObject;
 
 import javax.annotation.Nullable;
+import java.util.Arrays;
 import java.util.function.Consumer;
 
 import static turing.mods.polaris.material.SubItem.*;
@@ -84,6 +87,17 @@ public class ToolRecipes {
             RecipeUtil.sawRecipe(consumer, material);
             sawHeadRecipe(consumer, material);
         }
+    }
+
+    public static ItemStack getCraftedToolStack(MaterialRegistryObject material, SubItem tool) {
+        if (!material.hasSubItem(tool)) throw new NullPointerException(String.format("material does not have tool %s!", tool.name()));
+        if (material.get().getToolStats() == null || !tool.isTool()) return material.getItemFromSubItem(tool).getDefaultInstance();
+        ItemStack stack = new ItemStack(material.getItemFromSubItem(tool));
+        EnchantmentData[] enchantments = material.get().getToolStats().getDefaultEnchantments();
+
+        if (enchantments != null) Arrays.stream(enchantments).forEach(enchantment -> stack.addEnchantment(enchantment.enchantment, enchantment.enchantmentLevel));
+
+        return stack;
     }
 
     private static boolean canMakeHead(MaterialRegistryObject material) {

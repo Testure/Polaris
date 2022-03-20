@@ -1,6 +1,8 @@
 package turing.mods.polaris.material;
 
 import mcp.MethodsReturnNonnullByDefault;
+import net.minecraft.enchantment.EnchantmentData;
+import net.minecraft.enchantment.Enchantments;
 import turing.mods.polaris.registry.MaterialRegistryObject;
 
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -79,7 +81,7 @@ public class Materials {
             .addFlags(GenerationFlags.QUAD_COMPACTING, GenerationFlags.NO_ROD, GenerationFlags.ONLY_MORTAR)
             .textureSet(TextureSet.DULL_METAL_HARSH)
             .withExistingItems(FLINT_EXISTING)
-            .toolStats(30, 1, 2.0F, 2.0F, 3.0F)
+            .toolStats(30, 1, 2.0F, 2.0F, 3.0F, new EnchantmentData(Enchantments.FIRE_ASPECT, 2))
             .buildAndRegister();
 
     public static final MaterialRegistryObject NETHERITE = MaterialBuilder.builder("netherite")

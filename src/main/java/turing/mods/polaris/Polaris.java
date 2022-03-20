@@ -51,7 +51,6 @@ import turing.mods.polaris.registry.MaterialRegistryObject;
 import turing.mods.polaris.registry.Registration;
 import turing.mods.polaris.util.Formatting;
 import turing.mods.polaris.util.ThreadPool;
-import turing.mods.polaris.world.OreConfig;
 import turing.mods.polaris.world.OreGeneration;
 import turing.mods.polaris.world.TreeGen;
 

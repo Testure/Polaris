@@ -1,6 +1,7 @@
 package turing.mods.polaris.material;
 
 import mcp.MethodsReturnNonnullByDefault;
+import net.minecraft.enchantment.EnchantmentData;
 import net.minecraft.item.Item;
 import net.minecraft.util.Tuple;
 import turing.mods.polaris.Polaris;
@@ -258,13 +259,14 @@ public class MaterialBuilder {
         return this;
     }
 
-    public MaterialBuilder toolStats(int durability, int enchantability, float miningSpeed, float attackDamage, float attackSpeed) {
+    public MaterialBuilder toolStats(int durability, int enchantability, float miningSpeed, float attackDamage, float attackSpeed, EnchantmentData... enchantments) {
         this.toolStats = ToolStats.Builder.builder()
                 .durability(durability)
                 .enchantability(enchantability)
                 .miningSpeed(miningSpeed)
                 .attackDamage(attackDamage)
                 .attackSpeed(attackSpeed)
+                .withDefaultEnchantments(enchantments)
                 .build();
         this.addAllTools(Arrays.asList(
                 SubItem.SWORD,
