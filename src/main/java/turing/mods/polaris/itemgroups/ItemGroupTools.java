@@ -1,7 +1,6 @@
 package turing.mods.polaris.itemgroups;
 
 import mcp.MethodsReturnNonnullByDefault;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
@@ -24,8 +23,7 @@ public class ItemGroupTools extends ItemGroup {
         for (MaterialRegistryObject material : MaterialRegistry.getMaterials().values()) {
             for (SubItem subItem : SubItem.values()) {
                 if ((subItem.isTool() || subItem.isHead()) && material.hasSubItem(subItem)) {
-                    Item item = material.getItemFromSubItem(subItem);
-                    list.add(item.getDefaultInstance());
+                    list.add(material.getCraftedToolStack(subItem));
                 }
             }
         }
