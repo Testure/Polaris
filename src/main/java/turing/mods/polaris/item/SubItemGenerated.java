@@ -20,7 +20,7 @@ public class SubItemGenerated extends Item implements ITintedItem {
     protected final SubItem subItem;
 
     public SubItemGenerated(Supplier<Material> materialSupplier, SubItem subItem) {
-        super(new Properties().group(Polaris.MATERIALS));
+        super(new Properties().group(!subItem.isHead() ? Polaris.MATERIALS : Polaris.TOOLS));
         this.materialSupplier = materialSupplier;
         this.subItem = subItem;
     }

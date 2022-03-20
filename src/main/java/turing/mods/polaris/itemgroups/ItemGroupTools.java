@@ -23,7 +23,7 @@ public class ItemGroupTools extends ItemGroup {
     public void fill(NonNullList<ItemStack> list) {
         for (MaterialRegistryObject material : MaterialRegistry.getMaterials().values()) {
             for (SubItem subItem : SubItem.values()) {
-                if (subItem.isTool() && material.hasSubItem(subItem)) {
+                if ((subItem.isTool() || subItem.isHead()) && material.hasSubItem(subItem)) {
                     Item item = material.getItemFromSubItem(subItem);
                     list.add(item.getDefaultInstance());
                 }

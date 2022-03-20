@@ -99,6 +99,10 @@ public enum SubItem {
         }
     }
 
+    public boolean isHead() {
+        return name().contains("_HEAD");
+    }
+
     @Nullable
     public SubItem getHead() {
         if (!hasHead()) return null;
