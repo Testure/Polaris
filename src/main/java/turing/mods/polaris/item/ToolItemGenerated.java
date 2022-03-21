@@ -13,10 +13,7 @@ import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemUseContext;
-import net.minecraft.item.Items;
+import net.minecraft.item.*;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tags.ItemTags;
@@ -296,6 +293,11 @@ public class ToolItemGenerated extends Item implements IMaterialToolItem {
     public int getHarvestLevel() {
         Material material = getMaterial();
         return material.mass >= 25 && material.mass <= 75 ? 2 : (material.mass < 25 ? 1 : 3);
+    }
+
+    @Override
+    public boolean getIsRepairable(ItemStack toRepair, ItemStack repair) {
+        return this.getRepairMaterial().test(repair);
     }
 
     @Nonnull
