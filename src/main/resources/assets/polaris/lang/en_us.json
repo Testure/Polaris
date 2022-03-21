@@ -82,6 +82,7 @@
   "tool.polaris.crowbar": "%s Crowbar",
   "tool.polaris.file": "%s File",
   "tool.polaris.mortar": "%s Mortar",
+  "tool.polaris.wire_cutter": "%s Wire Cutters",
 
   "subItem.polaris.bucket": "Bucket of %s",
   "item.polaris.ingot": "%s Ingot",

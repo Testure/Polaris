@@ -89,6 +89,10 @@ public class ToolRecipes {
         }
     }
 
+    public static void wireCutterRecipe(Consumer<IFinishedRecipe> consumer, MaterialRegistryObject material) {
+        RecipeUtil.wireCutterRecipe(consumer, material);
+    }
+
     public static ItemStack getCraftedToolStack(MaterialRegistryObject material, SubItem tool) {
         if (!material.hasSubItem(tool)) throw new NullPointerException(String.format("material does not have tool %s!", tool.name()));
         if (material.get().getToolStats() == null || !tool.isTool()) return material.getItemFromSubItem(tool).getDefaultInstance();

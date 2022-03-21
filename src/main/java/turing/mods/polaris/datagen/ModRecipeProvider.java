@@ -116,6 +116,7 @@ public class ModRecipeProvider extends RecipeProvider {
                 if (material.hasSubItem(SubItem.CROWBAR)) RecipeUtil.crowbarRecipe(consumer, material);
                 ToolRecipes.screwdriverRecipe(consumer, material);
                 ToolRecipes.sawRecipe(consumer, material);
+                ToolRecipes.wireCutterRecipe(consumer, material);
                 ToolRecipes.swordRecipe(consumer, material);
                 ToolRecipes.pickaxeRecipe(consumer, material);
                 ToolRecipes.shovelRecipe(consumer, material);

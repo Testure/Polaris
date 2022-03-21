@@ -85,6 +85,7 @@ public class Polaris {
         public static final ToolType SAW = ToolType.get("saw");
         public static final ToolType MORTAR = ToolType.get("mortar");
         public static final ToolType FILE = ToolType.get("file");
+        public static final ToolType WIRE_CUTTER = ToolType.get("wire_cutter");
 
         @Nullable
         public static SoundEvent getSound(ToolType toolType) {

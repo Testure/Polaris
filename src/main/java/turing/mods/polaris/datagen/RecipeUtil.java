@@ -33,6 +33,7 @@ public class RecipeUtil {
     private static final ItemPredicate WRENCH_PREDICATE = ItemPredicate.Builder.create().tag(PolarisTags.Items.CRAFTING_TOOLS_WRENCH).build();
     private static final ItemPredicate SAW_PREDICATE = ItemPredicate.Builder.create().tag(PolarisTags.Items.CRAFTING_TOOLS_SAW).build();
     private static final ItemPredicate MORTAR_PREDICATE = ItemPredicate.Builder.create().tag(PolarisTags.Items.CRAFTING_TOOLS_MORTAR).build();
+    private static final ItemPredicate SCREWDRIVER_PREDICATE = ItemPredicate.Builder.create().tag(PolarisTags.Items.CRAFTING_TOOLS_SCREWDRIVER).build();
 
     public static void magneticBlast(Consumer<IFinishedRecipe> consumer, MaterialRegistryObject material, SubItem subItem, String name) {
         if (material.get().getMagneticOf() == null || !material.get().getMagneticOf().hasSubItem(subItem)) return;
@@ -42,6 +43,24 @@ public class RecipeUtil {
         CookingRecipeBuilder.blastingRecipe(Ingredient.fromTag(PolarisTags.Items.forge(subItem.name().toLowerCase() + "s/" + material.getName())), normalItem, 0.0F, 200)
                 .addCriterion("obtain", InventoryChangeTrigger.Instance.forItems(magneticItem))
                 .build(consumer, Polaris.modLoc(name + "_undo"));
+    }
+
+    public static void wireCutterRecipe(Consumer<IFinishedRecipe> consumer, MaterialRegistryObject material) {
+        if (!material.hasSubItem(SubItem.WIRE_CUTTER) || !material.hasSubItem(SubItem.ROD) || !material.hasSubItem(SubItem.SCREW) || !material.hasSubItem(SubItem.PLATE)) return;
+        ItemStack wireCutter = ToolRecipes.getCraftedToolStack(material, SubItem.WIRE_CUTTER);
+
+        ShapedRecipeItemStackBuilder.shapedRecipe(wireCutter)
+                .patternLine("pfp")
+                .patternLine("hpS")
+                .patternLine("rsr")
+                .key('h', PolarisTags.Items.CRAFTING_TOOLS_HAMMER)
+                .key('f', PolarisTags.Items.CRAFTING_TOOLS_FILE)
+                .key('S', PolarisTags.Items.CRAFTING_TOOLS_SCREWDRIVER)
+                .key('p', PolarisTags.Items.forge("plates/" + material.getName()))
+                .key('s', PolarisTags.Items.forge("screws/" + material.getName()))
+                .key('r', PolarisTags.Items.forge("rods/" + material.getName()))
+                .addCriterion("tools", InventoryChangeTrigger.Instance.forItems(HAMMER_PREDICATE, FILE_PREDICATE, SCREWDRIVER_PREDICATE))
+                .build(consumer, Polaris.modLoc(material.getName() + "_wire_cutter"));
     }
 
     public static void hammerRecipe(Consumer<IFinishedRecipe> consumer, MaterialRegistryObject material) {

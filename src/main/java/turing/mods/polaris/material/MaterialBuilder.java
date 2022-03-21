@@ -84,7 +84,8 @@ public class MaterialBuilder {
                         SubItem.WRENCH,
                         SubItem.SCREWDRIVER,
                         SubItem.CROWBAR,
-                        SubItem.SAW
+                        SubItem.SAW,
+                        SubItem.WIRE_CUTTER
                 ));
                 if (!this.subItems.contains(SubItem.SOFT_HAMMER)) this.addTool(SubItem.SOFT_HAMMER);
                 break;
@@ -131,6 +132,9 @@ public class MaterialBuilder {
             case NO_SAW:
                 this.removeTool(SubItem.SAW);
                 break;
+            case NO_WIRE_CUTTER:
+                this.removeTool(SubItem.WIRE_CUTTER);
+                break;
             case ONLY_MORTAR:
                 this.removeAllTools(Arrays.asList(
                         SubItem.SOFT_HAMMER,
@@ -139,7 +143,8 @@ public class MaterialBuilder {
                         SubItem.WRENCH,
                         SubItem.SCREWDRIVER,
                         SubItem.CROWBAR,
-                        SubItem.SAW
+                        SubItem.SAW,
+                        SubItem.WIRE_CUTTER
                 ));
                 if (!this.subItems.contains(SubItem.MORTAR)) this.addTool(SubItem.MORTAR);
                 break;
@@ -280,7 +285,7 @@ public class MaterialBuilder {
                 SubItem.SCREWDRIVER,
                 SubItem.FILE
         ));
-        if (Objects.equals(this.type, "ingot")) this.addAllTools(Arrays.asList(SubItem.WRENCH, SubItem.CROWBAR));
+        if (Objects.equals(this.type, "ingot")) this.addAllTools(Arrays.asList(SubItem.WRENCH, SubItem.CROWBAR, SubItem.WIRE_CUTTER));
         return this;
     }
 

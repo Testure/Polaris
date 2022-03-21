@@ -54,6 +54,7 @@ public enum SubItem {
     SAW(false, true, true),
     FILE(false, true, true),
     SCREWDRIVER(false, true, true),
+    WIRE_CUTTER(true, false, true),
     SWORD_HEAD,
     AXE_HEAD,
     PICKAXE_HEAD,

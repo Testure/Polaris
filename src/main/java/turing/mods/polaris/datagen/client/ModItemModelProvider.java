@@ -48,6 +48,7 @@ public class ModItemModelProvider extends ItemModelProvider {
         public final ItemModelBuilder screwdriver;
         public final ItemModelBuilder mortar;
         public final ItemModelBuilder saw;
+        public final ItemModelBuilder wire_cutter;
         public final Map<SubItem, ItemModelBuilder> toolModels;
 
         public SingletonModels(ModItemModelProvider provider) {
@@ -64,6 +65,7 @@ public class ModItemModelProvider extends ItemModelProvider {
             saw = provider.toolBuilder("saw", "item/material_sets/tools/handle_saw", "item/material_sets/tools/saw");
             screwdriver = provider.toolBuilder("screwdriver", "item/material_sets/tools/handle_screwdriver", "item/material_sets/tools/screwdriver");
             mortar = provider.toolBuilder("mortar", "item/material_sets/tools/mortar_base", "item/material_sets/tools/mortar");
+            wire_cutter = provider.toolBuilder("wire_cutter", "item/material_sets/tools/wire_cutter", "item/material_sets/tools/handle_wire_cutter");
             Function<String, ItemModelBuilder> headBuilder = (name) -> provider.basicBuilder(provider.getExistingFile(provider.mcLoc("item/generated")), name + "_head", "item/material_sets/tools/" + name, null);
 
             toolModels = Lists.mapOf(
@@ -80,6 +82,7 @@ public class ModItemModelProvider extends ItemModelProvider {
                     new Tuple<>(SubItem.SHOVEL, shovel),
                     new Tuple<>(SubItem.PICKAXE, pickaxe),
                     new Tuple<>(SubItem.HOE, hoe),
+                    new Tuple<>(SubItem.WIRE_CUTTER, wire_cutter),
                     new Tuple<>(SubItem.SWORD_HEAD, headBuilder.apply("sword")),
                     new Tuple<>(SubItem.AXE_HEAD, headBuilder.apply("axe")),
                     new Tuple<>(SubItem.PICKAXE_HEAD, headBuilder.apply("pickaxe")),

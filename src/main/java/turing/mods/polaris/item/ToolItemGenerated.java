@@ -201,6 +201,9 @@ public class ToolItemGenerated extends Item implements IMaterialToolItem {
                 return blockMaterial != WOOD && blockMaterial != NETHER_WOOD ? super.getDestroySpeed(stack, state) : getEfficiency();
             case "wrench":
                 return blockMaterial != IRON && blockMaterial != ANVIL && blockMaterial != PISTON ? super.getDestroySpeed(stack, state) : getEfficiency();
+            case "wire_cutter":
+                //TODO: change wool to wire
+                return blockMaterial != WEB && blockMaterial != WOOL ? super.getDestroySpeed(stack, state) : getEfficiency();
             case "pickaxe":
                 return blockMaterial != IRON && blockMaterial != ANVIL && blockMaterial != ROCK && blockMaterial != ICE ? super.getDestroySpeed(stack, state) : getEfficiency();
             case "sword":
@@ -285,7 +288,7 @@ public class ToolItemGenerated extends Item implements IMaterialToolItem {
         float damage = material.getToolStats().getAttackDamage();
         if (toolType == ToolType.get("sword") || toolType == Polaris.ToolTypes.CROWBAR || toolType == Polaris.ToolTypes.SAW) damage++;
         if (toolType == ToolType.AXE || toolType == Polaris.ToolTypes.HAMMER) damage += 3.0F;
-        if (toolType == Polaris.ToolTypes.SOFT_HAMMER || toolType == Polaris.ToolTypes.MORTAR || toolType == ToolType.HOE) damage--;
+        if (toolType == Polaris.ToolTypes.SOFT_HAMMER || toolType == Polaris.ToolTypes.MORTAR || toolType == ToolType.HOE || toolType == Polaris.ToolTypes.WIRE_CUTTER) damage--;
         return damage;
     }
 
