@@ -83,7 +83,7 @@ public class ModItemModelProvider extends ItemModelProvider {
                     new Tuple<>(SubItem.PICKAXE, pickaxe),
                     new Tuple<>(SubItem.HOE, hoe),
                     new Tuple<>(SubItem.WIRE_CUTTER, wire_cutter),
-                    new Tuple<>(SubItem.SWORD_HEAD, headBuilder.apply("sword")),
+                    new Tuple<>(SubItem.SWORD_HEAD, provider.basicBuilder(provider.getExistingFile(provider.mcLoc("item/generated")), "sword_head", "item/material_sets/tools/sword_head", null)),
                     new Tuple<>(SubItem.AXE_HEAD, headBuilder.apply("axe")),
                     new Tuple<>(SubItem.PICKAXE_HEAD, headBuilder.apply("pickaxe")),
                     new Tuple<>(SubItem.SHOVEL_HEAD, headBuilder.apply("shovel")),
