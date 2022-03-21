@@ -42,6 +42,7 @@ public class Registration {
 
         MaterialRegistry.register(bus);
         MachineRegistry.register(bus);
+        SoundRegistry.register();
         ItemRegistry.register();
         FluidRegistry.register(bus);
         BlockRegistry.register();

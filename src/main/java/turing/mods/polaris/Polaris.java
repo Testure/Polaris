@@ -10,6 +10,8 @@ import net.minecraft.item.Items;
 import net.minecraft.profiler.IProfiler;
 import net.minecraft.resources.IResourceManager;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundEvent;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.util.Tuple;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
@@ -45,10 +47,7 @@ import turing.mods.polaris.material.SubItem;
 import turing.mods.polaris.network.NetHandler;
 import turing.mods.polaris.recipe.DefaultRecipes;
 import turing.mods.polaris.recipe.IPromisedTag;
-import turing.mods.polaris.registry.FluidRegistry;
-import turing.mods.polaris.registry.MaterialRegistry;
-import turing.mods.polaris.registry.MaterialRegistryObject;
-import turing.mods.polaris.registry.Registration;
+import turing.mods.polaris.registry.*;
 import turing.mods.polaris.util.Formatting;
 import turing.mods.polaris.util.ThreadPool;
 import turing.mods.polaris.world.OreGeneration;
@@ -86,6 +85,19 @@ public class Polaris {
         public static final ToolType SAW = ToolType.get("saw");
         public static final ToolType MORTAR = ToolType.get("mortar");
         public static final ToolType FILE = ToolType.get("file");
+
+        @Nullable
+        public static SoundEvent getSound(ToolType toolType) {
+            switch (toolType.getName()) {
+                case "hammer": return SoundEvents.BLOCK_ANVIL_PLACE;
+                case "crowbar": return SoundEvents.BLOCK_IRON_DOOR_CLOSE;
+                case "soft_hammer": return SoundRegistry.SOFT_HAMMER.get();
+                case "wrench": return SoundRegistry.WRENCH.get();
+                case "screwdriver": return SoundRegistry.SCREWDRIVER.get();
+                case "wire_cutter": return SoundRegistry.WIRE_CUTTER.get();
+                default: return null;
+            }
+        }
     }
 
     private static ITextComponent WATER_FORMULA = StringTextComponent.EMPTY;

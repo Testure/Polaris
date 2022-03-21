@@ -3,6 +3,7 @@ package turing.mods.polaris.item;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import mcp.MethodsReturnNonnullByDefault;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.util.ITooltipFlag;
@@ -21,12 +22,16 @@ import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResultType;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ToolType;
 import turing.mods.polaris.Polaris;
+import turing.mods.polaris.block.CasingBlock;
+import turing.mods.polaris.block.HullBlock;
 import turing.mods.polaris.block.MachineBlock;
 import turing.mods.polaris.material.Material;
 import turing.mods.polaris.material.SubItem;
@@ -36,10 +41,7 @@ import turing.mods.polaris.util.Formatting;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Supplier;
 
 import static net.minecraft.block.material.Material.*;
@@ -134,14 +136,20 @@ public class ToolItemGenerated extends Item implements IMaterialToolItem {
 
     @Override
     public ActionResultType onItemUseFirst(ItemStack stack, ItemUseContext context) {
-        if (context.getWorld().isRemote) return ActionResultType.PASS;
+        SoundEvent sound = Polaris.ToolTypes.getSound(toolType);
         if (toolType == Polaris.ToolTypes.SOFT_HAMMER) {
             ActionResultType resultType = softHammerUse(stack, context);
-            if (resultType != ActionResultType.PASS) return resultType;
+            if (resultType != ActionResultType.PASS) {
+                if (!context.getWorld().isRemote) return resultType;
+                else if (sound != null) context.getWorld().playSound(context.getPlayer(), context.getPos(), sound, SoundCategory.PLAYERS, 1.0F, 1.0F);
+            }
         }
         if (toolType == Polaris.ToolTypes.WRENCH) {
             ActionResultType resultType = wrenchUse(stack, context);
-            if (resultType != ActionResultType.PASS) return resultType;
+            if (resultType != ActionResultType.PASS) {
+                if (!context.getWorld().isRemote) return resultType;
+                else if (sound != null) context.getWorld().playSound(context.getPlayer(), context.getPos(), sound, SoundCategory.PLAYERS, 1.0F, 1.0F);
+            }
         }
         return super.onItemUseFirst(stack, context);
     }
@@ -216,6 +224,10 @@ public class ToolItemGenerated extends Item implements IMaterialToolItem {
     public boolean onBlockDestroyed(ItemStack stack, World world, BlockState state, BlockPos pos, LivingEntity entity) {
         if (getDestroySpeed(stack, state) != getEfficiency()) stack.damageItem(2, entity, (a) -> a.sendBreakAnimation(EquipmentSlotType.MAINHAND));
         else stack.damageItem(1, entity, (a) -> a.sendBreakAnimation(EquipmentSlotType.MAINHAND));
+        if (toolType == Polaris.ToolTypes.WRENCH) {
+            Block block = state.getBlock();
+            if (block instanceof MachineBlock || block instanceof CasingBlock || block instanceof HullBlock) world.playSound(null, pos, Objects.requireNonNull(Polaris.ToolTypes.getSound(toolType)), SoundCategory.PLAYERS, 1.0F, 1.0F);
+        }
         return true;
     }
 
