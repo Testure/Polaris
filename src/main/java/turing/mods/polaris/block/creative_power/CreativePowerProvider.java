@@ -16,9 +16,7 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.state.StateContainer;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Direction;
-import net.minecraft.util.Hand;
+import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.text.ITextComponent;
@@ -40,6 +38,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.List;
+import java.util.Objects;
 
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
@@ -96,17 +95,21 @@ public class CreativePowerProvider extends Block implements ITintedBlock, IRende
 
     @Override
     public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult rayTraceResult) {
-        if (world.isRemote) return ActionResultType.FAIL;
         ItemStack stack = player.getHeldItem(hand);
         TileEntity te = world.getTileEntity(pos);
         if (!stack.isEmpty() && (stack.getToolTypes().contains(Polaris.ToolTypes.HAMMER) || stack.getToolTypes().contains(Polaris.ToolTypes.SOFT_HAMMER))) {
             if (te instanceof CreativePowerProviderTile) {
                 CreativePowerProviderTile tile = (CreativePowerProviderTile) te;
-                if (stack.getToolTypes().contains(Polaris.ToolTypes.SOFT_HAMMER)) tile.adjustVoltage();
-                else tile.adjustAmps();
-                stack.damageItem(1, player, (a) -> a.sendBreakAnimation(EquipmentSlotType.MAINHAND));
+                if (stack.getToolTypes().contains(Polaris.ToolTypes.SOFT_HAMMER)) {
+                    if (!world.isRemote) tile.adjustVoltage();
+                    else world.playSound(player, pos, Objects.requireNonNull(Polaris.ToolTypes.getSound(Polaris.ToolTypes.SOFT_HAMMER)), SoundCategory.PLAYERS, 1.0F, 1.0F);
+                } else {
+                    if (!world.isRemote) tile.adjustAmps();
+                    else world.playSound(player, pos, Objects.requireNonNull(Polaris.ToolTypes.getSound(Polaris.ToolTypes.HAMMER)), SoundCategory.PLAYERS, 0.5F, 1.0F);
+                }
+                if (!world.isRemote) stack.damageItem(1, player, (a) -> a.sendBreakAnimation(EquipmentSlotType.MAINHAND));
             }
-            return ActionResultType.SUCCESS;
+            if (!world.isRemote) return ActionResultType.SUCCESS;
         }
         return ActionResultType.FAIL;
     }

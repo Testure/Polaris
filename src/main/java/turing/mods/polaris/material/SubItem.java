@@ -54,6 +54,16 @@ public enum SubItem {
     SAW(false, true, true),
     FILE(false, true, true),
     SCREWDRIVER(false, true, true),
+    WIRE_CUTTER(true, false, true),
+    SWORD_HEAD,
+    AXE_HEAD,
+    PICKAXE_HEAD,
+    SHOVEL_HEAD,
+    HOE_HEAD,
+    HAMMER_HEAD,
+    SAW_HEAD,
+    FILE_HEAD,
+    SCREWDRIVER_HEAD,
     GEM;
 
     private final boolean layer0Color;
@@ -78,6 +88,26 @@ public enum SubItem {
 
     SubItem() {
         this(true, false, false, false);
+    }
+
+    public boolean hasHead() {
+        if (!isTool()) return false;
+        try {
+            valueOf(name() + "_HEAD");
+            return true;
+        } catch (IllegalArgumentException e) {
+            return false;
+        }
+    }
+
+    public boolean isHead() {
+        return name().contains("_HEAD");
+    }
+
+    @Nullable
+    public SubItem getHead() {
+        if (!hasHead()) return null;
+        return valueOf(name() + "_HEAD");
     }
 
     public boolean isLayer0Color() {

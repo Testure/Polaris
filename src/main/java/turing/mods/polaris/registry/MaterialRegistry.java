@@ -19,43 +19,23 @@ public class MaterialRegistry {
     public static final Tuple<SubItem, Item>[] IRON_EXISTING = new Tuple[]{
             new Tuple<>(SubItem.INGOT, Items.IRON_INGOT),
             new Tuple<>(SubItem.BLOCK, Items.IRON_BLOCK),
-            new Tuple<>(SubItem.AXE, Items.IRON_AXE),
-            new Tuple<>(SubItem.NUGGET, Items.IRON_NUGGET),
-            new Tuple<>(SubItem.HOE, Items.IRON_HOE),
-            new Tuple<>(SubItem.PICKAXE, Items.IRON_PICKAXE),
-            new Tuple<>(SubItem.SHOVEL, Items.IRON_SHOVEL),
-            new Tuple<>(SubItem.SWORD, Items.IRON_SWORD)
+            new Tuple<>(SubItem.NUGGET, Items.IRON_NUGGET)
     };
 
     public static final Tuple<SubItem, Item>[] GOLD_EXISTING = new Tuple[]{
             new Tuple<>(SubItem.INGOT, Items.GOLD_INGOT),
             new Tuple<>(SubItem.BLOCK, Items.GOLD_BLOCK),
-            new Tuple<>(SubItem.AXE, Items.GOLDEN_AXE),
-            new Tuple<>(SubItem.NUGGET, Items.GOLD_NUGGET),
-            new Tuple<>(SubItem.HOE, Items.GOLDEN_HOE),
-            new Tuple<>(SubItem.PICKAXE, Items.GOLDEN_PICKAXE),
-            new Tuple<>(SubItem.SHOVEL, Items.GOLDEN_SHOVEL),
-            new Tuple<>(SubItem.SWORD, Items.GOLDEN_SWORD)
+            new Tuple<>(SubItem.NUGGET, Items.GOLD_NUGGET)
     };
 
     public static final Tuple<SubItem, Item>[] DIAMOND_EXISTING = new Tuple[]{
             new Tuple<>(SubItem.GEM, Items.DIAMOND),
-            new Tuple<>(SubItem.BLOCK, Items.DIAMOND_BLOCK),
-            new Tuple<>(SubItem.AXE, Items.DIAMOND_AXE),
-            new Tuple<>(SubItem.HOE, Items.DIAMOND_HOE),
-            new Tuple<>(SubItem.PICKAXE, Items.DIAMOND_PICKAXE),
-            new Tuple<>(SubItem.SHOVEL, Items.DIAMOND_SHOVEL),
-            new Tuple<>(SubItem.SWORD, Items.DIAMOND_SWORD)
+            new Tuple<>(SubItem.BLOCK, Items.DIAMOND_BLOCK)
     };
 
     public static final Tuple<SubItem, Item>[] NETHERITE_EXISTING = new Tuple[]{
             new Tuple<>(SubItem.INGOT, Items.NETHERITE_INGOT),
-            new Tuple<>(SubItem.BLOCK, Blocks.NETHERITE_BLOCK.asItem()),
-            new Tuple<>(SubItem.AXE, Items.NETHERITE_AXE),
-            new Tuple<>(SubItem.HOE, Items.NETHERITE_HOE),
-            new Tuple<>(SubItem.PICKAXE, Items.NETHERITE_PICKAXE),
-            new Tuple<>(SubItem.SHOVEL, Items.NETHERITE_SHOVEL),
-            new Tuple<>(SubItem.SWORD, Items.NETHERITE_SWORD)
+            new Tuple<>(SubItem.BLOCK, Blocks.NETHERITE_BLOCK.asItem())
     };
 
     public static final Tuple<SubItem, Item>[] EMERALD_EXISTING = new Tuple[]{

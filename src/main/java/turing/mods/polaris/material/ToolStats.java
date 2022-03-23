@@ -1,7 +1,9 @@
 package turing.mods.polaris.material;
 
 import mcp.MethodsReturnNonnullByDefault;
+import net.minecraft.enchantment.EnchantmentData;
 
+import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 @MethodsReturnNonnullByDefault
@@ -12,13 +14,19 @@ public class ToolStats {
     protected float miningSpeed;
     protected float attackDamage;
     protected float attackSpeed;
+    protected EnchantmentData[] enchantments;
 
-    protected ToolStats(int durability, int enchantability, float miningSpeed, float attackDamage, float attackSpeed) {
+    protected ToolStats(int durability, int enchantability, float miningSpeed, float attackDamage, float attackSpeed, EnchantmentData[] enchantments) {
         this.durability = durability;
         this.enchantability = enchantability;
         this.miningSpeed = miningSpeed;
         this.attackDamage = attackDamage;
         this.attackSpeed = attackSpeed;
+        this.enchantments = enchantments;
+    }
+
+    protected ToolStats(int durability, int enchantability, float miningSpeed, float attackDamage, float attackSpeed) {
+        this(durability, enchantability, miningSpeed, attackDamage, attackSpeed, null);
     }
 
     public int getDurability() {
@@ -41,12 +49,18 @@ public class ToolStats {
         return attackSpeed;
     }
 
+    @Nullable
+    public EnchantmentData[] getDefaultEnchantments() {
+        return enchantments;
+    }
+
     public static class Builder {
         private int durability = 100;
         private int enchantability = 1;
         private float miningSpeed = 1.0F;
         private float attackDamage = 1.0F;
         private float attackSpeed = -2.0F;
+        private EnchantmentData[] enchantments;
 
         protected Builder() {
 
@@ -81,8 +95,13 @@ public class ToolStats {
             return this;
         }
 
+        public Builder withDefaultEnchantments(EnchantmentData... enchantments) {
+            this.enchantments = enchantments;
+            return this;
+        }
+
         public ToolStats build() {
-            return new ToolStats(this.durability, this.enchantability, this.miningSpeed, this.attackDamage, this.attackSpeed);
+            return new ToolStats(this.durability, this.enchantability, this.miningSpeed, this.attackDamage, this.attackSpeed, this.enchantments);
         }
     }
 }

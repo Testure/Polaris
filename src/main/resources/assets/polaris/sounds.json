@@ -1,0 +1,34 @@
+{
+  "tool.soft_hammer.sound": {
+    "subtitle": "tool.soft_hammer.sound",
+    "sounds": [
+      {
+        "name": "polaris:tool/soft_hammer"
+      }
+    ]
+  },
+  "tool.wrench.sound": {
+    "subtitle": "tool.wrench.sound",
+    "sounds": [
+      {
+        "name": "polaris:tool/wrench"
+      }
+    ]
+  },
+  "tool.screwdriver.sound": {
+    "subtitle": "tool.screwdriver.sound",
+    "sounds": [
+      {
+        "name": "polaris:tool/screwdriver"
+      }
+    ]
+  },
+  "tool.wire_cutter.sound": {
+    "subtitle": "tool.wire_cutter.sound",
+    "sounds": [
+      {
+        "name": "polaris:tool/wire_cutter"
+      }
+    ]
+  }
+}

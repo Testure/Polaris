@@ -6,7 +6,9 @@ import net.minecraft.block.Blocks;
 import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.client.renderer.color.BlockColors;
 import net.minecraft.client.renderer.color.ItemColors;
+import net.minecraft.enchantment.EnchantmentData;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.RegistryObject;
@@ -117,6 +119,17 @@ public class MaterialRegistryObject {
         if (get().existingItems != null)
             for (Item existingItem : get().existingItems.values()) if (Objects.requireNonNull(existingItem.getRegistryName()).getPath().equals(Objects.requireNonNull(item.getRegistryName()).getPath())) return true;
         return false;
+    }
+
+    public ItemStack getCraftedToolStack(SubItem tool) {
+        if (!this.hasSubItem(tool)) throw new NullPointerException(String.format("material does not have tool %s!", tool.name()));
+        if (this.get().getToolStats() == null || !tool.isTool()) return this.getItemFromSubItem(tool).getDefaultInstance();
+        ItemStack stack = new ItemStack(this.getItemFromSubItem(tool));
+        EnchantmentData[] enchantments = this.get().getToolStats().getDefaultEnchantments();
+
+        if (enchantments != null) Arrays.stream(enchantments).forEach(enchantment -> stack.addEnchantment(enchantment.enchantment, enchantment.enchantmentLevel));
+
+        return stack;
     }
 
     public Material get() {

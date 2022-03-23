@@ -1,10 +1,13 @@
 package turing.mods.polaris.material;
 
 import mcp.MethodsReturnNonnullByDefault;
+import net.minecraft.enchantment.EnchantmentData;
 import net.minecraft.item.Item;
 import net.minecraft.util.Tuple;
+import turing.mods.polaris.Polaris;
 import turing.mods.polaris.registry.MaterialRegistry;
 import turing.mods.polaris.registry.MaterialRegistryObject;
+import turing.mods.polaris.util.Lists;
 
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -74,28 +77,33 @@ public class MaterialBuilder {
                 this.subItems.remove(SubItem.NUGGET);
                 break;
             case IS_SOFT:
-                this.subItems.remove(SubItem.MORTAR);
-                this.subItems.remove(SubItem.SAW);
-                this.subItems.remove(SubItem.SCREWDRIVER);
-                this.subItems.remove(SubItem.FILE);
-                this.subItems.remove(SubItem.HAMMER);
-                this.subItems.remove(SubItem.WRENCH);
-                this.subItems.remove(SubItem.CROWBAR);
-                if (!this.subItems.contains(SubItem.SOFT_HAMMER)) this.subItems.add(SubItem.SOFT_HAMMER);
+                this.removeAllTools(Arrays.asList(
+                        SubItem.MORTAR,
+                        SubItem.HAMMER,
+                        SubItem.FILE,
+                        SubItem.WRENCH,
+                        SubItem.SCREWDRIVER,
+                        SubItem.CROWBAR,
+                        SubItem.SAW,
+                        SubItem.WIRE_CUTTER
+                ));
+                if (!this.subItems.contains(SubItem.SOFT_HAMMER)) this.addTool(SubItem.SOFT_HAMMER);
                 break;
             case NO_MORTAR:
-                this.subItems.remove(SubItem.MORTAR);
+                this.removeTool(SubItem.MORTAR);
                 break;
             case NO_HAMMER:
-                this.subItems.remove(SubItem.HAMMER);
-                this.subItems.remove(SubItem.SOFT_HAMMER);
+                this.removeTool(SubItem.HAMMER);
+                this.removeTool(SubItem.SOFT_HAMMER);
                 break;
             case NO_VANILLA_TOOLS:
-                this.subItems.remove(SubItem.SWORD);
-                this.subItems.remove(SubItem.AXE);
-                this.subItems.remove(SubItem.PICKAXE);
-                this.subItems.remove(SubItem.HOE);
-                this.subItems.remove(SubItem.SHOVEL);
+                this.removeAllTools(Arrays.asList(
+                        SubItem.SWORD,
+                        SubItem.AXE,
+                        SubItem.PICKAXE,
+                        SubItem.SHOVEL,
+                        SubItem.HOE
+                ));
                 break;
             case NO_BLOCK:
                 this.subItems.remove(SubItem.BLOCK);
@@ -110,33 +118,59 @@ public class MaterialBuilder {
                 this.subItems.remove(SubItem.ROD);
                 break;
             case NO_CROWBAR:
-                this.subItems.remove(SubItem.CROWBAR);
+                this.removeTool(SubItem.CROWBAR);
                 break;
             case NO_WRENCH:
-                this.subItems.remove(SubItem.WRENCH);
+                this.removeTool(SubItem.WRENCH);
                 break;
             case NO_FILE:
-                this.subItems.remove(SubItem.FILE);
+                this.removeTool(SubItem.FILE);
                 break;
             case NO_SCREWDRIVER:
-                this.subItems.remove(SubItem.SCREWDRIVER);
+                this.removeTool(SubItem.SCREWDRIVER);
                 break;
             case NO_SAW:
-                this.subItems.remove(SubItem.SAW);
+                this.removeTool(SubItem.SAW);
+                break;
+            case NO_WIRE_CUTTER:
+                this.removeTool(SubItem.WIRE_CUTTER);
                 break;
             case ONLY_MORTAR:
-                this.subItems.remove(SubItem.SOFT_HAMMER);
-                this.subItems.remove(SubItem.HAMMER);
-                this.subItems.remove(SubItem.FILE);
-                this.subItems.remove(SubItem.WRENCH);
-                this.subItems.remove(SubItem.SCREWDRIVER);
-                this.subItems.remove(SubItem.CROWBAR);
-                this.subItems.remove(SubItem.SAW);
-                if (!this.subItems.contains(SubItem.MORTAR)) this.subItems.add(SubItem.MORTAR);
+                this.removeAllTools(Arrays.asList(
+                        SubItem.SOFT_HAMMER,
+                        SubItem.HAMMER,
+                        SubItem.FILE,
+                        SubItem.WRENCH,
+                        SubItem.SCREWDRIVER,
+                        SubItem.CROWBAR,
+                        SubItem.SAW,
+                        SubItem.WIRE_CUTTER
+                ));
+                if (!this.subItems.contains(SubItem.MORTAR)) this.addTool(SubItem.MORTAR);
                 break;
             default:
                 break;
         }
+    }
+
+    protected void addTool(SubItem tool) {
+        this.subItems.add(tool);
+        if (tool.hasHead()) this.subItems.add(tool.getHead());
+    }
+
+    protected void addAllTools(List<SubItem> tools) {
+        this.subItems.addAll(tools);
+        for (SubItem tool : tools) if (tool.hasHead()) this.subItems.add(tool.getHead());
+    }
+
+    protected void removeTool(SubItem tool) {
+        this.subItems.remove(tool);
+        if (tool.hasHead()) this.subItems.remove(tool.getHead());
+    }
+
+    protected void removeAllTools(List<SubItem> tools) {
+        this.subItems.removeAll(tools);
+        for (SubItem tool : tools) if (tool.hasHead()) this.subItems.remove(tool.getHead());
     }
 
     protected MaterialBuilder(String name) {
@@ -230,15 +264,16 @@ public class MaterialBuilder {
         return this;
     }
 
-    public MaterialBuilder toolStats(int durability, int enchantability, float miningSpeed, float attackDamage, float attackSpeed) {
+    public MaterialBuilder toolStats(int durability, int enchantability, float miningSpeed, float attackDamage, float attackSpeed, EnchantmentData... enchantments) {
         this.toolStats = ToolStats.Builder.builder()
                 .durability(durability)
                 .enchantability(enchantability)
                 .miningSpeed(miningSpeed)
                 .attackDamage(attackDamage)
                 .attackSpeed(attackSpeed)
+                .withDefaultEnchantments(enchantments)
                 .build();
-        this.subItems.addAll(Arrays.asList(
+        this.addAllTools(Arrays.asList(
                 SubItem.SWORD,
                 SubItem.PICKAXE,
                 SubItem.SHOVEL,
@@ -250,7 +285,7 @@ public class MaterialBuilder {
                 SubItem.SCREWDRIVER,
                 SubItem.FILE
         ));
-        if (Objects.equals(this.type, "ingot")) this.subItems.addAll(Arrays.asList(SubItem.WRENCH, SubItem.CROWBAR));
+        if (Objects.equals(this.type, "ingot")) this.addAllTools(Arrays.asList(SubItem.WRENCH, SubItem.CROWBAR, SubItem.WIRE_CUTTER));
         return this;
     }
 

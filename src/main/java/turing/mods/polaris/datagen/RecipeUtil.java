@@ -24,7 +24,6 @@ import turing.mods.polaris.registry.MaterialRegistryObject;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Objects;
 import java.util.function.Consumer;
-import java.util.function.Supplier;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
@@ -34,6 +33,7 @@ public class RecipeUtil {
     private static final ItemPredicate WRENCH_PREDICATE = ItemPredicate.Builder.create().tag(PolarisTags.Items.CRAFTING_TOOLS_WRENCH).build();
     private static final ItemPredicate SAW_PREDICATE = ItemPredicate.Builder.create().tag(PolarisTags.Items.CRAFTING_TOOLS_SAW).build();
     private static final ItemPredicate MORTAR_PREDICATE = ItemPredicate.Builder.create().tag(PolarisTags.Items.CRAFTING_TOOLS_MORTAR).build();
+    private static final ItemPredicate SCREWDRIVER_PREDICATE = ItemPredicate.Builder.create().tag(PolarisTags.Items.CRAFTING_TOOLS_SCREWDRIVER).build();
 
     public static void magneticBlast(Consumer<IFinishedRecipe> consumer, MaterialRegistryObject material, SubItem subItem, String name) {
         if (material.get().getMagneticOf() == null || !material.get().getMagneticOf().hasSubItem(subItem)) return;
@@ -45,13 +45,31 @@ public class RecipeUtil {
                 .build(consumer, Polaris.modLoc(name + "_undo"));
     }
 
+    public static void wireCutterRecipe(Consumer<IFinishedRecipe> consumer, MaterialRegistryObject material) {
+        if (!material.hasSubItem(SubItem.WIRE_CUTTER) || !material.hasSubItem(SubItem.ROD) || !material.hasSubItem(SubItem.SCREW) || !material.hasSubItem(SubItem.PLATE)) return;
+        ItemStack wireCutter = ToolRecipes.getCraftedToolStack(material, SubItem.WIRE_CUTTER);
+
+        ShapedRecipeItemStackBuilder.shapedRecipe(wireCutter)
+                .patternLine("pfp")
+                .patternLine("hpS")
+                .patternLine("rsr")
+                .key('h', PolarisTags.Items.CRAFTING_TOOLS_HAMMER)
+                .key('f', PolarisTags.Items.CRAFTING_TOOLS_FILE)
+                .key('S', PolarisTags.Items.CRAFTING_TOOLS_SCREWDRIVER)
+                .key('p', PolarisTags.Items.forge("plates/" + material.getName()))
+                .key('s', PolarisTags.Items.forge("screws/" + material.getName()))
+                .key('r', PolarisTags.Items.forge("rods/" + material.getName()))
+                .addCriterion("tools", InventoryChangeTrigger.Instance.forItems(HAMMER_PREDICATE, FILE_PREDICATE, SCREWDRIVER_PREDICATE))
+                .build(consumer, Polaris.modLoc(material.getName() + "_wire_cutter"));
+    }
+
     public static void hammerRecipe(Consumer<IFinishedRecipe> consumer, MaterialRegistryObject material) {
         if (!material.hasSubItem(SubItem.HAMMER) && !material.hasSubItem(SubItem.SOFT_HAMMER)) return;
         if (!material.hasSubItem(SubItem.INGOT) && !material.hasSubItem(SubItem.PLATE)) return;
-        Item hammer = material.getItemFromSubItem(material.hasSubItem(SubItem.SOFT_HAMMER) ? SubItem.SOFT_HAMMER : SubItem.HAMMER);
+        ItemStack hammer = ToolRecipes.getCraftedToolStack(material, material.hasSubItem(SubItem.SOFT_HAMMER) ? SubItem.SOFT_HAMMER : SubItem.HAMMER);
         Item ingot = material.getItemFromSubItem(Objects.equals(material.get().getType(), "gem") ? SubItem.PLATE : SubItem.INGOT);
 
-        ShapedRecipeBuilder.shapedRecipe(hammer)
+        ShapedRecipeItemStackBuilder.shapedRecipe(hammer)
                 .patternLine(" ii")
                 .patternLine("sii")
                 .patternLine(" ii")
@@ -61,12 +79,25 @@ public class RecipeUtil {
                 .build(consumer, Polaris.modLoc(material.getName() + "_hammer"));
     }
 
+    public static void hammerRecipeHead(Consumer<IFinishedRecipe> consumer, MaterialRegistryObject material) {
+        if (!material.hasSubItem(SubItem.HAMMER) && material.hasSubItem(SubItem.SOFT_HAMMER)) { hammerRecipe(consumer, material); return; }
+        if (!material.hasSubItem(SubItem.HAMMER_HEAD)) return;
+        ItemStack hammer = ToolRecipes.getCraftedToolStack(material, SubItem.HAMMER);
+        Item hammerHead = material.getItemFromSubItem(SubItem.HAMMER_HEAD);
+
+        ShapelessRecipeItemStackBuilder.shapelessRecipe(hammer)
+                .addIngredient(hammerHead)
+                .addIngredient(Tags.Items.RODS_WOODEN)
+                .addCriterion("head", InventoryChangeTrigger.Instance.forItems(hammerHead))
+                .build(consumer, Polaris.modLoc(material.getName() + "_hammer_from_head"));
+    }
+
     public static void fileRecipe(Consumer<IFinishedRecipe> consumer, MaterialRegistryObject material) {
         if (!material.hasSubItem(SubItem.FILE) || !material.hasSubItem(SubItem.PLATE)) return;
-        Item file = material.getItemFromSubItem(SubItem.FILE);
+        ItemStack file = ToolRecipes.getCraftedToolStack(material, SubItem.FILE);
         Item plate = material.getItemFromSubItem(SubItem.PLATE);
 
-        ShapedRecipeBuilder.shapedRecipe(file)
+        ShapedRecipeItemStackBuilder.shapedRecipe(file)
                 .patternLine("i")
                 .patternLine("i")
                 .patternLine("s")
@@ -77,13 +108,37 @@ public class RecipeUtil {
                 .build(consumer, Polaris.modLoc(material.getName() + "_file"));
     }
 
+    public static void fileRecipeHead(Consumer<IFinishedRecipe> consumer, MaterialRegistryObject material) {
+        if (!material.hasSubItem(SubItem.FILE) || !material.hasSubItem(SubItem.FILE_HEAD)) return;
+        ItemStack file = ToolRecipes.getCraftedToolStack(material, SubItem.FILE);
+        Item fileHead = material.getItemFromSubItem(SubItem.FILE_HEAD);
+
+        ShapelessRecipeItemStackBuilder.shapelessRecipe(file)
+                .addIngredient(fileHead)
+                .addIngredient(Tags.Items.RODS_WOODEN)
+                .addCriterion("tool", InventoryChangeTrigger.Instance.forItems(HAMMER_PREDICATE))
+                .build(consumer, Polaris.modLoc(material.getName() + "_file_from_head"));
+    }
+
+    public static void sawRecipe(Consumer<IFinishedRecipe> consumer, MaterialRegistryObject material) {
+        if (!material.hasSubItem(SubItem.SAW) || !material.hasSubItem(SubItem.SAW_HEAD)) return;
+        ItemStack saw = ToolRecipes.getCraftedToolStack(material, SubItem.SAW);
+        Item sawHead = material.getItemFromSubItem(SubItem.SAW_HEAD);
+
+        ShapelessRecipeItemStackBuilder.shapelessRecipe(saw)
+                .addIngredient(sawHead)
+                .addIngredient(Tags.Items.RODS_WOODEN)
+                .addCriterion("tool", InventoryChangeTrigger.Instance.forItems(HAMMER_PREDICATE))
+                .build(consumer, Polaris.modLoc(material.getName() + "_saw"));
+    }
+
     public static void wrenchRecipe(Consumer<IFinishedRecipe> consumer, MaterialRegistryObject material) {
         if (!material.hasSubItem(SubItem.WRENCH)) return;
         if (!material.hasSubItem(SubItem.INGOT)) return;
-        Item wrench = material.getItemFromSubItem(SubItem.WRENCH);
+        ItemStack wrench = ToolRecipes.getCraftedToolStack(material, SubItem.WRENCH);
         Item ingot = material.getItemFromSubItem(SubItem.INGOT);
 
-        ShapedRecipeBuilder.shapedRecipe(wrench)
+        ShapedRecipeItemStackBuilder.shapedRecipe(wrench)
                 .patternLine("ihi")
                 .patternLine("iii")
                 .patternLine(" i ")
@@ -94,13 +149,28 @@ public class RecipeUtil {
                 .build(consumer, Polaris.modLoc(material.getName() + "_wrench"));
     }
 
+    public static void screwdriverRecipeHead(Consumer<IFinishedRecipe> consumer, MaterialRegistryObject material) {
+        if (!material.hasSubItem(SubItem.SCREWDRIVER) || !material.hasSubItem(SubItem.SCREWDRIVER_HEAD)) return;
+        if (!material.hasSubItem(SubItem.ROD)) return;
+        ItemStack screwdriver = ToolRecipes.getCraftedToolStack(material, SubItem.SCREWDRIVER);
+        Item screwdriverHead = material.getItemFromSubItem(SubItem.SCREWDRIVER_HEAD);
+        Item rod = material.getItemFromSubItem(SubItem.ROD);
+
+        ShapelessRecipeItemStackBuilder.shapelessRecipe(screwdriver)
+                .addIngredient(screwdriverHead)
+                .addIngredient(Tags.Items.RODS_WOODEN)
+                .addCriterion("material", InventoryChangeTrigger.Instance.forItems(rod))
+                .addCriterion("tool", InventoryChangeTrigger.Instance.forItems(HAMMER_PREDICATE))
+                .build(consumer, Polaris.modLoc(material.getName() + "_screwdriver_from_head"));
+    }
+
     public static void screwdriverRecipe(Consumer<IFinishedRecipe> consumer, MaterialRegistryObject material) {
         if (!material.hasSubItem(SubItem.SCREWDRIVER)) return;
         if (!material.hasSubItem(SubItem.ROD)) return;
-        Item screwdriver = material.getItemFromSubItem(SubItem.SCREWDRIVER);
+        ItemStack screwdriver = ToolRecipes.getCraftedToolStack(material, SubItem.SCREWDRIVER);
         Item rod = material.getItemFromSubItem(SubItem.ROD);
 
-        ShapedRecipeBuilder.shapedRecipe(screwdriver)
+        ShapedRecipeItemStackBuilder.shapedRecipe(screwdriver)
                 .patternLine(" hr")
                 .patternLine(" rf")
                 .patternLine("s  ")
@@ -116,10 +186,10 @@ public class RecipeUtil {
     public static void crowbarRecipe(Consumer<IFinishedRecipe> consumer, MaterialRegistryObject material) {
         if (!material.hasSubItem(SubItem.CROWBAR)) return;
         if (!material.hasSubItem(SubItem.ROD)) return;
-        Item crowbar = material.getItemFromSubItem(SubItem.CROWBAR);
+        ItemStack crowbar = ToolRecipes.getCraftedToolStack(material, SubItem.CROWBAR);
         Item rod = material.getItemFromSubItem(SubItem.ROD);
 
-        ShapedRecipeBuilder.shapedRecipe(crowbar)
+        ShapedRecipeItemStackBuilder.shapedRecipe(crowbar)
                 .patternLine("hbr")
                 .patternLine("brb")
                 .patternLine("rbf")
@@ -135,10 +205,10 @@ public class RecipeUtil {
     public static void mortarRecipe(Consumer<IFinishedRecipe> consumer, MaterialRegistryObject material) {
         if (!material.hasSubItem(SubItem.MORTAR) || (!material.hasSubItem(SubItem.INGOT) && !material.hasSubItem(SubItem.GEM))) return;
         if (material.get().getFlags().contains(GenerationFlags.NO_MORTAR)) return;
-        Item mortar = material.getItemFromSubItem(SubItem.MORTAR);
+        ItemStack mortar = ToolRecipes.getCraftedToolStack(material, SubItem.MORTAR);
         Item ingot = material.hasSubItem(SubItem.INGOT) ? material.getItemFromSubItem(SubItem.INGOT) : material.getItemFromSubItem(SubItem.GEM);
 
-        ShapedRecipeBuilder.shapedRecipe(mortar)
+        ShapedRecipeItemStackBuilder.shapedRecipe(mortar)
                 .patternLine(" i ")
                 .patternLine("sis")
                 .patternLine("sss")
@@ -149,83 +219,153 @@ public class RecipeUtil {
     }
 
     public static void swordRecipe(Consumer<IFinishedRecipe> consumer, MaterialRegistryObject material) {
-        if (!material.hasSubItem(SubItem.SWORD) || !material.hasSubItem(SubItem.INGOT)) return;
+        if (!material.hasSubItem(SubItem.SWORD) || (!material.hasSubItem(SubItem.INGOT) && !material.hasSubItem(SubItem.GEM))) return;
         if (material.get().existingItems != null && (material.get().existingItems.containsValue(material.getItemFromSubItem(SubItem.SWORD)))) return;
-        Item sword = material.getItemFromSubItem(SubItem.SWORD);
+        ItemStack sword = ToolRecipes.getCraftedToolStack(material, SubItem.SWORD);
 
-        ShapedRecipeBuilder.shapedRecipe(sword)
+        ShapedRecipeItemStackBuilder.shapedRecipe(sword)
                 .patternLine("i")
                 .patternLine("i")
                 .patternLine("s")
-                .key('i', PolarisTags.Items.forge("ingots/" + material.getName()))
+                .key('i', PolarisTags.Items.forge((material.hasSubItem(SubItem.GEM) ? "gem" : "ingot") + "s/" + material.getName()))
                 .key('s', Tags.Items.RODS_WOODEN)
                 .addCriterion("hammer", InventoryChangeTrigger.Instance.forItems(HAMMER_PREDICATE))
                 .addCriterion("file", InventoryChangeTrigger.Instance.forItems(FILE_PREDICATE))
                 .build(consumer, Polaris.modLoc(material.getName() + "_sword"));
     }
 
-    public static void shovelRecipe(Consumer<IFinishedRecipe> consumer, MaterialRegistryObject material) {
-        if (!material.hasSubItem(SubItem.SHOVEL) || !material.hasSubItem(SubItem.INGOT)) return;
-        if (material.get().existingItems != null && (material.get().existingItems.containsValue(material.getItemFromSubItem(SubItem.SHOVEL)))) return;
-        Item shovel = material.getItemFromSubItem(SubItem.SHOVEL);
+    public static void swordRecipeHead(Consumer<IFinishedRecipe> consumer, MaterialRegistryObject material) {
+        if (!material.hasSubItem(SubItem.SWORD) || !material.hasSubItem(SubItem.SWORD_HEAD)) return;
+        if (material.get().existingItems != null && (material.get().existingItems.containsValue(material.getItemFromSubItem(SubItem.SWORD_HEAD)))) return;
+        ItemStack sword = ToolRecipes.getCraftedToolStack(material, SubItem.SWORD);
+        Item swordHead = material.getItemFromSubItem(SubItem.SWORD_HEAD);
 
-        ShapedRecipeBuilder.shapedRecipe(shovel)
+        ShapelessRecipeItemStackBuilder.shapelessRecipe(sword)
+                .addIngredient(swordHead)
+                .addIngredient(Tags.Items.RODS_WOODEN)
+                .addCriterion("hammer", InventoryChangeTrigger.Instance.forItems(HAMMER_PREDICATE))
+                .addCriterion("file", InventoryChangeTrigger.Instance.forItems(FILE_PREDICATE))
+                .build(consumer, Polaris.modLoc(material.getName() + "_sword_from_head"));
+    }
+
+    public static void shovelRecipe(Consumer<IFinishedRecipe> consumer, MaterialRegistryObject material) {
+        if (!material.hasSubItem(SubItem.SHOVEL) || (!material.hasSubItem(SubItem.INGOT) && !material.hasSubItem(SubItem.GEM))) return;
+        if (material.get().existingItems != null && (material.get().existingItems.containsValue(material.getItemFromSubItem(SubItem.SHOVEL)))) return;
+        ItemStack shovel = ToolRecipes.getCraftedToolStack(material, SubItem.SHOVEL);
+
+        ShapedRecipeItemStackBuilder.shapedRecipe(shovel)
                 .patternLine("i")
                 .patternLine("s")
                 .patternLine("s")
-                .key('i', PolarisTags.Items.forge("ingots/" + material.getName()))
+                .key('i', PolarisTags.Items.forge((material.hasSubItem(SubItem.GEM) ? "gem" : "ingot") + "s/" + material.getName()))
                 .key('s', Tags.Items.RODS_WOODEN)
                 .addCriterion("hammer", InventoryChangeTrigger.Instance.forItems(HAMMER_PREDICATE))
                 .addCriterion("file", InventoryChangeTrigger.Instance.forItems(FILE_PREDICATE))
                 .build(consumer, Polaris.modLoc(material.getName() + "_shovel"));
     }
 
-    public static void hoeRecipe(Consumer<IFinishedRecipe> consumer, MaterialRegistryObject material) {
-        if (!material.hasSubItem(SubItem.HOE) || !material.hasSubItem(SubItem.INGOT)) return;
-        if (material.get().existingItems != null && (material.get().existingItems.containsValue(material.getItemFromSubItem(SubItem.HOE)))) return;
-        Item hoe = material.getItemFromSubItem(SubItem.HOE);
+    public static void shovelRecipeHead(Consumer<IFinishedRecipe> consumer, MaterialRegistryObject material) {
+        if (!material.hasSubItem(SubItem.SHOVEL) || !material.hasSubItem(SubItem.SHOVEL_HEAD)) return;
+        if (material.get().existingItems != null && (material.get().existingItems.containsValue(material.getItemFromSubItem(SubItem.SHOVEL_HEAD)))) return;
+        ItemStack shovel = ToolRecipes.getCraftedToolStack(material, SubItem.SHOVEL);
+        Item shovelHead = material.getItemFromSubItem(SubItem.SHOVEL_HEAD);
 
-        ShapedRecipeBuilder.shapedRecipe(hoe)
+        ShapelessRecipeItemStackBuilder.shapelessRecipe(shovel)
+                .addIngredient(shovelHead)
+                .addIngredient(Tags.Items.RODS_WOODEN)
+                .addCriterion("hammer", InventoryChangeTrigger.Instance.forItems(HAMMER_PREDICATE))
+                .addCriterion("file", InventoryChangeTrigger.Instance.forItems(FILE_PREDICATE))
+                .build(consumer, Polaris.modLoc(material.getName() + "_shovel_from_head"));
+    }
+
+    public static void hoeRecipe(Consumer<IFinishedRecipe> consumer, MaterialRegistryObject material) {
+        if (!material.hasSubItem(SubItem.HOE) || (!material.hasSubItem(SubItem.INGOT) && !material.hasSubItem(SubItem.GEM))) return;
+        if (material.get().existingItems != null && (material.get().existingItems.containsValue(material.getItemFromSubItem(SubItem.HOE)))) return;
+        ItemStack hoe = ToolRecipes.getCraftedToolStack(material, SubItem.HOE);
+
+        ShapedRecipeItemStackBuilder.shapedRecipe(hoe)
                 .patternLine("ii")
                 .patternLine(" s")
                 .patternLine(" s")
-                .key('i', PolarisTags.Items.forge("ingots/" + material.getName()))
+                .key('i', PolarisTags.Items.forge((material.hasSubItem(SubItem.GEM) ? "gem" : "ingot") + "s/" + material.getName()))
                 .key('s', Tags.Items.RODS_WOODEN)
                 .addCriterion("hammer", InventoryChangeTrigger.Instance.forItems(HAMMER_PREDICATE))
                 .addCriterion("file", InventoryChangeTrigger.Instance.forItems(FILE_PREDICATE))
                 .build(consumer, Polaris.modLoc(material.getName() + "_hoe"));
     }
 
-    public static void pickaxeRecipe(Consumer<IFinishedRecipe> consumer, MaterialRegistryObject material) {
-        if (!material.hasSubItem(SubItem.PICKAXE) || !material.hasSubItem(SubItem.INGOT)) return;
-        if (material.get().existingItems != null && (material.get().existingItems.containsValue(material.getItemFromSubItem(SubItem.PICKAXE)))) return;
-        Item pickaxe = material.getItemFromSubItem(SubItem.PICKAXE);
+    public static void hoeRecipeHead(Consumer<IFinishedRecipe> consumer, MaterialRegistryObject material) {
+        if (!material.hasSubItem(SubItem.HOE) || !material.hasSubItem(SubItem.HOE_HEAD)) return;
+        if (material.get().existingItems != null && (material.get().existingItems.containsValue(material.getItemFromSubItem(SubItem.HOE_HEAD)))) return;
+        ItemStack hoe = ToolRecipes.getCraftedToolStack(material, SubItem.HOE);
+        Item hoeHead = material.getItemFromSubItem(SubItem.HOE_HEAD);
 
-        ShapedRecipeBuilder.shapedRecipe(pickaxe)
+        ShapelessRecipeItemStackBuilder.shapelessRecipe(hoe)
+                .addIngredient(hoeHead)
+                .addIngredient(Tags.Items.RODS_WOODEN)
+                .addCriterion("hammer", InventoryChangeTrigger.Instance.forItems(HAMMER_PREDICATE))
+                .addCriterion("file", InventoryChangeTrigger.Instance.forItems(FILE_PREDICATE))
+                .build(consumer, Polaris.modLoc(material.getName() + "_hoe_from_head"));
+    }
+
+    public static void pickaxeRecipe(Consumer<IFinishedRecipe> consumer, MaterialRegistryObject material) {
+        if (!material.hasSubItem(SubItem.PICKAXE) || (!material.hasSubItem(SubItem.INGOT) && !material.hasSubItem(SubItem.GEM))) return;
+        if (material.get().existingItems != null && (material.get().existingItems.containsValue(material.getItemFromSubItem(SubItem.PICKAXE)))) return;
+        ItemStack pickaxe = ToolRecipes.getCraftedToolStack(material, SubItem.PICKAXE);
+
+        ShapedRecipeItemStackBuilder.shapedRecipe(pickaxe)
                 .patternLine("iii")
                 .patternLine(" s ")
                 .patternLine(" s ")
-                .key('i', PolarisTags.Items.forge("ingots/" + material.getName()))
+                .key('i', PolarisTags.Items.forge((material.hasSubItem(SubItem.GEM) ? "gem" : "ingot") + "s/" + material.getName()))
                 .key('s', Tags.Items.RODS_WOODEN)
                 .addCriterion("hammer", InventoryChangeTrigger.Instance.forItems(HAMMER_PREDICATE))
                 .addCriterion("file", InventoryChangeTrigger.Instance.forItems(FILE_PREDICATE))
                 .build(consumer, Polaris.modLoc(material.getName() + "_pickaxe"));
     }
 
-    public static void axeRecipe(Consumer<IFinishedRecipe> consumer, MaterialRegistryObject material) {
-        if (!material.hasSubItem(SubItem.AXE) || !material.hasSubItem(SubItem.INGOT)) return;
-        if (material.get().existingItems != null && (material.get().existingItems.containsValue(material.getItemFromSubItem(SubItem.AXE)))) return;
-        Item axe = material.getItemFromSubItem(SubItem.AXE);
+    public static void pickaxeRecipeHead(Consumer<IFinishedRecipe> consumer, MaterialRegistryObject material) {
+        if (!material.hasSubItem(SubItem.PICKAXE) || !material.hasSubItem(SubItem.PICKAXE_HEAD)) return;
+        if (material.get().existingItems != null && (material.get().existingItems.containsValue(material.getItemFromSubItem(SubItem.PICKAXE_HEAD)))) return;
+        ItemStack pickaxe = ToolRecipes.getCraftedToolStack(material, SubItem.PICKAXE);
+        Item pickaxeHead = material.getItemFromSubItem(SubItem.PICKAXE_HEAD);
 
-        ShapedRecipeBuilder.shapedRecipe(axe)
+        ShapelessRecipeItemStackBuilder.shapelessRecipe(pickaxe)
+                .addIngredient(pickaxeHead)
+                .addIngredient(Tags.Items.RODS_WOODEN)
+                .addCriterion("hammer", InventoryChangeTrigger.Instance.forItems(HAMMER_PREDICATE))
+                .addCriterion("file", InventoryChangeTrigger.Instance.forItems(FILE_PREDICATE))
+                .build(consumer, Polaris.modLoc(material.getName() + "_pickaxe_from_head"));
+    }
+
+    public static void axeRecipe(Consumer<IFinishedRecipe> consumer, MaterialRegistryObject material) {
+        if (!material.hasSubItem(SubItem.AXE) || (!material.hasSubItem(SubItem.INGOT) && !material.hasSubItem(SubItem.GEM))) return;
+        if (material.get().existingItems != null && (material.get().existingItems.containsValue(material.getItemFromSubItem(SubItem.AXE)))) return;
+        ItemStack axe = ToolRecipes.getCraftedToolStack(material, SubItem.AXE);
+
+        ShapedRecipeItemStackBuilder.shapedRecipe(axe)
                 .patternLine("ii ")
                 .patternLine("is ")
                 .patternLine(" s ")
-                .key('i', PolarisTags.Items.forge("ingots/" + material.getName()))
+                .key('i', PolarisTags.Items.forge((material.hasSubItem(SubItem.GEM) ? "gem" : "ingot") + "s/" + material.getName()))
                 .key('s', Tags.Items.RODS_WOODEN)
                 .addCriterion("hammer", InventoryChangeTrigger.Instance.forItems(HAMMER_PREDICATE))
                 .addCriterion("file", InventoryChangeTrigger.Instance.forItems(FILE_PREDICATE))
                 .build(consumer, Polaris.modLoc(material.getName() + "_axe"));
+    }
+
+    public static void axeRecipeHead(Consumer<IFinishedRecipe> consumer, MaterialRegistryObject material) {
+        if (!material.hasSubItem(SubItem.AXE) || !material.hasSubItem(SubItem.AXE_HEAD)) return;
+        if (material.get().existingItems != null && (material.get().existingItems.containsValue(material.getItemFromSubItem(SubItem.AXE_HEAD)))) return;
+        ItemStack axe = ToolRecipes.getCraftedToolStack(material, SubItem.AXE);
+        Item axeHead = material.getItemFromSubItem(SubItem.AXE_HEAD);
+
+        ShapelessRecipeItemStackBuilder.shapelessRecipe(axe)
+                .addIngredient(axeHead)
+                .addIngredient(Tags.Items.RODS_WOODEN)
+                .addCriterion("hammer", InventoryChangeTrigger.Instance.forItems(HAMMER_PREDICATE))
+                .addCriterion("file", InventoryChangeTrigger.Instance.forItems(FILE_PREDICATE))
+                .build(consumer, Polaris.modLoc(material.getName() + "_axe_from_head"));
     }
 
     public static void manualPlateRecipe(Consumer<IFinishedRecipe> consumer, MaterialRegistryObject material) {

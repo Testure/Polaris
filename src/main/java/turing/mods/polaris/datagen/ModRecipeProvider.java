@@ -17,6 +17,7 @@ import turing.mods.polaris.material.SubItem;
 import turing.mods.polaris.registry.BlockRegistry;
 import turing.mods.polaris.registry.MaterialRegistry;
 import turing.mods.polaris.registry.MaterialRegistryObject;
+import turing.mods.polaris.util.Consumer2;
 import turing.mods.polaris.util.Consumer4;
 
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -41,6 +42,16 @@ public class ModRecipeProvider extends RecipeProvider {
         casingRecipes(consumer);
         hullRecipes(consumer);
         mortarRecipes(consumer);
+    }
+
+    private void callBoth(Consumer<IFinishedRecipe> consumer, MaterialRegistryObject material, Consumer2<Consumer<IFinishedRecipe>, MaterialRegistryObject> func1, Consumer2<Consumer<IFinishedRecipe>, MaterialRegistryObject> func2) {
+        func1.accept(consumer, material);
+        func2.accept(consumer, material);
+    }
+
+    @SafeVarargs
+    private final void callAll(Consumer<IFinishedRecipe> consumer, MaterialRegistryObject material, Consumer2<Consumer<IFinishedRecipe>, MaterialRegistryObject>... functions) {
+        for (Consumer2<Consumer<IFinishedRecipe>, MaterialRegistryObject> func : functions) func.accept(consumer, material);
     }
 
     private void hullRecipes(Consumer<IFinishedRecipe> consumer) {
@@ -98,16 +109,19 @@ public class ModRecipeProvider extends RecipeProvider {
         MaterialRegistry.getMaterials().values().forEach(material -> {
             if (material.get().getToolStats() != null) {
                 if (!material.get().getFlags().contains(GenerationFlags.NO_MORTAR) && material.hasSubItem(SubItem.MORTAR)) RecipeUtil.mortarRecipe(consumer, material);
-                if (material.hasSubItem(SubItem.FILE)) RecipeUtil.fileRecipe(consumer, material);
-                if (material.hasSubItem(SubItem.HAMMER) || material.hasSubItem(SubItem.SOFT_HAMMER)) RecipeUtil.hammerRecipe(consumer, material);
+                ToolRecipes.fileRecipe(consumer, material);
+                if (material.hasSubItem(SubItem.HAMMER)) ToolRecipes.hammerRecipe(consumer, material);
+                    else if (material.hasSubItem(SubItem.SOFT_HAMMER)) RecipeUtil.hammerRecipe(consumer, material);
                 if (material.hasSubItem(SubItem.WRENCH)) RecipeUtil.wrenchRecipe(consumer, material);
                 if (material.hasSubItem(SubItem.CROWBAR)) RecipeUtil.crowbarRecipe(consumer, material);
-                if (material.hasSubItem(SubItem.SCREWDRIVER)) RecipeUtil.screwdriverRecipe(consumer, material);
-                if (material.hasSubItem(SubItem.SWORD)) RecipeUtil.swordRecipe(consumer, material);
-                if (material.hasSubItem(SubItem.PICKAXE)) RecipeUtil.pickaxeRecipe(consumer, material);
-                if (material.hasSubItem(SubItem.SHOVEL)) RecipeUtil.shovelRecipe(consumer, material);
-                if (material.hasSubItem(SubItem.AXE)) RecipeUtil.axeRecipe(consumer, material);
-                if (material.hasSubItem(SubItem.HOE)) RecipeUtil.hoeRecipe(consumer, material);
+                ToolRecipes.screwdriverRecipe(consumer, material);
+                ToolRecipes.sawRecipe(consumer, material);
+                ToolRecipes.wireCutterRecipe(consumer, material);
+                ToolRecipes.swordRecipe(consumer, material);
+                ToolRecipes.pickaxeRecipe(consumer, material);
+                ToolRecipes.shovelRecipe(consumer, material);
+                ToolRecipes.axeRecipe(consumer, material);
+                ToolRecipes.hoeRecipe(consumer, material);
             }
         });
         RecipeUtil.hoeRecipe(consumer, Materials.FLINT);

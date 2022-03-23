@@ -46,6 +46,7 @@ public class PolarisTags {
         public static final ITag.INamedTag<Item> CRAFTING_TOOLS_SCREWDRIVER = mod("crafting_tools/screwdriver");
         public static final ITag.INamedTag<Item> CRAFTING_TOOLS_CROWBAR = mod("crafting_tools/crowbar");
         public static final ITag.INamedTag<Item> CRAFTING_TOOLS_MORTAR = mod("crafting_tools/mortar");
+        public static final ITag.INamedTag<Item> CRAFTING_TOOLS_WIRE_CUTTER = mod("crafting_tools/wire_cutter");
 
         public static final ITag.INamedTag<Item> RUBBER_LOGS = forge("logs/rubber");
         public static final ITag.INamedTag<Item> RUBBER_RESIN = forge("resins/rubber");
