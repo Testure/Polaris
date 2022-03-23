@@ -17,7 +17,7 @@ import turing.mods.polaris.util.MathUtil;
 public class TreeGen {
     public static final ConfiguredFeature<?, ?> RUBBER_TREE = FeatureRegistry.RUBBER.get().withConfiguration(RubberTree.DEFAULT_CONFIG);
     public static final ConfiguredFeature<?, ?> RUBBER_TREE_TALL = FeatureRegistry.RUBBER.get().withConfiguration(RubberTree.TALL_CONFIG);
-    public static final ConfiguredFeature<?, ?> RUBBER_WATER = Feature.RANDOM_SELECTOR.withConfiguration(new MultipleRandomFeatureConfig(ImmutableList.of(RUBBER_TREE_TALL.withChance(0.2F)), RUBBER_TREE)).withPlacement(Features.Placements.HEIGHTMAP_PLACEMENT).withPlacement(Placement.COUNT_EXTRA.configure(new AtSurfaceWithExtraConfig(0, 1.0F, 1)));
+    public static final ConfiguredFeature<?, ?> RUBBER_WATER = Feature.RANDOM_SELECTOR.withConfiguration(new MultipleRandomFeatureConfig(ImmutableList.of(RUBBER_TREE_TALL.withChance(0.2F)), RUBBER_TREE)).withPlacement(Features.Placements.HEIGHTMAP_PLACEMENT).withPlacement(Placement.COUNT_EXTRA.configure(new AtSurfaceWithExtraConfig(0, 0.1F, 1)));
     public static final ConfiguredFeature<?, ?> RUBBER_MOUNTAIN = Feature.RANDOM_SELECTOR.withConfiguration(new MultipleRandomFeatureConfig(ImmutableList.of(RUBBER_TREE_TALL.withChance(0.1F)), RUBBER_TREE)).withPlacement(Features.Placements.HEIGHTMAP_PLACEMENT).withPlacement(Placement.COUNT_EXTRA.configure(new AtSurfaceWithExtraConfig(0, 0.1F, 1)));
     public static final ConfiguredFeature<?, ?> RUBBER_BIRCH = Feature.RANDOM_SELECTOR.withConfiguration(new MultipleRandomFeatureConfig(ImmutableList.of(RUBBER_TREE_TALL.withChance(0.1F)), RUBBER_TREE)).withPlacement(Features.Placements.HEIGHTMAP_PLACEMENT).withPlacement(Placement.COUNT_EXTRA.configure(new AtSurfaceWithExtraConfig(10, 0.1F, 1)));
 
