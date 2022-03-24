@@ -18,6 +18,7 @@ import turing.mods.polaris.block.SubBlockGenerated;
 import turing.mods.polaris.item.IBasicModeledItem;
 import turing.mods.polaris.item.IHandheldItem;
 import turing.mods.polaris.item.ILayeredItem;
+import turing.mods.polaris.item.MachinePart;
 import turing.mods.polaris.material.SubItem;
 import turing.mods.polaris.registry.*;
 import turing.mods.polaris.util.Lists;
@@ -49,6 +50,8 @@ public class ModItemModelProvider extends ItemModelProvider {
         public final ItemModelBuilder mortar;
         public final ItemModelBuilder saw;
         public final ItemModelBuilder wire_cutter;
+        public final ItemModelBuilder motor;
+        public final ItemModelBuilder piston;
         public final Map<SubItem, ItemModelBuilder> toolModels;
 
         public SingletonModels(ModItemModelProvider provider) {
@@ -66,6 +69,8 @@ public class ModItemModelProvider extends ItemModelProvider {
             screwdriver = provider.toolBuilder("screwdriver", "item/material_sets/tools/handle_screwdriver", "item/material_sets/tools/screwdriver");
             mortar = provider.toolBuilder("mortar", "item/material_sets/tools/mortar_base", "item/material_sets/tools/mortar");
             wire_cutter = provider.toolBuilder("wire_cutter", "item/material_sets/tools/wire_cutter", "item/material_sets/tools/handle_wire_cutter");
+            motor = provider.basicBuilder(provider.getExistingFile(provider.mcLoc("item/generated")), "motor", "item/motor_parts", "item/motor_base").texture("layer2", "item/motor_wire");
+            piston = provider.basicBuilder(provider.getExistingFile(provider.mcLoc("item/generated")), "piston", "item/piston_parts", "item/piston_base").texture("layer2", "item/piston_wires");
             Function<String, ItemModelBuilder> headBuilder = (name) -> provider.basicBuilder(provider.getExistingFile(provider.mcLoc("item/generated")), name + "_head", "item/material_sets/tools/" + name, null);
 
             toolModels = Lists.mapOf(
@@ -112,6 +117,7 @@ public class ModItemModelProvider extends ItemModelProvider {
 
         casingModels();
         hullModels();
+        machinePartModels(models);
 
         for (MachineRegistryObject<?, ?, ?> machine : MachineRegistry.getMachines().values()) {
             for (RegistryObject<? extends Block> block : machine.getBlocks()) {
@@ -119,7 +125,7 @@ public class ModItemModelProvider extends ItemModelProvider {
             }
         }
 
-        for (RegistryObject<Item> itemRegistryObject : ItemRegistry.ITEMS) {
+        for (RegistryObject<? extends Item> itemRegistryObject : ItemRegistry.ITEMS) {
             String itemName = itemRegistryObject.get().getRegistryName().getPath();
             int modelCode = 0;
             if (itemRegistryObject.get() instanceof IBasicModeledItem) modelCode = 1;
@@ -164,6 +170,11 @@ public class ModItemModelProvider extends ItemModelProvider {
         for (FluidRegistryObject<?, ?, ?, ?> fluidRegistryObject : FluidRegistry.getFluids().values()) {
             withExistingParent(fluidRegistryObject.getName() + "_bucket", modLoc("item/bucket"));
         }
+    }
+
+    private void machinePartModels(SingletonModels models) {
+        for (RegistryObject<MachinePart> motor : ItemRegistry.MOTORS) withExistingParent(motor.get().getRegistryName().getPath(), models.motor.getLocation());
+        for (RegistryObject<MachinePart> piston : ItemRegistry.PISTONS) withExistingParent(piston.get().getRegistryName().getPath(), models.piston.getLocation());
     }
 
     private void hullModels() {

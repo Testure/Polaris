@@ -113,6 +113,8 @@
   "item.polaris.file_head": "%s File Head",
   "item.polaris.saw_head": "%s Saw Blade",
   "item.polaris.screwdriver_head": "%s Screwdriver Tip",
+  "item.polaris.motor": "%s Electric Motor",
+  "item.polaris.piston": "%s Electric Piston",
 
   "item.polaris.vacuum_tube": "Vacuum Tube",
   "item.polaris.nand": "NAND Chip",

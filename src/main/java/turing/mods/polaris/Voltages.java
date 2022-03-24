@@ -11,12 +11,12 @@ import java.util.List;
 @MethodsReturnNonnullByDefault
 public class Voltages {
     public static final Voltage[] VOLTAGES = new Voltage[]{
-            new Voltage(8, "ulv", 0xFF555555),
-            new Voltage(32, "lv", 0xFFAAAAAA),
-            new Voltage(128, "mv", 0xFFFFAA00),
-            new Voltage(512, "hv", 0xFFFFFF55),
-            new Voltage(2048, "ev", 0xFFAA00AA),
-            new Voltage(8192, "iv", 0xFF5555FF)
+            new Voltage(8, "ulv", 0xFF555555, 0xFF8C648C, 0xFFFFFFFF),
+            new Voltage(32, "lv", 0xFFAAAAAA, 0xFFD2DCFF, 0xFFDCDCDC),
+            new Voltage(128, "mv", 0xFFFFAA00, 0xFFFFAA00, 0xFFFF8A23),
+            new Voltage(512, "hv", 0xFFFFFF55, 0xFFFFFF55, 0xFFFFE650),
+            new Voltage(2048, "ev", 0xFFAA00AA, 0xFFAA00AA, 0xFFDCDCFF),
+            new Voltage(8192, "iv", 0xFF5555FF, 0xFF5555FF, 0xFF80C8F0)
     };
     public static final long[] AMPS = new long[]{1L, 2L, 4L, 8L, 16L};
 
@@ -34,6 +34,13 @@ public class Voltages {
             if (AMPS[i] == amps) return i;
         }
         return 0;
+    }
+
+    public static int getVoltageTierIndex(Voltage tier) {
+        for (int i = 0; i < VOLTAGES.length; i++) {
+            if (VOLTAGES[i] == tier) return i;
+        }
+        return -1;
     }
 
     @Nullable
@@ -73,12 +80,15 @@ public class Voltages {
         public final String name;
         public final int capacity;
         public final int color;
+        public final int partColor1, partColor2;
 
-        public Voltage(int energy, String name, int color) {
+        public Voltage(int energy, String name, int color, int partColor1, int partColor2) {
             this.energy = energy;
             this.name = name;
             this.capacity = getEnergyCapacity(energy);
             this.color = color;
+            this.partColor1 = partColor1;
+            this.partColor2 = partColor2;
         }
     }
 }
